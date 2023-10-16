@@ -13,3 +13,12 @@ func (s *sqlStorage) CreateCategory(ctx context.Context, category *models.Catego
 	}
 	return &category.ID, nil
 }
+
+func (s *sqlStorage) ReadCategory(ctx context.Context) (models.Categories, error) {
+	var categories models.Categories
+	if err := s.db.Table(models.Categories{}.GetTableName()).Find(&categories).Error; err != nil {
+		fmt.Println("Error while read category in repository: " + err.Error())
+		return nil, err
+	}
+	return categories, nil
+}

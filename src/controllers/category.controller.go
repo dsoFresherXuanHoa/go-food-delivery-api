@@ -32,3 +32,18 @@ func CreateCategory() gin.HandlerFunc {
 		}
 	}
 }
+
+func ReadCategory() gin.HandlerFunc {
+	db, _ := configs.GetGormInstance()
+	return func(ctx *gin.Context) {
+		repositories := repositories.NewSQLStore(db)
+		categoryService := services.NewCategoryBusiness(repositories)
+
+		if categories, err := categoryService.ReadCategory(ctx); err != nil {
+			fmt.Println("Error while read category in category controller: " + err.Error())
+			ctx.JSON(http.StatusInternalServerError, models.NewStandardResponse(nil, http.StatusInternalServerError, err.Error(), constants.CannotReadCategory))
+		} else {
+			ctx.JSON(http.StatusOK, models.NewStandardResponse(categories, http.StatusOK, "", constants.ReadCategorySuccess))
+		}
+	}
+}
