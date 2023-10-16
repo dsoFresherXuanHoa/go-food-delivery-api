@@ -8,3 +8,9 @@
 GET {{host}}/
 Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}
+
+// TODO: Get detail product by categoryId
+###
+GET {{host}}/category/3
+Content-Type: {{contentType}}
+Authorization: Bearer {{waiterAccessToken}}

@@ -9,6 +9,7 @@ import (
 type ProductStorage interface {
 	CreateProduct(ctx context.Context, product *models.ProductCreatable) (*uint, error)
 	ReadProduct(ctx context.Context) (models.Products, error)
+	ReadProductByCategoryId(ctx context.Context, categoryId uint) (models.Products, error)
 }
 
 type productBusiness struct {
@@ -31,6 +32,15 @@ func (business *productBusiness) CreateProduct(ctx context.Context, product *mod
 func (business *productBusiness) ReadProduct(ctx context.Context) (models.Products, error) {
 	if products, err := business.storage.ReadProduct(ctx); err != nil {
 		fmt.Println("Error while read product in service: " + err.Error())
+		return nil, err
+	} else {
+		return products, nil
+	}
+}
+
+func (business *productBusiness) ReadProductByCategoryId(ctx context.Context, categoryId uint) (models.Products, error) {
+	if products, err := business.storage.ReadProductByCategoryId(ctx, categoryId); err != nil {
+		fmt.Println("Error while read product by categoryId in service: " + err.Error())
 		return nil, err
 	} else {
 		return products, nil

@@ -12,7 +12,7 @@ Authorization: Bearer {{managerAccessToken}}
     "description": "Pessi, Thơm Ngon Bổ Dưỡng",
     "price": 30000,
     "stockAmount": 200,
-    "categoryId": 2,
+    "categoryId": 3,
     "minQuantity": 5,
     "discountPercent": 10
 }
