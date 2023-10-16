@@ -4,11 +4,13 @@ import (
 	"context"
 	"fmt"
 	"go-food-delivery-api/src/models"
+	"go-food-delivery-api/src/tokens"
 	"go-food-delivery-api/src/utils"
 )
 
 type AuthStorage interface {
 	SignUp(ctx context.Context, account *models.AccountCreatable, employee *models.EmployeeCreatable) (*uint, *uint, error)
+	SignIn(ctx context.Context, signIn *models.SignIn) (*tokens.Token, error)
 }
 
 type authBusiness struct {
@@ -28,5 +30,14 @@ func (business *authBusiness) SignUp(ctx context.Context, account *models.Accoun
 		return nil, nil, err
 	} else {
 		return employeeId, accountId, nil
+	}
+}
+
+func (business *authBusiness) SignIn(ctx context.Context, signIn *models.SignIn) (*tokens.Token, error) {
+	if token, err := business.storage.SignIn(ctx, signIn); err != nil {
+		fmt.Println("Error while sign in in service: " + err.Error())
+		return nil, err
+	} else {
+		return token, nil
 	}
 }

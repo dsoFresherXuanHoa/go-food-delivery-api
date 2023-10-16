@@ -38,3 +38,24 @@ func SignUp() gin.HandlerFunc {
 		}
 	}
 }
+
+func SignIn() gin.HandlerFunc {
+	db, _ := configs.GetGormInstance()
+	return func(ctx *gin.Context) {
+		var signIn models.SignIn
+		if err := ctx.ShouldBind(&signIn); err != nil {
+			fmt.Println("Error while try parse request body to struct: " + err.Error())
+			ctx.JSON(http.StatusBadRequest, models.NewStandardResponse(nil, http.StatusBadRequest, err.Error(), constants.InvalidRequestBody))
+		} else {
+			repositories := repositories.NewSQLStore(db)
+			authService := services.NewAuthBusiness(repositories)
+
+			if token, err := authService.SignIn(ctx, &signIn); err != nil {
+				fmt.Println("Error while sign in in auth controller: " + err.Error())
+				ctx.JSON(http.StatusInternalServerError, models.NewStandardResponse(nil, http.StatusInternalServerError, err.Error(), constants.CannotSignUpRightNow))
+			} else {
+				ctx.JSON(http.StatusOK, models.NewStandardResponse(token, http.StatusOK, "", constants.SignUpSuccess))
+			}
+		}
+	}
+}

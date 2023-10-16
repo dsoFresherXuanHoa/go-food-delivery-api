@@ -11,5 +11,15 @@ Content-Type: {{contentType}}
     "gender": false,
     "email": "dso.intern.xuanhoa@gmail.com",
     "username": "dsoInternXuanHoa",
+    "password": "dsoInternXuanHoa",
     "roleId": 2
+}
+
+###
+POST {{host}}/sign-in
+Content-Type: {{contentType}}
+
+{
+    "username": "dsoInternXuanHoa",
+    "password": "dsoInternXuanHoa"
 }

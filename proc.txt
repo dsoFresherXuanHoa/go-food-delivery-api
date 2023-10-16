@@ -1,2 +1,3 @@
 - [POST]: /api/v1/auth/sign-up ✓
+- [POST]: /api/v1/auth/sign-in ✓
 - [POST]: /api/v1/roles/ ✓
