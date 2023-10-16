@@ -14,8 +14,8 @@ type Product struct {
 	Thumb         string  `json:"thumb" gorm:"column:thumb"`
 	ReorderLevel  int     `json:"reorderLevel" gorm:"column:reorder_level;default:0"`
 	StockAmount   int     `json:"stockAmount" gorm:"column:stock_amount;default:0"`
-	CategoryId    uint    `json:"-" gorm:"column:category_id;not null"`
-	DiscountId    uint    `json:"-" gorm:"column:discount_id;not null"`
+	CategoryId    uint    `json:"categoryId" gorm:"column:category_id;not null"`
+	DiscountId    uint    `json:"discountId" gorm:"column:discount_id;not null"`
 }
 
 type ProductResponse struct {
