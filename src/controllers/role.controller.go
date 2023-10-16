@@ -27,7 +27,7 @@ func CreateRole() gin.HandlerFunc {
 				fmt.Println("Error while create role in auth controller: " + err.Error())
 				ctx.JSON(http.StatusInternalServerError, models.NewStandardResponse(nil, http.StatusInternalServerError, err.Error(), constants.CannotCreateRole))
 			} else {
-				ctx.JSON(http.StatusOK, models.NewStandardResponse(roleId, http.StatusOK, "", constants.SignUpSuccess))
+				ctx.JSON(http.StatusOK, models.NewStandardResponse(roleId, http.StatusOK, "", constants.CreateRoleSuccess))
 			}
 		}
 	}

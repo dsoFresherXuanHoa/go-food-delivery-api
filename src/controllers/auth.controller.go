@@ -59,3 +59,25 @@ func SignIn() gin.HandlerFunc {
 		}
 	}
 }
+
+func Me() gin.HandlerFunc {
+	db, _ := configs.GetGormInstance()
+	return func(ctx *gin.Context) {
+		var employee models.Employee
+		if err := ctx.ShouldBind(&employee); err != nil {
+			fmt.Println("Error while try parse request body to struct: " + err.Error())
+			ctx.JSON(http.StatusBadRequest, models.NewStandardResponse(nil, http.StatusBadRequest, err.Error(), constants.InvalidRequestBody))
+		} else {
+			repositories := repositories.NewSQLStore(db)
+			employeeService := services.NewEmployeeBusiness(repositories)
+
+			employeeId := ctx.Value("employeeId").(int)
+			if token, err := employeeService.ReadEmployeeById(ctx, uint(employeeId)); err != nil {
+				fmt.Println("Error while get user information in auth controller: " + err.Error())
+				ctx.JSON(http.StatusInternalServerError, models.NewStandardResponse(nil, http.StatusInternalServerError, err.Error(), constants.CannotGetUserInfo))
+			} else {
+				ctx.JSON(http.StatusOK, models.NewStandardResponse(token, http.StatusOK, "", constants.GetUserInfoSuccess))
+			}
+		}
+	}
+}

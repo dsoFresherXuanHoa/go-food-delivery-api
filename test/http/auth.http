@@ -1,5 +1,6 @@
 @host = http://localhost:3001/api/v1/auth
 @contentType = application/json
+@waiterAccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlblBheWxvYWQiOnsiYWNjb3VudElkIjozLCJlbXBsb3llZUlkIjo0LCJyb2xlSWQiOjJ9LCJleHAiOjE2OTc1MzcxOTAsImlhdCI6MTY5NzQ1MDc5MH0.t4E7mVe3z7ZeuybQHQgpzaEb4TzFZ4IZixJhOD61HUU
 
 ###
 POST {{host}}/sign-up
@@ -23,3 +24,8 @@ Content-Type: {{contentType}}
     "username": "dsoInternXuanHoa",
     "password": "dsoInternXuanHoa"
 }
+
+###
+GET {{host}}/me
+Content-Type: {{contentType}}
+Authorization: Bearer {{waiterAccessToken}}
