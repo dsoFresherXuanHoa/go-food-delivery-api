@@ -22,5 +22,6 @@ func main() {
 			&models.Bill{},
 		}
 		db.AutoMigrate(models...)
+		RouteConfig(db)
 	}
 }

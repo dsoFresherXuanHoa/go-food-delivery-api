@@ -1,0 +1,10 @@
+@host = http://localhost:3001/api/v1/roles
+@contentType = application/json
+
+###
+POST {{host}}/
+Content-Type: {{contentType}}
+
+{
+    "name": "Cheif"
+}

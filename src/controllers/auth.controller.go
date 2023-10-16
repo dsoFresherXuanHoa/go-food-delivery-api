@@ -1,0 +1,40 @@
+package controllers
+
+import (
+	"fmt"
+	"go-food-delivery-api/src/configs"
+	"go-food-delivery-api/src/constants"
+	"go-food-delivery-api/src/models"
+	"go-food-delivery-api/src/repositories"
+	"go-food-delivery-api/src/services"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+)
+
+func SignUp() gin.HandlerFunc {
+	db, _ := configs.GetGormInstance()
+	return func(ctx *gin.Context) {
+		var signUp models.SignUp
+		if err := ctx.ShouldBind(&signUp); err != nil {
+			fmt.Println("Error while try parse request body to struct: " + err.Error())
+			ctx.JSON(http.StatusBadRequest, models.NewStandardResponse(nil, http.StatusBadRequest, err.Error(), constants.InvalidRequestBody))
+		} else {
+			employee := models.EmployeeCreatable{FullName: &signUp.FullName, Tel: &signUp.Tel, Gender: &signUp.Gender}
+			account := models.AccountCreatable{Username: &signUp.Username, Password: &signUp.Password, Email: &signUp.Email, RoleId: &signUp.RoleId, EmployeeId: &employee.ID}
+
+			repositories := repositories.NewSQLStore(db)
+			authService := services.NewAuthBusiness(repositories)
+
+			if employeeId, accountId, err := authService.SignUp(ctx.Request.Context(), &account, &employee); err != nil {
+				fmt.Println("Error while sign up in auth controller: " + err.Error())
+				ctx.JSON(http.StatusInternalServerError, models.NewStandardResponse(nil, http.StatusInternalServerError, err.Error(), constants.CannotSignUpRightNow))
+			} else {
+				ctx.JSON(http.StatusOK, models.NewStandardResponse(gin.H{
+					"employeeId": employeeId,
+					"accountId":  accountId,
+				}, http.StatusOK, "", constants.SignUpSuccess))
+			}
+		}
+	}
+}
