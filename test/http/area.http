@@ -1,4 +1,4 @@
-@host = http://localhost:3001/api/v1/roles
+@host = http://localhost:3001/api/v1/areas
 @contentType = application/json
 @managerAccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlblBheWxvYWQiOnsiYWNjb3VudElkIjo2LCJlbXBsb3llZUlkIjo4LCJyb2xlSWQiOjF9LCJleHAiOjE2OTc1NTQzNDEsImlhdCI6MTY5NzQ2Nzk0MX0.BBEdBsI7J8Tz5197oKUfTdRR6Xri5AZEiRRagfmoXHQ
 
@@ -8,5 +8,5 @@ Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}
 
 {
-    "name": "Cheif"
+    "pos": "F2A4"
 }

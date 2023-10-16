@@ -4,3 +4,4 @@
 - [POST]: /api/v1/roles/ ✓
 - [POST]: /api/v1/categories/ ✓
 - [POST] /api/v1/warehouse/ ✓
+- [GET]: /api/v1/tables/ ✓

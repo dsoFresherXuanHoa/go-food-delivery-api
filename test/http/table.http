@@ -1,0 +1,23 @@
+@host = http://localhost:3001/api/v1/tables
+@contentType = application/json
+@managerAccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlblBheWxvYWQiOnsiYWNjb3VudElkIjo2LCJlbXBsb3llZUlkIjo4LCJyb2xlSWQiOjF9LCJleHAiOjE2OTc1NTQzNDEsImlhdCI6MTY5NzQ2Nzk0MX0.BBEdBsI7J8Tz5197oKUfTdRR6Xri5AZEiRRagfmoXHQ
+@waiterAccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlblBheWxvYWQiOnsiYWNjb3VudElkIjozLCJlbXBsb3llZUlkIjo0LCJyb2xlSWQiOjJ9LCJleHAiOjE2OTc1NTc1NzYsImlhdCI6MTY5NzQ3MTE3Nn0.u15ilpRVodewGLUXf5x-YaN1HlLJ1yG1ahDQJoWZ3A0
+
+###
+POST {{host}}/
+Content-Type: {{contentType}}
+Authorization: Bearer {{managerAccessToken}}
+
+{
+    "normalTable": false,
+    "capacity": 20,
+    "basePrice": 20000,
+    "employeeId": 8,
+    "areaId": 2
+}
+
+// TODO: Get detail table by employeeId
+###
+GET {{host}}/
+Content-Type: {{contentType}}
+Authorization: Bearer {{waiterAccessToken}}

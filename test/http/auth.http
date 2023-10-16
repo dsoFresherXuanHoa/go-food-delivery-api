@@ -1,6 +1,6 @@
 @host = http://localhost:3001/api/v1/auth
 @contentType = application/json
-@waiterAccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlblBheWxvYWQiOnsiYWNjb3VudElkIjo2LCJlbXBsb3llZUlkIjo4LCJyb2xlSWQiOjF9LCJleHAiOjE2OTc1NTQyNDUsImlhdCI6MTY5NzQ2Nzg0NX0.8Cc8rxwXGHxnoKOPnLwlJel2yPNy4O7WrzB4q46rT58
+@waiterAccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlblBheWxvYWQiOnsiYWNjb3VudElkIjozLCJlbXBsb3llZUlkIjo0LCJyb2xlSWQiOjJ9LCJleHAiOjE2OTc1NTc1NzYsImlhdCI6MTY5NzQ3MTE3Nn0.u15ilpRVodewGLUXf5x-YaN1HlLJ1yG1ahDQJoWZ3A0
 
 ###
 POST {{host}}/sign-up
@@ -21,8 +21,8 @@ POST {{host}}/sign-in
 Content-Type: {{contentType}}
 
 {
-    "username": "dsoFresherXuanHoa",
-    "password": "dsoFresherXuanHoa"
+    "username": "dsoInternXuanHoa",
+    "password": "dsoInternXuanHoa"
 }
 
 ###
