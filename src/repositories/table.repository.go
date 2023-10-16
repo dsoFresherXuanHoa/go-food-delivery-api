@@ -21,7 +21,19 @@ func (s *sqlStorage) ReadTableByEmployeeId(ctx context.Context, employeeId uint)
 		fmt.Println("Error while find table by id in repository: " + err.Error())
 		return nil, err
 	} else if len(tables) == 0 {
-		fmt.Println("No record found while find table by id in repository: " + err.Error())
+		fmt.Println("No record found while find table by employeeId in repository: " + err.Error())
+		return nil, err
+	}
+	return tables, nil
+}
+
+func (s *sqlStorage) ReadTableByEmployeeIdAndStatus(ctx context.Context, employeeId uint, status bool) (models.Tables, error) {
+	var tables models.Tables
+	if err := s.db.Where("employee_id = ?", employeeId).Where("available = ?", status).Find(&tables).Error; err != nil {
+		fmt.Println("Error while find table by id in repository: " + err.Error())
+		return nil, err
+	} else if len(tables) == 0 {
+		fmt.Println("No record found while find table by employeeId and status in repository: " + err.Error())
 		return nil, err
 	}
 	return tables, nil

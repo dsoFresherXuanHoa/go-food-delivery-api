@@ -8,6 +8,7 @@ import (
 	"go-food-delivery-api/src/repositories"
 	"go-food-delivery-api/src/services"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -45,6 +46,27 @@ func ReadTableByEmployeeId() gin.HandlerFunc {
 			ctx.JSON(http.StatusInternalServerError, models.NewStandardResponse(nil, http.StatusInternalServerError, err.Error(), constants.CannotReadTableByEmployeeId))
 		} else {
 			ctx.JSON(http.StatusOK, models.NewStandardResponse(tables, http.StatusOK, "", constants.ReadTableByEmployeeIdSuccess))
+		}
+	}
+}
+
+func ReadTableByEmployeeIdAndStatus() gin.HandlerFunc {
+	db, _ := configs.GetGormInstance()
+	return func(ctx *gin.Context) {
+		if status, err := strconv.ParseBool(ctx.Param("status")); err != nil {
+			fmt.Println("Error while read product by status in controller: " + err.Error())
+			ctx.JSON(http.StatusBadRequest, models.NewStandardResponse(nil, http.StatusBadRequest, err.Error(), constants.InvalidTableStatusQueryString))
+		} else {
+			repositories := repositories.NewSQLStore(db)
+			tableService := services.NewTableBusiness(repositories)
+
+			employeeId := ctx.Value("employeeId").(int)
+			if tables, err := tableService.ReadTableByEmployeeIdAndStatus(ctx, uint(employeeId), status); err != nil {
+				fmt.Println("Error while read table by employeeId in table controller: " + err.Error())
+				ctx.JSON(http.StatusInternalServerError, models.NewStandardResponse(nil, http.StatusInternalServerError, err.Error(), constants.CannotReadTableByEmployeeIdAndStatus))
+			} else {
+				ctx.JSON(http.StatusOK, models.NewStandardResponse(tables, http.StatusOK, "", constants.ReadTableByEmployeeIdAndStatusSuccess))
+			}
 		}
 	}
 }

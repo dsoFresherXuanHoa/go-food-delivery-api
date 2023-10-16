@@ -9,6 +9,7 @@ import (
 type TableStorage interface {
 	CreateTable(ctx context.Context, table *models.TableCreatable) (*uint, error)
 	ReadTableByEmployeeId(ctx context.Context, employeeId uint) (models.Tables, error)
+	ReadTableByEmployeeIdAndStatus(ctx context.Context, employeeId uint, status bool) (models.Tables, error)
 }
 
 type tableBusiness struct {
@@ -31,6 +32,15 @@ func (business *tableBusiness) CreateTable(ctx context.Context, table *models.Ta
 func (business *tableBusiness) ReadTableByEmployeeId(ctx context.Context, employeeId uint) (models.Tables, error) {
 	if tables, err := business.storage.ReadTableByEmployeeId(ctx, employeeId); err != nil {
 		fmt.Println("Error while find Table by employeeId in service: " + err.Error())
+		return nil, err
+	} else {
+		return tables, nil
+	}
+}
+
+func (business *tableBusiness) ReadTableByEmployeeIdAndStatus(ctx context.Context, employeeId uint, status bool) (models.Tables, error) {
+	if tables, err := business.storage.ReadTableByEmployeeIdAndStatus(ctx, employeeId, status); err != nil {
+		fmt.Println("Error while find Table by employeeId and status in service: " + err.Error())
 		return nil, err
 	} else {
 		return tables, nil

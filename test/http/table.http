@@ -21,3 +21,10 @@ Authorization: Bearer {{managerAccessToken}}
 GET {{host}}/
 Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}
+
+
+// TODO: Get detail table by employeeId
+###
+GET {{host}}/status/true
+Content-Type: {{contentType}}
+Authorization: Bearer {{waiterAccessToken}}
