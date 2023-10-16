@@ -34,14 +34,13 @@ type ProductResponse struct {
 
 type ProductCreatable struct {
 	gorm.Model
-	Name         *string `json:"name" gorm:"column:name;not null"`
-	Description  *string `json:"description" gorm:"column:description;not null"`
-	Price        float64 `json:"price" gorm:"column:price;not null"`
-	Thumb        *string `json:"thumb" gorm:"column:thumb"`
-	ReorderLevel *int    `json:"reorderLevel" gorm:"column:reorder_level;default:0"`
-	StockAmount  *int    `json:"stockAmount" gorm:"column:stock_amount;default:0"`
-	CategoryId   *uint   `json:"categoryId" gorm:"column:category_id;not null"`
-	DiscountId   *uint   `json:"discountId" gorm:"column:discount_id;not null"`
+	Name        *string `json:"name" gorm:"column:name;not null"`
+	Description *string `json:"description" gorm:"column:description;not null"`
+	Price       float64 `json:"price" gorm:"column:price;not null"`
+	Thumb       *string `json:"thumb" gorm:"column:thumb"`
+	StockAmount *int    `json:"stockAmount" gorm:"column:stock_amount;default:0"`
+	CategoryId  *uint   `json:"categoryId" gorm:"column:category_id;not null"`
+	DiscountId  *uint   `json:"discountId" gorm:"column:discount_id;not null"`
 }
 
 type ProductUpdatable struct {

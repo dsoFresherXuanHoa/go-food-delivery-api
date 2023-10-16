@@ -1,0 +1,18 @@
+@host = http://localhost:3001/api/v1/warehouses
+@contentType = application/json
+@managerAccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlblBheWxvYWQiOnsiYWNjb3VudElkIjo2LCJlbXBsb3llZUlkIjo4LCJyb2xlSWQiOjF9LCJleHAiOjE2OTc1NTQzNDEsImlhdCI6MTY5NzQ2Nzk0MX0.BBEdBsI7J8Tz5197oKUfTdRR6Xri5AZEiRRagfmoXHQ
+
+###
+POST {{host}}/
+Content-Type: {{contentType}}
+Authorization: Bearer {{managerAccessToken}}
+
+{
+    "name": "Pessi",
+    "description": "Pessi, Thơm Ngon Bổ Dưỡng",
+    "price": 30000,
+    "stockAmount": 200,
+    "categoryId": 2,
+    "minQuantity": 5,
+    "discountPercent": 10
+}

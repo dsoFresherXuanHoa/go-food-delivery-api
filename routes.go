@@ -12,8 +12,11 @@ func RouteConfig(db *gorm.DB) {
 	port := os.Getenv("PORT")
 	router := gin.Default()
 
-	routes.AuthRouteConfig(router)
 	routes.RoleRouteConfig(router)
+	routes.CategoriesRouteConfig(router)
+
+	routes.AuthRouteConfig(router)
+	routes.WarehouseRouteConfig(router)
 
 	router.Run(":" + port)
 }

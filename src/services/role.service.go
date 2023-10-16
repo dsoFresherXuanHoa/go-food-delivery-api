@@ -10,15 +10,15 @@ type RoleStorage interface {
 	CreateRole(ctx context.Context, role *models.RoleCreatable) (*uint, error)
 }
 
-type RoleBusiness struct {
+type roleBusiness struct {
 	storage RoleStorage
 }
 
-func NewRoleBusiness(storage RoleStorage) *RoleBusiness {
-	return &RoleBusiness{storage: storage}
+func NewRoleBusiness(storage RoleStorage) *roleBusiness {
+	return &roleBusiness{storage: storage}
 }
 
-func (business *RoleBusiness) CreateRole(ctx context.Context, role *models.RoleCreatable) (*uint, error) {
+func (business *roleBusiness) CreateRole(ctx context.Context, role *models.RoleCreatable) (*uint, error) {
 	if roleId, err := business.storage.CreateRole(ctx, role); err != nil {
 		fmt.Println("Error while save Role in service: " + err.Error())
 		return nil, err
