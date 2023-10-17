@@ -1,12 +1,12 @@
 package models
 
 type Warehouse struct {
-	Name            string  `json:"name"`
-	Description     string  `json:"description"`
-	Thumb           string  `json:"thumb"`
-	Price           float64 `json:"price"`
-	StockAmount     int     `json:"stockAmount"`
-	CategoryId      uint    `json:"categoryId"`
-	MinQuantity     int     `json:"minQuantity"`
-	DiscountPercent int     `json:"discountPercent"`
+	Name            string  `form:"name" json:"name"`
+	Description     string  `form:"description" json:"description"`
+	Thumb           string  `form:"-" json:"thumb"`
+	Price           float64 `form:"price" json:"price"`
+	StockAmount     int     `form:"stockAmount" json:"stockAmount"`
+	CategoryId      uint    `form:"categoryId" json:"categoryId"`
+	MinQuantity     int     `form:"minQuantity" json:"minQuantity"`
+	DiscountPercent int     `form:"discountPercent" json:"discountPercent"`
 }

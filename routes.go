@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"go-food-delivery-api/src/routes"
 	"os"
 
@@ -11,8 +10,8 @@ import (
 
 func RouteConfig(db *gorm.DB) {
 	port := os.Getenv("PORT")
-	fmt.Println(port)
 	router := gin.Default()
+	router.MaxMultipartMemory = 8 << 20
 
 	routes.RoleRouteConfig(router)
 	routes.CategoriesRouteConfig(router)
