@@ -22,3 +22,12 @@ func (s *sqlStorage) ReadCategory(ctx context.Context) (models.Categories, error
 	}
 	return categories, nil
 }
+
+func (s *sqlStorage) ReadCategoryById(ctx context.Context, categoryId uint) (*models.Category, error) {
+	var category models.Category
+	if err := s.db.Where("id = ?", categoryId).Find(&category).Error; err != nil {
+		fmt.Println("Error while find category by id in repository: " + err.Error())
+		return nil, err
+	}
+	return &category, nil
+}

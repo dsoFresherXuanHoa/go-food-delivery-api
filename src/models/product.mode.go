@@ -20,16 +20,16 @@ type Product struct {
 
 type ProductResponse struct {
 	gorm.Model
-	Bills         Bills    `json:"bills"`
-	Name          string   `json:"name"`
-	Description   string   `json:"description"`
-	Price         float64  `json:"price"`
-	DiscountPrice float64  `json:"discountPrice"`
-	Thumb         string   `json:"thumb"`
-	ReorderLevel  int      `json:"reorderLevel"`
-	StockAmount   int      `json:"stockAmount"`
-	Category      Category `json:"category"`
-	Discount      Discount `json:"discount"`
+	Bills         Bills    `json:"-" sql:"-" gorm:"-"`
+	Name          *string  `json:"name"`
+	Description   *string  `json:"description"`
+	Price         *float64 `json:"price"`
+	DiscountPrice *float64 `json:"discountPrice"`
+	Thumb         *string  `json:"thumb"`
+	ReorderLevel  *int     `json:"reorderLevel"`
+	StockAmount   *int     `json:"stockAmount"`
+	Category      Category `json:"category" sql:"-" gorm:"-"`
+	Discount      Discount `json:"discount" sql:"-" gorm:"-"`
 }
 
 type ProductCreatable struct {

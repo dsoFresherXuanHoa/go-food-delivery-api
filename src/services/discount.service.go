@@ -8,6 +8,7 @@ import (
 
 type DiscountStorage interface {
 	CreateDiscount(ctx context.Context, discount *models.DiscountCreatable) (*uint, error)
+	ReadDiscountById(ctx context.Context, discountId uint) (*models.Discount, error)
 }
 
 type discountBusiness struct {
@@ -24,5 +25,14 @@ func (business *discountBusiness) CreateDiscount(ctx context.Context, discount *
 		return nil, err
 	} else {
 		return discountId, nil
+	}
+}
+
+func (business *discountBusiness) ReadDiscountById(ctx context.Context, discountId uint) (*models.Discount, error) {
+	if discount, err := business.storage.ReadDiscountById(ctx, discountId); err != nil {
+		fmt.Println("Error while read discount by id in service: " + err.Error())
+		return nil, err
+	} else {
+		return discount, nil
 	}
 }

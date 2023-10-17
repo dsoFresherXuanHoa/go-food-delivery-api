@@ -13,3 +13,12 @@ func (s *sqlStorage) CreateDiscount(ctx context.Context, discount *models.Discou
 	}
 	return &discount.ID, nil
 }
+
+func (s *sqlStorage) ReadDiscountById(ctx context.Context, discountId uint) (*models.Discount, error) {
+	var discount models.Discount
+	if err := s.db.Where("id = ?", discountId).Find(&discount).Error; err != nil {
+		fmt.Println("Error while find discount by id in repository: " + err.Error())
+		return nil, err
+	}
+	return &discount, nil
+}

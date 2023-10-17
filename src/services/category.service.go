@@ -9,6 +9,7 @@ import (
 type CategoryStorage interface {
 	CreateCategory(ctx context.Context, category *models.CategoryCreatable) (*uint, error)
 	ReadCategory(ctx context.Context) (models.Categories, error)
+	ReadCategoryById(ctx context.Context, categoryId uint) (*models.Category, error)
 }
 
 type categoryBusiness struct {
@@ -34,5 +35,14 @@ func (business *categoryBusiness) ReadCategory(ctx context.Context) (models.Cate
 		return nil, err
 	} else {
 		return categories, nil
+	}
+}
+
+func (business *categoryBusiness) ReadCategoryById(ctx context.Context, categoryId uint) (*models.Category, error) {
+	if category, err := business.storage.ReadCategoryById(ctx, categoryId); err != nil {
+		fmt.Println("Error while read category by id in service: " + err.Error())
+		return nil, err
+	} else {
+		return category, nil
 	}
 }

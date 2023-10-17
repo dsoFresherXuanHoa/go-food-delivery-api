@@ -8,8 +8,8 @@ import (
 
 type ProductStorage interface {
 	CreateProduct(ctx context.Context, product *models.ProductCreatable) (*uint, error)
-	ReadProduct(ctx context.Context) (models.Products, error)
-	ReadProductByCategoryId(ctx context.Context, categoryId uint) (models.Products, error)
+	ReadProductByCategoryId(ctx context.Context, categoryId uint) ([]models.ProductResponse, error)
+	ReadProduct(ctx context.Context) ([]models.ProductResponse, error)
 }
 
 type productBusiness struct {
@@ -29,7 +29,7 @@ func (business *productBusiness) CreateProduct(ctx context.Context, product *mod
 	}
 }
 
-func (business *productBusiness) ReadProduct(ctx context.Context) (models.Products, error) {
+func (business *productBusiness) ReadProduct(ctx context.Context) ([]models.ProductResponse, error) {
 	if products, err := business.storage.ReadProduct(ctx); err != nil {
 		fmt.Println("Error while read product in service: " + err.Error())
 		return nil, err
@@ -38,7 +38,7 @@ func (business *productBusiness) ReadProduct(ctx context.Context) (models.Produc
 	}
 }
 
-func (business *productBusiness) ReadProductByCategoryId(ctx context.Context, categoryId uint) (models.Products, error) {
+func (business *productBusiness) ReadProductByCategoryId(ctx context.Context, categoryId uint) ([]models.ProductResponse, error) {
 	if products, err := business.storage.ReadProductByCategoryId(ctx, categoryId); err != nil {
 		fmt.Println("Error while read product by categoryId in service: " + err.Error())
 		return nil, err
