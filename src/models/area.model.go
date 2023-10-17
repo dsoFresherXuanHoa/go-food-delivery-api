@@ -7,7 +7,7 @@ import (
 type Area struct {
 	gorm.Model
 	Tables Tables `json:"-"`
-	Pos    string `json:"-" gorm:"column:pos;not null"`
+	Pos    string `json:"pos" gorm:"column:pos;not null"`
 }
 
 type AreaResponse struct {

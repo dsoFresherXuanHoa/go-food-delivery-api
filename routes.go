@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"go-food-delivery-api/src/routes"
 	"os"
 
@@ -10,6 +11,7 @@ import (
 
 func RouteConfig(db *gorm.DB) {
 	port := os.Getenv("PORT")
+	fmt.Println(port)
 	router := gin.Default()
 
 	routes.RoleRouteConfig(router)

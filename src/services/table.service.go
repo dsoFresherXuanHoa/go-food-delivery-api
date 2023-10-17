@@ -8,8 +8,10 @@ import (
 
 type TableStorage interface {
 	CreateTable(ctx context.Context, table *models.TableCreatable) (*uint, error)
-	ReadTableByEmployeeId(ctx context.Context, employeeId uint) (models.Tables, error)
-	ReadTableByEmployeeIdAndStatus(ctx context.Context, employeeId uint, status bool) (models.Tables, error)
+	ReadTableById(ctx context.Context, tableId uint) (*models.Table, error)
+	ReadTableByEmployeeId(ctx context.Context, employeeId uint) ([]models.TableResponse, error)
+	GetDetailTable(ctx context.Context, table *models.Table) models.TableResponse
+	ReadTableByEmployeeIdAndStatus(ctx context.Context, employeeId uint, status bool) ([]models.TableResponse, error)
 }
 
 type tableBusiness struct {
@@ -29,7 +31,16 @@ func (business *tableBusiness) CreateTable(ctx context.Context, table *models.Ta
 	}
 }
 
-func (business *tableBusiness) ReadTableByEmployeeId(ctx context.Context, employeeId uint) (models.Tables, error) {
+func (business *tableBusiness) ReadTableById(ctx context.Context, tableId uint) (*models.Table, error) {
+	if table, err := business.storage.ReadTableById(ctx, tableId); err != nil {
+		fmt.Println("Error while find Table by in service: " + err.Error())
+		return nil, err
+	} else {
+		return table, nil
+	}
+}
+
+func (business *tableBusiness) ReadTableByEmployeeId(ctx context.Context, employeeId uint) ([]models.TableResponse, error) {
 	if tables, err := business.storage.ReadTableByEmployeeId(ctx, employeeId); err != nil {
 		fmt.Println("Error while find Table by employeeId in service: " + err.Error())
 		return nil, err
@@ -38,11 +49,14 @@ func (business *tableBusiness) ReadTableByEmployeeId(ctx context.Context, employ
 	}
 }
 
-func (business *tableBusiness) ReadTableByEmployeeIdAndStatus(ctx context.Context, employeeId uint, status bool) (models.Tables, error) {
+func (business *tableBusiness) ReadTableByEmployeeIdAndStatus(ctx context.Context, employeeId uint, status bool) ([]models.TableResponse, error) {
 	if tables, err := business.storage.ReadTableByEmployeeIdAndStatus(ctx, employeeId, status); err != nil {
 		fmt.Println("Error while find Table by employeeId and status in service: " + err.Error())
 		return nil, err
 	} else {
 		return tables, nil
 	}
+}
+func (business *tableBusiness) GetDetailTable(ctx context.Context, table *models.Table) models.TableResponse {
+	return business.storage.GetDetailTable(ctx, table)
 }

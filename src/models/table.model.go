@@ -17,13 +17,13 @@ type Table struct {
 
 type TableResponse struct {
 	gorm.Model
-	Orders      Orders   `json:"order"`
-	NormalTable bool     `json:"normalTable"`
-	Available   bool     `json:"available"`
-	Capacity    int      `json:"capacity"`
-	BasePrice   float64  `json:"basePrice"`
-	Employee    Employee `json:"employee"`
-	Area        Area     `json:"area"`
+	Orders      Orders   `json:"-" sql:"-" gorm:"-"`
+	NormalTable *bool    `json:"normalTable"`
+	Available   *bool    `json:"available"`
+	Capacity    *int     `json:"capacity"`
+	BasePrice   *float64 `json:"basePrice"`
+	Employee    Employee `json:"employee" sql:"-" gorm:"-"`
+	Area        Area     `json:"area" sql:"-" gorm:"-"`
 }
 
 type TableCreatable struct {
