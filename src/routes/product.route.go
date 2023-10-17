@@ -13,6 +13,7 @@ func ProductRouteConfig(router *gin.Engine) {
 	products := router.Group("/api/v1/products")
 	{
 		products.GET("/category/:categoryId", middlewares.RequiredWaiterPermissionOrMore(secretKey), controllers.ReadProductByCategoryId())
+		products.GET("/recommend/:limit", middlewares.RequiredWaiterPermissionOrMore(secretKey), controllers.ReadRecommendProduct())
 		products.GET("/", middlewares.RequiredWaiterPermissionOrMore(secretKey), controllers.ReadProduct())
 	}
 }

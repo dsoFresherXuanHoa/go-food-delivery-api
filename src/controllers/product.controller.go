@@ -47,3 +47,22 @@ func ReadProductByCategoryId() gin.HandlerFunc {
 		}
 	}
 }
+
+func ReadRecommendProduct() gin.HandlerFunc {
+	db, _ := configs.GetGormInstance()
+	return func(ctx *gin.Context) {
+		if limit, err := strconv.Atoi(ctx.Param("limit")); err != nil {
+			fmt.Println("Error while read recommend product in category controller: " + err.Error())
+			ctx.JSON(http.StatusBadRequest, models.NewStandardResponse(nil, http.StatusBadRequest, err.Error(), constants.InvalidLimitQueryString))
+		} else {
+			repositories := repositories.NewSQLStore(db)
+			productService := services.NewProductBusiness(repositories)
+			if recommendProduct, err := productService.ReadRecommendProduct(ctx, limit); err != nil {
+				fmt.Println("Error while read recommend product in product controller: " + err.Error())
+				ctx.JSON(http.StatusInternalServerError, models.NewStandardResponse(nil, http.StatusInternalServerError, err.Error(), constants.CannotReadRecommendProduct))
+			} else {
+				ctx.JSON(http.StatusOK, models.NewStandardResponse(recommendProduct, http.StatusOK, "", constants.ReadProductRecommendSuccess))
+			}
+		}
+	}
+}

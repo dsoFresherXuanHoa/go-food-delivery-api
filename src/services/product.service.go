@@ -10,6 +10,8 @@ type ProductStorage interface {
 	CreateProduct(ctx context.Context, product *models.ProductCreatable) (*uint, error)
 	ReadProductByCategoryId(ctx context.Context, categoryId uint) ([]models.ProductResponse, error)
 	ReadProduct(ctx context.Context) ([]models.ProductResponse, error)
+	ReadProductById(ctx context.Context, id uint) (*models.ProductResponse, error)
+	ReadRecommendProduct(ctx context.Context, limit int) ([]models.ProductResponse, error)
 }
 
 type productBusiness struct {
@@ -41,6 +43,24 @@ func (business *productBusiness) ReadProduct(ctx context.Context) ([]models.Prod
 func (business *productBusiness) ReadProductByCategoryId(ctx context.Context, categoryId uint) ([]models.ProductResponse, error) {
 	if products, err := business.storage.ReadProductByCategoryId(ctx, categoryId); err != nil {
 		fmt.Println("Error while read product by categoryId in service: " + err.Error())
+		return nil, err
+	} else {
+		return products, nil
+	}
+}
+
+func (business *productBusiness) ReadProductById(ctx context.Context, id uint) (*models.ProductResponse, error) {
+	if product, err := business.storage.ReadProductById(ctx, id); err != nil {
+		fmt.Println("Error while read product by id in service: " + err.Error())
+		return nil, err
+	} else {
+		return product, nil
+	}
+}
+
+func (business *productBusiness) ReadRecommendProduct(ctx context.Context, limit int) ([]models.ProductResponse, error) {
+	if products, err := business.storage.ReadRecommendProduct(ctx, limit); err != nil {
+		fmt.Println("Error while read recommend product in service: " + err.Error())
 		return nil, err
 	} else {
 		return products, nil

@@ -54,3 +54,27 @@ func (s *sqlStorage) GetDetailProduct(ctx context.Context, product *models.Produ
 	product.DiscountPrice = salePercent * product.Price
 	return models.ProductResponse{Model: product.Model, Bills: nil, Name: &product.Name, Description: &product.Description, Price: &product.Price, DiscountPrice: &product.DiscountPrice, ReorderLevel: &product.ReorderLevel, Thumb: &product.Thumb, StockAmount: &product.StockAmount, Category: *embedCategory, Discount: *embedDiscount}
 }
+
+func (s *sqlStorage) ReadProductById(ctx context.Context, id uint) (*models.ProductResponse, error) {
+	var product models.Product
+	if err := s.db.Where("id = ?", id).First(&product).Error; err != nil {
+		fmt.Println("Error while read product by id in repository: " + err.Error())
+		return nil, err
+	}
+	res := s.GetDetailProduct(ctx, &product)
+	return &res, nil
+}
+
+func (s *sqlStorage) ReadRecommendProduct(ctx context.Context, limit int) ([]models.ProductResponse, error) {
+	var products models.Products
+	if err := s.db.Table(models.Products{}.GetTableName()).Order("reorder_level").Limit(limit).Find(&products).Error; err != nil {
+		fmt.Println("Error while read recommend product in repository: " + err.Error())
+		return nil, err
+	} else {
+		var res = make([]models.ProductResponse, len(products))
+		for i, product := range products {
+			res[i] = s.GetDetailProduct(ctx, &product)
+		}
+		return res, nil
+	}
+}
