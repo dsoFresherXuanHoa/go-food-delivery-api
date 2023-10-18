@@ -16,6 +16,11 @@ Authorization: Bearer {{waiterAccessToken}}
 }
 
 ### 
-GET {{host}}/accepted/?orderId=11
+GET {{host}}/accepted/?orderId=1
+Content-Type: {{contentType}}
+Authorization: Bearer {{managerAccessToken}}
+
+### 
+GET {{host}}/rejected/?orderId=1
 Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}

@@ -13,6 +13,7 @@ func BookingRouteConfig(router *gin.Engine) {
 	booking := router.Group("/api/v1/booking")
 	{
 		booking.GET("/accepted", middlewares.RequiredChiefPermissionOrMore(secretKey), controllers.AcceptOrder())
+		booking.GET("/rejected", middlewares.RequiredChiefPermissionOrMore(secretKey), controllers.RejectOrder())
 		booking.POST("/", middlewares.RequiredWaiterPermissionOrMore(secretKey), controllers.CreateBooking())
 	}
 }

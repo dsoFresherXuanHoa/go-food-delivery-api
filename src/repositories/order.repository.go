@@ -7,7 +7,7 @@ import (
 )
 
 func (s *sqlStorage) GetUpdatableOrder(ctx context.Context, order models.Order) models.OrderUpdatable {
-	return models.OrderUpdatable{Model: order.Model, Note: &order.Note, Status: &order.Status, Accepted: &order.Status, Compensate: &order.Compensate}
+	return models.OrderUpdatable{Model: order.Model, Note: &order.Note, Status: &order.Status, Accepted: &order.Accepted, Rejected: &order.Rejected, Compensate: &order.Compensate}
 }
 
 func (s *sqlStorage) CreateOrder(ctx context.Context, order models.OrderCreatable) (*uint, error) {
