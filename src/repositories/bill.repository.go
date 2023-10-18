@@ -22,3 +22,12 @@ func (s *sqlStorage) ReadBillById(ctx context.Context, billId uint) (*models.Bil
 	}
 	return &bill, nil
 }
+
+func (s *sqlStorage) ReadBillsByOrderId(ctx context.Context, orderId uint) (models.Bills, error) {
+	var bills models.Bills
+	if err := s.db.Where("order_id = ?", orderId).Find(&bills).Error; err != nil {
+		fmt.Println("Error while find bill by order id in repository: " + err.Error())
+		return nil, err
+	}
+	return bills, nil
+}

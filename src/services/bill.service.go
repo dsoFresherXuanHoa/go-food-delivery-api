@@ -9,6 +9,7 @@ import (
 type BillStorage interface {
 	CreateBill(ctx context.Context, bill *models.BillCreatable) (*uint, error)
 	ReadBillById(ctx context.Context, billId uint) (*models.Bill, error)
+	ReadBillsByOrderId(ctx context.Context, orderId uint) (models.Bills, error)
 }
 
 type billBusiness struct {
@@ -31,6 +32,15 @@ func (business *billBusiness) CreateBill(ctx context.Context, bill *models.BillC
 func (business *billBusiness) ReadBillById(ctx context.Context, billId uint) (*models.Bill, error) {
 	if id, err := business.storage.ReadBillById(ctx, billId); err != nil {
 		fmt.Println("Error while find bill by id in service: " + err.Error())
+		return nil, err
+	} else {
+		return id, nil
+	}
+}
+
+func (business *billBusiness) ReadBillsByOrderId(ctx context.Context, orderId uint) (models.Bills, error) {
+	if id, err := business.storage.ReadBillsByOrderId(ctx, orderId); err != nil {
+		fmt.Println("Error while find bill by order id in service: " + err.Error())
 		return nil, err
 	} else {
 		return id, nil

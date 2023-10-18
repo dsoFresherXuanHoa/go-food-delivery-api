@@ -30,3 +30,8 @@ Authorization: Bearer {{managerAccessToken}}
 GET {{host}}/finished/?orderId=1
 Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}
+
+### 
+GET {{host}}/?orderId=1
+Content-Type: {{contentType}}
+Authorization: Bearer {{managerAccessToken}}

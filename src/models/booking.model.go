@@ -1,7 +1,6 @@
 package models
 
 type BookingResponse struct {
-	Employee   EmployeeResponse      `json:"employee"`
 	Table      TableResponse         `json:"table"`
 	Items      []BookingItemResponse `json:"items"`
 	Note       string                `json:"note"`

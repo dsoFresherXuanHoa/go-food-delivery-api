@@ -16,5 +16,6 @@ func BookingRouteConfig(router *gin.Engine) {
 		booking.GET("/rejected", middlewares.RequiredChiefPermissionOrMore(secretKey), controllers.RejectOrder())
 		booking.GET("/finished", middlewares.RequiredChiefPermissionOrMore(secretKey), controllers.FinishOrder())
 		booking.POST("/", middlewares.RequiredWaiterPermissionOrMore(secretKey), controllers.CreateBooking())
+		booking.GET("/", middlewares.RequiredChiefPermissionOrMore(secretKey), controllers.GetDetailBooking())
 	}
 }

@@ -16,8 +16,8 @@
 - [GET]: /api/v1/products/recommend/:limit ✓   
 
 - [POST]: /api/v1/booking ✓
-
 - [PATCH]: /api/v1/booking/accepted/?orderId=1 ✓
 - [PATCH]: /api/v1/booking/rejected/?orderId=1 ✓
 - [PATCH]: /api/v1/booking/finished/?orderId=1 ✓
-- [PATCH]: /api/v1/booking/compensate/?orderId=1
+
+- [PATCH]: /api/v1/booking/compensated/?orderId=1

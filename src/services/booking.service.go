@@ -11,6 +11,7 @@ type BookingStorage interface {
 	AcceptOrder(ctx context.Context, orderId int) (*uint, error)
 	RejectOrder(ctx context.Context, orderId int) (*uint, error)
 	FinishOrder(ctx context.Context, orderId int) (*uint, error)
+	GetDetailBooking(ctx context.Context, orderId int) (*models.BookingResponse, error)
 }
 
 type bookingBusiness struct {
@@ -54,5 +55,14 @@ func (business *bookingBusiness) FinishOrder(ctx context.Context, orderId int) (
 		return nil, err
 	} else {
 		return orderId, nil
+	}
+}
+
+func (business *bookingBusiness) GetDetailBooking(ctx context.Context, orderId int) (*models.BookingResponse, error) {
+	if booking, err := business.storage.GetDetailBooking(ctx, orderId); err != nil {
+		fmt.Println("Error while read booking in service: " + err.Error())
+		return nil, err
+	} else {
+		return booking, nil
 	}
 }

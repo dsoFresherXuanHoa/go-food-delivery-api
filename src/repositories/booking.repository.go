@@ -57,6 +57,28 @@ func (s *sqlStorage) CreateBooking(ctx context.Context, order *models.OrderCreat
 	}
 }
 
+func (s *sqlStorage) GetDetailBooking(ctx context.Context, orderId int) (*models.BookingResponse, error) {
+	repository := NewSQLStore(s.db)
+	orderService := services.NewOrderBusiness(repository)
+	tableService := services.NewTableBusiness(repository)
+	billService := services.NewBillBusiness(repository)
+	productService := services.NewProductBusiness(repository)
+	if order, err := orderService.ReadOrderById(ctx, uint(orderId)); err != nil {
+		fmt.Println("Error while update order in repository: " + err.Error())
+		return nil, err
+	} else {
+		bills, _ := billService.ReadBillsByOrderId(ctx, uint(orderId))
+		var embedItems []models.BookingItemResponse
+		for _, bill := range bills {
+			product, _ := productService.ReadProductById(ctx, bill.ProductId)
+			embedItems = append(embedItems, models.BookingItemResponse{Product: *product, Quantity: bill.Quantity})
+		}
+		embedTable, _ := tableService.ReadTableById(ctx, uint(orderId))
+		detailEmbedTable := s.GetDetailTable(ctx, *embedTable)
+		return &models.BookingResponse{Table: detailEmbedTable, Items: embedItems, Note: order.Note, Status: order.Status, Accepted: order.Accepted, Compensate: order.Compensate}, nil
+	}
+}
+
 func (s *sqlStorage) AcceptOrder(ctx context.Context, orderId int) (*uint, error) {
 	repository := NewSQLStore(s.db)
 	orderService := services.NewOrderBusiness(repository)
@@ -110,6 +132,26 @@ func (s *sqlStorage) FinishOrder(ctx context.Context, orderId int) (*uint, error
 		if _, err := orderService.UpdateOrderById(ctx, orderId, &orderUpdatable); err != nil {
 			fmt.Println("Error while update order by id in repository: " + err.Error())
 			return nil, err
+		}
+		return &order.ID, nil
+	}
+}
+
+func (s *sqlStorage) CompensatedOrder(ctx context.Context, orderId int) (*uint, error) {
+	repository := NewSQLStore(s.db)
+	orderService := services.NewOrderBusiness(repository)
+	if order, err := orderService.ReadOrderById(ctx, uint(orderId)); err != nil {
+		fmt.Println("Error while update order in repository: " + err.Error())
+		return nil, err
+	} else {
+		compensated := true
+		orderUpdatable := s.GetUpdatableOrder(ctx, *order)
+		orderUpdatable.Compensate = &compensated
+		if _, err := orderService.UpdateOrderById(ctx, orderId, &orderUpdatable); err != nil {
+			fmt.Println("Error while update order by id in repository: " + err.Error())
+			return nil, err
+		} else {
+			// * Renew an Booking
 		}
 		return &order.ID, nil
 	}
