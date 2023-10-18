@@ -22,6 +22,6 @@ Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}
 
 ###
-GET {{host}}/status/false
+GET {{host}}/status/true
 Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}

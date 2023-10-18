@@ -16,22 +16,27 @@ Authorization: Bearer {{waiterAccessToken}}
 }
 
 ### 
-GET {{host}}/accepted/?orderId=1
+PATCH {{host}}/accepted/?orderId=1
 Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}
 
 ### 
-GET {{host}}/rejected/?orderId=1
+PATCH {{host}}/rejected/?orderId=1
 Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}
 
 
 ### 
-GET {{host}}/finished/?orderId=1
+PATCH {{host}}/finished/?orderId=1
 Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}
 
 ### 
-GET {{host}}/?orderId=1
+GET {{host}}/?orderId=5
+Content-Type: {{contentType}}
+Authorization: Bearer {{managerAccessToken}}
+
+### 
+PATCH {{host}}/compensated/?orderId=1
 Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}

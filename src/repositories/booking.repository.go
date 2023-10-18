@@ -73,7 +73,7 @@ func (s *sqlStorage) GetDetailBooking(ctx context.Context, orderId int) (*models
 			product, _ := productService.ReadProductById(ctx, bill.ProductId)
 			embedItems = append(embedItems, models.BookingItemResponse{Product: *product, Quantity: bill.Quantity})
 		}
-		embedTable, _ := tableService.ReadTableById(ctx, uint(orderId))
+		embedTable, _ := tableService.ReadTableById(ctx, order.TableId)
 		detailEmbedTable := s.GetDetailTable(ctx, *embedTable)
 		return &models.BookingResponse{Table: detailEmbedTable, Items: embedItems, Note: order.Note, Status: order.Status, Accepted: order.Accepted, Compensate: order.Compensate}, nil
 	}
@@ -137,9 +137,10 @@ func (s *sqlStorage) FinishOrder(ctx context.Context, orderId int) (*uint, error
 	}
 }
 
-func (s *sqlStorage) CompensatedOrder(ctx context.Context, orderId int) (*uint, error) {
+func (s *sqlStorage) CompensatedOrder(ctx context.Context, orderId int, employeeId int) (*uint, error) {
 	repository := NewSQLStore(s.db)
 	orderService := services.NewOrderBusiness(repository)
+	bookingService := services.NewBookingBusiness(repository)
 	if order, err := orderService.ReadOrderById(ctx, uint(orderId)); err != nil {
 		fmt.Println("Error while update order in repository: " + err.Error())
 		return nil, err
@@ -150,8 +151,21 @@ func (s *sqlStorage) CompensatedOrder(ctx context.Context, orderId int) (*uint, 
 		if _, err := orderService.UpdateOrderById(ctx, orderId, &orderUpdatable); err != nil {
 			fmt.Println("Error while update order by id in repository: " + err.Error())
 			return nil, err
+		} else if booking, err := bookingService.GetDetailBooking(ctx, orderId); err != nil {
+			fmt.Println("Error while get order detail in booking repository: " + err.Error())
+			return nil, err
 		} else {
-			// * Renew an Booking
+			compensatedOrder := models.OrderCreatable{Note: &booking.Note, EmployeeId: &order.EmployeeId, TableId: &order.TableId}
+			compensatedBills := make([]models.BillCreatable, len(booking.Items))
+			for i, item := range booking.Items {
+				bill := models.Bill{Quantity: item.Quantity, OrderId: order.ID, ProductId: item.Product.ID}
+				billCreatable := s.Bill2Creatable(ctx, &bill)
+				compensatedBills[i] = billCreatable
+			}
+			if _, err := bookingService.CreateBooking(ctx, &compensatedOrder, compensatedBills); err != nil {
+				fmt.Println("Error while create compensated booking: " + err.Error())
+				return nil, err
+			}
 		}
 		return &order.ID, nil
 	}

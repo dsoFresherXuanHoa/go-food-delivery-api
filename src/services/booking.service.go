@@ -12,6 +12,7 @@ type BookingStorage interface {
 	RejectOrder(ctx context.Context, orderId int) (*uint, error)
 	FinishOrder(ctx context.Context, orderId int) (*uint, error)
 	GetDetailBooking(ctx context.Context, orderId int) (*models.BookingResponse, error)
+	CompensatedOrder(ctx context.Context, orderId int, employeeId int) (*uint, error)
 }
 
 type bookingBusiness struct {
@@ -64,5 +65,14 @@ func (business *bookingBusiness) GetDetailBooking(ctx context.Context, orderId i
 		return nil, err
 	} else {
 		return booking, nil
+	}
+}
+
+func (business *bookingBusiness) CompensatedOrder(ctx context.Context, orderId int, employeeId int) (*uint, error) {
+	if orderId, err := business.storage.CompensatedOrder(ctx, orderId, employeeId); err != nil {
+		fmt.Println("Error while create compensated booking in service: " + err.Error())
+		return nil, err
+	} else {
+		return orderId, nil
 	}
 }
