@@ -14,3 +14,8 @@ Authorization: Bearer {{waiterAccessToken}}
     "quantities": [1, 2],
     "productsId": [2, 1]
 }
+
+### 
+GET {{host}}/accepted/?orderId=11
+Content-Type: {{contentType}}
+Authorization: Bearer {{managerAccessToken}}

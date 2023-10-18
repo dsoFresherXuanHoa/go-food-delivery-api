@@ -12,6 +12,7 @@ func BookingRouteConfig(router *gin.Engine) {
 	secretKey := os.Getenv("JWT_ACCESS_SECRET")
 	booking := router.Group("/api/v1/booking")
 	{
+		booking.GET("/accepted", middlewares.RequiredChiefPermissionOrMore(secretKey), controllers.AcceptOrder())
 		booking.POST("/", middlewares.RequiredWaiterPermissionOrMore(secretKey), controllers.CreateBooking())
 	}
 }

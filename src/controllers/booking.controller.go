@@ -8,6 +8,7 @@ import (
 	"go-food-delivery-api/src/repositories"
 	"go-food-delivery-api/src/services"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -38,6 +39,25 @@ func CreateBooking() gin.HandlerFunc {
 				ctx.JSON(http.StatusOK, models.NewStandardResponse(gin.H{
 					"orderId": orderId,
 				}, http.StatusOK, "", constants.CreateBookingSuccess))
+			}
+		}
+	}
+}
+
+func AcceptOrder() gin.HandlerFunc {
+	db, _ := configs.GetGormInstance()
+	return func(ctx *gin.Context) {
+		if orderId, err := strconv.Atoi(ctx.Query("orderId")); err != nil {
+			fmt.Println("Error while update order by id in category controller: " + err.Error())
+			ctx.JSON(http.StatusBadRequest, models.NewStandardResponse(nil, http.StatusBadRequest, err.Error(), constants.InvalidOrderIDQueryString))
+		} else {
+			repositories := repositories.NewSQLStore(db)
+			bookingService := services.NewBookingBusiness(repositories)
+			if orderId, err := bookingService.AcceptOrder(ctx, orderId); err != nil {
+				fmt.Println("Error while update order in booking controller: " + err.Error())
+				ctx.JSON(http.StatusInternalServerError, models.NewStandardResponse(nil, http.StatusInternalServerError, err.Error(), constants.CannotAcceptBooking))
+			} else {
+				ctx.JSON(http.StatusOK, models.NewStandardResponse(orderId, http.StatusOK, "", constants.AcceptBookingSuccess))
 			}
 		}
 	}

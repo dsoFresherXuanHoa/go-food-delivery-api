@@ -56,3 +56,21 @@ func (s *sqlStorage) CreateBooking(ctx context.Context, order *models.OrderCreat
 		return orderId, nil
 	}
 }
+
+func (s *sqlStorage) AcceptOrder(ctx context.Context, orderId int) (*uint, error) {
+	repository := NewSQLStore(s.db)
+	orderService := services.NewOrderBusiness(repository)
+	if order, err := orderService.ReadOrderById(ctx, uint(orderId)); err != nil {
+		fmt.Println("Error while update order in repository: " + err.Error())
+		return nil, err
+	} else {
+		acceptedOrder := true
+		orderUpdatable := s.GetUpdatableOrder(ctx, *order)
+		orderUpdatable.Accepted = &acceptedOrder
+		if _, err := orderService.UpdateOrderById(ctx, orderId, &orderUpdatable); err != nil {
+			fmt.Println("Error while update order by id in repository: " + err.Error())
+			return nil, err
+		}
+		return &order.ID, nil
+	}
+}

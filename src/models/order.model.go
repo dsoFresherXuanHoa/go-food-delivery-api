@@ -29,6 +29,8 @@ type OrderResponse struct {
 type OrderCreatable struct {
 	gorm.Model
 	Note       *string `json:"note" gorm:"column:note"`
+	Status     *bool   `json:"_" gorm:"column:status;default:false"`
+	Compensate *bool   `json:"-" gorm:"column:compensate;default:false"`
 	EmployeeId *uint   `json:"employeeId" gorm:"column:employee_id;not null"`
 	TableId    *uint   `json:"tableId" gorm:"column:table_id;not null"`
 }
