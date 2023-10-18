@@ -96,3 +96,21 @@ func (s *sqlStorage) RejectOrder(ctx context.Context, orderId int) (*uint, error
 		return &order.ID, nil
 	}
 }
+
+func (s *sqlStorage) FinishOrder(ctx context.Context, orderId int) (*uint, error) {
+	repository := NewSQLStore(s.db)
+	orderService := services.NewOrderBusiness(repository)
+	if order, err := orderService.ReadOrderById(ctx, uint(orderId)); err != nil {
+		fmt.Println("Error while update order in repository: " + err.Error())
+		return nil, err
+	} else {
+		finished := true
+		orderUpdatable := s.GetUpdatableOrder(ctx, *order)
+		orderUpdatable.Status = &finished
+		if _, err := orderService.UpdateOrderById(ctx, orderId, &orderUpdatable); err != nil {
+			fmt.Println("Error while update order by id in repository: " + err.Error())
+			return nil, err
+		}
+		return &order.ID, nil
+	}
+}

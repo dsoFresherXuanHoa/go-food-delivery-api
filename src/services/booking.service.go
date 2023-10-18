@@ -10,6 +10,7 @@ type BookingStorage interface {
 	CreateBooking(ctx context.Context, order *models.OrderCreatable, bills []models.BillCreatable) (*uint, error)
 	AcceptOrder(ctx context.Context, orderId int) (*uint, error)
 	RejectOrder(ctx context.Context, orderId int) (*uint, error)
+	FinishOrder(ctx context.Context, orderId int) (*uint, error)
 }
 
 type bookingBusiness struct {
@@ -37,8 +38,18 @@ func (business *bookingBusiness) AcceptOrder(ctx context.Context, orderId int) (
 		return orderId, nil
 	}
 }
+
 func (business *bookingBusiness) RejectOrder(ctx context.Context, orderId int) (*uint, error) {
 	if orderId, err := business.storage.RejectOrder(ctx, orderId); err != nil {
+		fmt.Println("Error while update order in service: " + err.Error())
+		return nil, err
+	} else {
+		return orderId, nil
+	}
+}
+
+func (business *bookingBusiness) FinishOrder(ctx context.Context, orderId int) (*uint, error) {
+	if orderId, err := business.storage.FinishOrder(ctx, orderId); err != nil {
 		fmt.Println("Error while update order in service: " + err.Error())
 		return nil, err
 	} else {

@@ -81,3 +81,22 @@ func RejectOrder() gin.HandlerFunc {
 		}
 	}
 }
+
+func FinishOrder() gin.HandlerFunc {
+	db, _ := configs.GetGormInstance()
+	return func(ctx *gin.Context) {
+		if orderId, err := strconv.Atoi(ctx.Query("orderId")); err != nil {
+			fmt.Println("Error while update order by id in category controller: " + err.Error())
+			ctx.JSON(http.StatusBadRequest, models.NewStandardResponse(nil, http.StatusBadRequest, err.Error(), constants.InvalidOrderIDQueryString))
+		} else {
+			repositories := repositories.NewSQLStore(db)
+			bookingService := services.NewBookingBusiness(repositories)
+			if orderId, err := bookingService.FinishOrder(ctx, orderId); err != nil {
+				fmt.Println("Error while update order in booking controller: " + err.Error())
+				ctx.JSON(http.StatusInternalServerError, models.NewStandardResponse(nil, http.StatusInternalServerError, err.Error(), constants.CannotRejectBooking))
+			} else {
+				ctx.JSON(http.StatusOK, models.NewStandardResponse(orderId, http.StatusOK, "", constants.RejectBookingSuccess))
+			}
+		}
+	}
+}

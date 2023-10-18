@@ -24,3 +24,9 @@ Authorization: Bearer {{managerAccessToken}}
 GET {{host}}/rejected/?orderId=1
 Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}
+
+
+### 
+GET {{host}}/finished/?orderId=1
+Content-Type: {{contentType}}
+Authorization: Bearer {{managerAccessToken}}
