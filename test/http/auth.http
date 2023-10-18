@@ -21,8 +21,8 @@ POST {{host}}/sign-in
 Content-Type: {{contentType}}
 
 {
-    "username": "dsoInternXuanHoa",
-    "password": "dsoInternXuanHoa"
+    "username": "dsoFresherXuanHoa",
+    "password": "dsoFresherXuanHoa"
 }
 
 ###

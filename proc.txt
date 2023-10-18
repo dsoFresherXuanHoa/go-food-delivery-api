@@ -15,3 +15,5 @@
 - [GET]: /api/v1/products ✓
 - [GET]: /api/v1/products/category/:categoryId ✓
 - [GET]: /api/v1/products/recommend/:limit ✓   
+
+- [POST]: /api/v1/booking

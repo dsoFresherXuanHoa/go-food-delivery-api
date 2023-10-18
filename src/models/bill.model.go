@@ -14,8 +14,8 @@ type BillResponse struct {
 	gorm.Model
 	Status   bool    `json:"status"`
 	Quantity int     `json:"quantity"`
-	Order    Order   `json:"order"`
-	Product  Product `json:"product"`
+	Order    Order   `json:"order" sql:"-" gorm:"-"`
+	Product  Product `json:"product" sql:"-" gorm:"-"`
 }
 
 type BillCreatable struct {

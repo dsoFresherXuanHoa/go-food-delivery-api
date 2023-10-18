@@ -17,13 +17,13 @@ type Order struct {
 
 type OrderResponse struct {
 	gorm.Model
-	Bills      Bills    `json:"bills"`
+	Bills      Bills    `json:"bills" sql:"-" gorm:"-"`
 	Note       string   `json:"note"`
 	Status     bool     `json:"status"`
 	Accepted   bool     `json:"accepted"`
 	Compensate bool     `json:"compensate"`
-	Employee   Employee `json:"employee"`
-	Table      Table    `json:"table"`
+	Employee   Employee `json:"employee" sql:"-" gorm:"-"`
+	Table      Table    `json:"table" sql:"-" gorm:"-"`
 }
 
 type OrderCreatable struct {
