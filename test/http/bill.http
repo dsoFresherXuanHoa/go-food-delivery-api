@@ -1,0 +1,9 @@
+@host = http://localhost:3001/api/v1/bills
+@contentType = application/json
+@waiterAccessToken = {{$dotenv WAITER_ACCESS_TOKEN}}
+@managerAccessToken = {{$dotenv MANAGER_ACCESS_TOKEN}}
+
+###
+PATCH {{host}}/finished/2
+Content-Type: {{contentType}}
+Authorization: Bearer {{managerAccessToken}}

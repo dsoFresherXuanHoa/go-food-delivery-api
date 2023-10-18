@@ -18,6 +18,7 @@ func RouteConfig(db *gorm.DB) {
 	routes.AreaRouteConfig(router)
 	routes.TableRouteConfig(router)
 	routes.ProductRouteConfig(router)
+	routes.BillRouteConfig(router)
 
 	routes.AuthRouteConfig(router)
 	routes.WarehouseRouteConfig(router)

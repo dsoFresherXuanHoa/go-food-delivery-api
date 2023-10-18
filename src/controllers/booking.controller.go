@@ -133,9 +133,9 @@ func CompensatedOrder() gin.HandlerFunc {
 			employeeId := uint(id)
 			if orderId, err := bookingService.CompensatedOrder(ctx, orderId, int(employeeId)); err != nil {
 				fmt.Println("Error while update order in booking controller: " + err.Error())
-				ctx.JSON(http.StatusInternalServerError, models.NewStandardResponse(nil, http.StatusInternalServerError, err.Error(), constants.CannotRejectBooking))
+				ctx.JSON(http.StatusInternalServerError, models.NewStandardResponse(nil, http.StatusInternalServerError, err.Error(), constants.CannotCompensateBooking))
 			} else {
-				ctx.JSON(http.StatusOK, models.NewStandardResponse(orderId, http.StatusOK, "", constants.RejectBookingSuccess))
+				ctx.JSON(http.StatusOK, models.NewStandardResponse(orderId, http.StatusOK, "", constants.CompensatedBookingSuccess))
 			}
 		}
 	}
