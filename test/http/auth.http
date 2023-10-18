@@ -1,19 +1,20 @@
 @host = http://localhost:3001/api/v1/auth
 @contentType = application/json
-@waiterAccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlblBheWxvYWQiOnsiYWNjb3VudElkIjozLCJlbXBsb3llZUlkIjo0LCJyb2xlSWQiOjJ9LCJleHAiOjE2OTc1NTc1NzYsImlhdCI6MTY5NzQ3MTE3Nn0.u15ilpRVodewGLUXf5x-YaN1HlLJ1yG1ahDQJoWZ3A0
+@waiterAccessToken = {{$dotenv WAITER_ACCESS_TOKEN}}
+@managerAccessToken = {{$dotenv MANAGER_ACCESS_TOKEN}}
 
 ###
 POST {{host}}/sign-up
 Content-Type: {{contentType}}
 
 {
-    "fullName": "Le Xuan Hoa",
+    "fullName": "Xuan Hoa Le",
 	"tel": "0364015071",
-    "gender": false,
-    "email": "dso.fresher.xuanhoa@gmail.com",
+    "gender": true,
+    "email": "dso.intern.xuanhoa@gmail.com",
     "username": "dsoFresherXuanHoa",
     "password": "dsoFresherXuanHoa",
-    "roleId": 2
+    "roleId": 1
 }
 
 ###

@@ -10,8 +10,9 @@ type TableStorage interface {
 	CreateTable(ctx context.Context, table *models.TableCreatable) (*uint, error)
 	ReadTableById(ctx context.Context, tableId uint) (*models.Table, error)
 	ReadTableByEmployeeId(ctx context.Context, employeeId uint) ([]models.TableResponse, error)
-	GetDetailTable(ctx context.Context, table *models.Table) models.TableResponse
 	ReadTableByEmployeeIdAndStatus(ctx context.Context, employeeId uint, status bool) ([]models.TableResponse, error)
+	UpdateTable(ctx context.Context, id int, table *models.TableUpdatable) (*int64, error)
+	GetDetailTable(ctx context.Context, table models.Table) models.TableResponse
 }
 
 type tableBusiness struct {
@@ -57,6 +58,16 @@ func (business *tableBusiness) ReadTableByEmployeeIdAndStatus(ctx context.Contex
 		return tables, nil
 	}
 }
-func (business *tableBusiness) GetDetailTable(ctx context.Context, table *models.Table) models.TableResponse {
+
+func (business *tableBusiness) UpdateTable(ctx context.Context, id int, table *models.TableUpdatable) (*int64, error) {
+	if tableId, err := business.storage.UpdateTable(ctx, id, table); err != nil {
+		fmt.Println("Error while update table by id in service: " + err.Error())
+		return nil, err
+	} else {
+		return tableId, nil
+	}
+}
+
+func (business *tableBusiness) GetDetailTable(ctx context.Context, table models.Table) models.TableResponse {
 	return business.storage.GetDetailTable(ctx, table)
 }

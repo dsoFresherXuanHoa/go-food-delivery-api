@@ -21,6 +21,7 @@ func RouteConfig(db *gorm.DB) {
 
 	routes.AuthRouteConfig(router)
 	routes.WarehouseRouteConfig(router)
+	routes.BookingRouteConfig(router)
 
 	router.Run(":" + port)
 }

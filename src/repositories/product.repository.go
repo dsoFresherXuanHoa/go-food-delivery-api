@@ -7,6 +7,26 @@ import (
 	"go-food-delivery-api/src/services"
 )
 
+func (s *sqlStorage) GetDetailProduct(ctx context.Context, product models.Product) models.ProductResponse {
+	categoryService := services.NewCategoryBusiness(s)
+	discountService := services.NewDiscountBusiness(s)
+	embedCategory, _ := categoryService.ReadCategoryById(ctx, product.CategoryId)
+	embedDiscount, _ := discountService.ReadDiscountById(ctx, product.DiscountId)
+
+	discountPercent := embedDiscount.DiscountPercent
+	salePercent := 1 - float64(discountPercent)/100
+	product.DiscountPrice = salePercent * product.Price
+	return models.ProductResponse{Model: product.Model, Bills: nil, Name: &product.Name, Description: &product.Description, Price: &product.Price, DiscountPrice: &product.DiscountPrice, ReorderLevel: &product.ReorderLevel, Thumb: &product.Thumb, StockAmount: &product.StockAmount, Category: *embedCategory, Discount: *embedDiscount}
+}
+
+func (s *sqlStorage) GetCreatableProduct(ctx context.Context, product models.ProductResponse) models.ProductCreatable {
+	return models.ProductCreatable{Model: product.Model, Name: product.Name, Description: product.Description, Price: *product.Price, Thumb: product.Thumb, StockAmount: product.StockAmount, ReorderLevel: product.ReorderLevel, CategoryId: &product.Category.ID, DiscountId: &product.Discount.ID}
+}
+
+func (s *sqlStorage) GetUpdatableProduct(ctx context.Context, product models.ProductCreatable) models.ProductUpdatable {
+	return models.ProductUpdatable{Model: product.Model, Name: product.Name, Description: product.Description, ReorderLevel: product.ReorderLevel, StockAmount: product.StockAmount}
+}
+
 func (s *sqlStorage) CreateProduct(ctx context.Context, product *models.ProductCreatable) (*uint, error) {
 	if err := s.db.Table(models.ProductCreatable{}.GetTableName()).Create(&product).Error; err != nil {
 		fmt.Println("Error while create product in repository: " + err.Error())
@@ -24,7 +44,7 @@ func (s *sqlStorage) ReadProduct(ctx context.Context) ([]models.ProductResponse,
 
 	var res = make([]models.ProductResponse, len(products))
 	for i, product := range products {
-		res[i] = s.GetDetailProduct(ctx, &product)
+		res[i] = s.GetDetailProduct(ctx, product)
 	}
 	return res, nil
 }
@@ -38,21 +58,9 @@ func (s *sqlStorage) ReadProductByCategoryId(ctx context.Context, categoryId uin
 
 	var res = make([]models.ProductResponse, len(products))
 	for i, product := range products {
-		res[i] = s.GetDetailProduct(ctx, &product)
+		res[i] = s.GetDetailProduct(ctx, product)
 	}
 	return res, nil
-}
-
-func (s *sqlStorage) GetDetailProduct(ctx context.Context, product *models.Product) models.ProductResponse {
-	categoryService := services.NewCategoryBusiness(s)
-	discountService := services.NewDiscountBusiness(s)
-	embedCategory, _ := categoryService.ReadCategoryById(ctx, product.CategoryId)
-	embedDiscount, _ := discountService.ReadDiscountById(ctx, product.DiscountId)
-
-	discountPercent := embedDiscount.DiscountPercent
-	salePercent := 1 - float64(discountPercent)/100
-	product.DiscountPrice = salePercent * product.Price
-	return models.ProductResponse{Model: product.Model, Bills: nil, Name: &product.Name, Description: &product.Description, Price: &product.Price, DiscountPrice: &product.DiscountPrice, ReorderLevel: &product.ReorderLevel, Thumb: &product.Thumb, StockAmount: &product.StockAmount, Category: *embedCategory, Discount: *embedDiscount}
 }
 
 func (s *sqlStorage) ReadProductById(ctx context.Context, id uint) (*models.ProductResponse, error) {
@@ -61,7 +69,7 @@ func (s *sqlStorage) ReadProductById(ctx context.Context, id uint) (*models.Prod
 		fmt.Println("Error while read product by id in repository: " + err.Error())
 		return nil, err
 	}
-	res := s.GetDetailProduct(ctx, &product)
+	res := s.GetDetailProduct(ctx, product)
 	return &res, nil
 }
 
@@ -73,8 +81,17 @@ func (s *sqlStorage) ReadRecommendProduct(ctx context.Context, limit int) ([]mod
 	} else {
 		var res = make([]models.ProductResponse, len(products))
 		for i, product := range products {
-			res[i] = s.GetDetailProduct(ctx, &product)
+			res[i] = s.GetDetailProduct(ctx, product)
 		}
 		return res, nil
+	}
+}
+
+func (s *sqlStorage) UpdateProductById(ctx context.Context, id int, product *models.ProductUpdatable) (*int64, error) {
+	if result := s.db.Table(models.ProductUpdatable{}.GetTableName()).Where("id = ?", id).Updates(product); result.Error != nil {
+		fmt.Println("Error while update product in repository: " + result.Error.Error())
+		return nil, result.Error
+	} else {
+		return &result.RowsAffected, nil
 	}
 }

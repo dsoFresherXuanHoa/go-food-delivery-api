@@ -12,6 +12,7 @@ type ProductStorage interface {
 	ReadProduct(ctx context.Context) ([]models.ProductResponse, error)
 	ReadProductById(ctx context.Context, id uint) (*models.ProductResponse, error)
 	ReadRecommendProduct(ctx context.Context, limit int) ([]models.ProductResponse, error)
+	UpdateProductById(ctx context.Context, id int, product *models.ProductUpdatable) (*int64, error)
 }
 
 type productBusiness struct {
@@ -64,5 +65,14 @@ func (business *productBusiness) ReadRecommendProduct(ctx context.Context, limit
 		return nil, err
 	} else {
 		return products, nil
+	}
+}
+
+func (business *productBusiness) UpdateProductById(ctx context.Context, id int, product *models.ProductUpdatable) (*int64, error) {
+	if productId, err := business.storage.UpdateProductById(ctx, id, product); err != nil {
+		fmt.Println("Error while read update product by id in service: " + err.Error())
+		return nil, err
+	} else {
+		return productId, nil
 	}
 }

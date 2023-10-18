@@ -1,7 +1,7 @@
 @host = http://localhost:3001/api/v1/categories
 @contentType = application/json
-@managerAccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlblBheWxvYWQiOnsiYWNjb3VudElkIjo2LCJlbXBsb3llZUlkIjo4LCJyb2xlSWQiOjF9LCJleHAiOjE2OTc1NTQzNDEsImlhdCI6MTY5NzQ2Nzk0MX0.BBEdBsI7J8Tz5197oKUfTdRR6Xri5AZEiRRagfmoXHQ
-@waiterAccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlblBheWxvYWQiOnsiYWNjb3VudElkIjozLCJlbXBsb3llZUlkIjo0LCJyb2xlSWQiOjJ9LCJleHAiOjE2OTc1NTc1NzYsImlhdCI6MTY5NzQ3MTE3Nn0.u15ilpRVodewGLUXf5x-YaN1HlLJ1yG1ahDQJoWZ3A0
+@waiterAccessToken = {{$dotenv WAITER_ACCESS_TOKEN}}
+@managerAccessToken = {{$dotenv MANAGER_ACCESS_TOKEN}}
 
 ###
 POST {{host}}/
@@ -10,7 +10,7 @@ Authorization: Bearer {{managerAccessToken}}
 
 {
     "name": "Nước Giải Khát",
-    "description": "Nước giải khác sau khi ăn là cần thiết cho cơ thể!"
+    "description": "Nước Giải Khát, Thơm Ngon Bổ Dưỡng!"
 }
 
 

@@ -1,0 +1,28 @@
+package services
+
+import (
+	"context"
+	"fmt"
+	"go-food-delivery-api/src/models"
+)
+
+type BookingStorage interface {
+	CreateBooking(ctx context.Context, order *models.OrderCreatable, bills []models.BillCreatable) (*uint, error)
+}
+
+type bookingBusiness struct {
+	storage BookingStorage
+}
+
+func NewBookingBusiness(storage BookingStorage) *bookingBusiness {
+	return &bookingBusiness{storage: storage}
+}
+
+func (business *bookingBusiness) CreateBooking(ctx context.Context, order *models.OrderCreatable, bills []models.BillCreatable) (*uint, error) {
+	if orderId, err := business.storage.CreateBooking(ctx, order, bills); err != nil {
+		fmt.Println("Error while create order in service: " + err.Error())
+		return nil, err
+	} else {
+		return orderId, nil
+	}
+}

@@ -1,0 +1,16 @@
+@host = http://localhost:3001/api/v1/booking
+@contentType = application/json
+@waiterAccessToken = {{$dotenv WAITER_ACCESS_TOKEN}}
+@managerAccessToken = {{$dotenv MANAGER_ACCESS_TOKEN}}
+
+###
+POST {{host}}/
+Content-Type: {{contentType}}
+Authorization: Bearer {{waiterAccessToken}}
+
+{
+    "note": "Cho nhiều tỏi phi",
+    "tableId": 1,
+    "quantities": [1, 2],
+    "productsId": [2, 1]
+}

@@ -1,12 +1,12 @@
 @host = http://localhost:3001/api/v1/roles
 @contentType = application/json
-@managerAccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlblBheWxvYWQiOnsiYWNjb3VudElkIjo2LCJlbXBsb3llZUlkIjo4LCJyb2xlSWQiOjF9LCJleHAiOjE2OTc1NTQzNDEsImlhdCI6MTY5NzQ2Nzk0MX0.BBEdBsI7J8Tz5197oKUfTdRR6Xri5AZEiRRagfmoXHQ
+@waiterAccessToken = {{$dotenv WAITER_ACCESS_TOKEN}}
+@managerAccessToken = {{$dotenv MANAGER_ACCESS_TOKEN}}
 
 ###
 POST {{host}}/
 Content-Type: {{contentType}}
-Authorization: Bearer {{managerAccessToken}}
 
 {
-    "name": "Cheif"
+    "name": "Chief"
 }
