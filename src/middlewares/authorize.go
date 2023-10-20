@@ -72,7 +72,7 @@ func RequiredChiefPermissionOrMore(secretKey string) gin.HandlerFunc {
 			} else {
 				// TODO: Strict validate by query from database
 				if roleId := jwtPayload.RoleId; roleId != 1 && roleId != 3 {
-					c.AbortWithStatusJSON(http.StatusForbidden, models.NewStandardResponse(nil, http.StatusForbidden, err.Error(), constants.PermissionDenied))
+					c.AbortWithStatusJSON(http.StatusForbidden, models.NewStandardResponse("", http.StatusForbidden, err.Error(), constants.PermissionDenied))
 				} else {
 					accountId := jwtPayload.AccountId
 					employeeId := jwtPayload.EmployeeId
@@ -98,7 +98,7 @@ func RequiredManagerPermission(secretKey string) gin.HandlerFunc {
 			} else {
 				// TODO: Strict validate by query from database
 				if roleId := jwtPayload.RoleId; roleId != 1 {
-					c.AbortWithStatusJSON(http.StatusForbidden, models.NewStandardResponse(nil, http.StatusForbidden, err.Error(), constants.PermissionDenied))
+					c.AbortWithStatusJSON(http.StatusForbidden, models.NewStandardResponse(nil, http.StatusForbidden, constants.PermissionDenied, constants.PermissionDenied))
 				} else {
 					accountId := jwtPayload.AccountId
 					employeeId := jwtPayload.EmployeeId

@@ -30,3 +30,12 @@ Content-Type: {{contentType}}
 GET {{host}}/me
 Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}
+
+###
+PATCH {{host}}/reset-password
+Content-Type: {{contentType}}
+Authorization: Bearer {{managerAccessToken}}
+
+{
+    "username": "dsoInternXuanHoa"
+}

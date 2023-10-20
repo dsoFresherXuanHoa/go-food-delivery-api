@@ -11,6 +11,7 @@ import (
 type AuthStorage interface {
 	SignUp(ctx context.Context, account *models.AccountCreatable, employee *models.EmployeeCreatable) (*uint, *uint, error)
 	SignIn(ctx context.Context, signIn *models.SignIn) (*tokens.Token, error)
+	CreateResetPassword(ctx context.Context, resetPassword *models.ResetPasswordCreatable) (*uint, error)
 }
 
 type authBusiness struct {
@@ -39,5 +40,14 @@ func (business *authBusiness) SignIn(ctx context.Context, signIn *models.SignIn)
 		return nil, err
 	} else {
 		return token, nil
+	}
+}
+
+func (business *authBusiness) CreateResetPassword(ctx context.Context, resetPassword *models.ResetPasswordCreatable) (*uint, error) {
+	if resetPasswordId, err := business.storage.CreateResetPassword(ctx, resetPassword); err != nil {
+		fmt.Println("Error while reset password in auth service: " + err.Error())
+		return nil, err
+	} else {
+		return resetPasswordId, nil
 	}
 }

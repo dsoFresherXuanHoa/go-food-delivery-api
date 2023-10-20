@@ -15,6 +15,8 @@ type AccountStorage interface {
 	ReadAccountById(ctx context.Context, id uint) (*models.Account, error)
 	ReadAccountByUsername(ctx context.Context, username string) (*models.Account, error)
 	ReadAccountByEmail(ctx context.Context, email string) (*models.Account, error)
+	GetUpdatableAccount(ctx context.Context, account *models.Account) models.AccountUpdatable
+	UpdateAccount(ctx context.Context, username string, account *models.AccountUpdatable) (*int64, error)
 }
 
 type accountBusiness struct {
@@ -66,4 +68,17 @@ func (business *accountBusiness) ReadAccountByEmail(ctx context.Context, email s
 	} else {
 		return account, nil
 	}
+}
+
+func (business *accountBusiness) UpdateAccount(ctx context.Context, username string, account *models.AccountUpdatable) (*int64, error) {
+	if accountId, err := business.storage.UpdateAccount(ctx, username, account); err != nil {
+		fmt.Println("Error while update account service: " + err.Error())
+		return nil, err
+	} else {
+		return accountId, nil
+	}
+}
+
+func (business *accountBusiness) GetUpdatableAccount(ctx context.Context, account *models.Account) models.AccountUpdatable {
+	return business.storage.GetUpdatableAccount(ctx, account)
 }

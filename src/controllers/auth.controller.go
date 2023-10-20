@@ -81,3 +81,23 @@ func Me() gin.HandlerFunc {
 		}
 	}
 }
+
+func ResetPassword() gin.HandlerFunc {
+	db, _ := configs.GetGormInstance()
+	return func(ctx *gin.Context) {
+		var resetPassword models.ResetPasswordCreatable
+		if err := ctx.ShouldBind(&resetPassword); err != nil {
+			fmt.Println("Error while try parse request body to struct: " + err.Error())
+			ctx.JSON(http.StatusBadRequest, models.NewStandardResponse(nil, http.StatusBadRequest, err.Error(), constants.InvalidRequestBody))
+		} else {
+			repository := repositories.NewSQLStore(db)
+			authService := services.NewAuthBusiness(repository)
+			if resetPasswordId, err := authService.CreateResetPassword(ctx, &resetPassword); err != nil {
+				fmt.Println("Error while reset password in auth controller: " + err.Error())
+				ctx.JSON(http.StatusInternalServerError, models.NewStandardResponse(nil, http.StatusInternalServerError, err.Error(), constants.CannotResetPassword))
+			} else {
+				ctx.JSON(http.StatusOK, models.NewStandardResponse(resetPasswordId, http.StatusOK, "", constants.ResetPasswordSuccess))
+			}
+		}
+	}
+}

@@ -15,5 +15,6 @@ func AuthRouteConfig(router *gin.Engine) {
 		auth.POST("/sign-up", controllers.SignUp())
 		auth.POST("/sign-in", controllers.SignIn())
 		auth.GET("/me", middlewares.RequiredWaiterPermissionOrMore(secretKey), controllers.Me())
+		auth.PATCH("/reset-password", middlewares.RequiredManagerPermission(secretKey), controllers.ResetPassword())
 	}
 }

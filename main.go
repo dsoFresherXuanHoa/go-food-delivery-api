@@ -20,6 +20,7 @@ func main() {
 			&models.Discount{},
 			&models.Product{},
 			&models.Bill{},
+			&models.ResetPassword{},
 		}
 		db.AutoMigrate(models...)
 		RouteConfig(db)

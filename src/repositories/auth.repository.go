@@ -58,3 +58,28 @@ func (s *sqlStorage) SignIn(ctx context.Context, signIn *models.SignIn) (*tokens
 		}
 	}
 }
+
+func (s *sqlStorage) CreateResetPassword(ctx context.Context, resetPassword *models.ResetPasswordCreatable) (*uint, error) {
+	currentAccountId := ctx.Value("accountId").(int)
+	resetPassword.ManagerId = &currentAccountId
+	repository := NewSQLStore(s.db)
+	accountService := services.NewAccountBusiness(repository)
+	if account, err := accountService.ReadAccountByUsername(ctx, *resetPassword.Username); err != nil {
+		fmt.Println("Error while reset password in reset password in repository: " + err.Error())
+		return nil, err
+	} else {
+		hashPasswordBytes, _ := bcrypt.GenerateFromPassword([]byte(account.Username), 5)
+		hashPassword := string(hashPasswordBytes)
+		accountUpdatable := accountService.GetUpdatableAccount(ctx, account)
+		accountUpdatable.Password = &hashPassword
+		if _, err := accountService.UpdateAccount(ctx, *resetPassword.Username, &accountUpdatable); err != nil {
+			fmt.Println("Error while update account in reset password repository: " + err.Error())
+			return nil, err
+		} else if result := s.db.Table(models.ResetPasswordCreatable{}.GetTableName()).Create(resetPassword); result.Error != nil {
+			fmt.Println("Error while create record reset password in repository: " + result.Error.Error())
+			return nil, result.Error
+		} else {
+			return &resetPassword.ID, nil
+		}
+	}
+}

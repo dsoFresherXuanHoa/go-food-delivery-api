@@ -40,3 +40,16 @@ func (s *sqlStorage) ReadAccountByEmail(ctx context.Context, email string) (*mod
 	}
 	return &account, nil
 }
+
+func (s *sqlStorage) GetUpdatableAccount(ctx context.Context, account *models.Account) models.AccountUpdatable {
+	return models.AccountUpdatable{Model: account.Model, SecretCode: &account.SecretCode, Password: &account.Password}
+}
+
+func (s *sqlStorage) UpdateAccount(ctx context.Context, username string, account *models.AccountUpdatable) (*int64, error) {
+	if result := s.db.Table(models.AccountUpdatable{}.GetTableName()).Where("username = ?", username).Updates(account); result.Error != nil {
+		fmt.Println("Error while update account in repository: " + result.Error.Error())
+		return nil, result.Error
+	} else {
+		return &result.RowsAffected, nil
+	}
+}
