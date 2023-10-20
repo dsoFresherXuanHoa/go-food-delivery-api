@@ -12,6 +12,7 @@ type BookingResponse struct {
 type BookingCreatable struct {
 	Note       *string `json:"note"`
 	TableId    *uint   `json:"tableId"`
+	SecretCode *int    `json:"secretCode"`
 	Quantities []int   `json:"quantities"`
 	ProductsId []uint  `json:"productsId"`
 }

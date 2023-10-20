@@ -3,17 +3,24 @@ package repositories
 import (
 	"context"
 	"fmt"
+	exceptions "go-food-delivery-api/src/errors"
 	"go-food-delivery-api/src/models"
 	"go-food-delivery-api/src/services"
 )
 
-func (s *sqlStorage) CreateBooking(ctx context.Context, order *models.OrderCreatable, bills []models.BillCreatable) (*uint, error) {
+func (s *sqlStorage) CreateBooking(ctx context.Context, order *models.OrderCreatable, bills []models.BillCreatable, secretCode int) (*uint, error) {
 	repository := NewSQLStore(s.db)
 	orderService := services.NewOrderBusiness(repository)
 	billService := services.NewBillBusiness(repository)
 	tableService := services.NewTableBusiness(repository)
 	productService := services.NewProductBusiness(repository)
-
+	accountService := services.NewAccountBusiness(repository)
+	accountId := ctx.Value("accountId").(int)
+	account, _ := accountService.ReadAccountById(ctx, uint(accountId))
+	if account.SecretCode != secretCode {
+		fmt.Println("Error while create booking in repository: invalid secretCode")
+		return nil, exceptions.ErrorInvalidSecretCode
+	}
 	if orderId, err := orderService.CreateOrder(ctx, *order); err != nil {
 		fmt.Println("Error while create order in repository: " + err.Error())
 		return nil, err
@@ -47,7 +54,7 @@ func (s *sqlStorage) CreateBooking(ctx context.Context, order *models.OrderCreat
 			return nil, err
 		} else {
 			table.Available = false
-			tableUpdatable := repository.Table2Updatable(ctx, table)
+			tableUpdatable := repository.GetUpdatableTable(ctx, table)
 			if _, err := tableService.UpdateTable(ctx, int(tableId), &tableUpdatable); err != nil {
 				fmt.Println("Error while update table status in repository: " + err.Error())
 				return nil, err
@@ -125,12 +132,23 @@ func (s *sqlStorage) FinishOrder(ctx context.Context, orderId int) (*uint, error
 	if order, err := orderService.ReadOrderById(ctx, uint(orderId)); err != nil {
 		fmt.Println("Error while update order in repository: " + err.Error())
 		return nil, err
+	} else if order.Rejected {
+		fmt.Println("Can't finish rejected order: ")
+		return nil, exceptions.ErrorFinishRejectedOrder
 	} else {
-		finished := true
+		tableService := services.NewTableBusiness(repository)
+		table, _ := tableService.ReadTableById(ctx, order.TableId)
+		finishedOrder := true
+		availableTable := true
 		orderUpdatable := s.GetUpdatableOrder(ctx, *order)
-		orderUpdatable.Status = &finished
+		tableUpdatable := s.GetUpdatableTable(ctx, table)
+		orderUpdatable.Status = &finishedOrder
+		tableUpdatable.Available = &availableTable
 		if _, err := orderService.UpdateOrderById(ctx, orderId, &orderUpdatable); err != nil {
 			fmt.Println("Error while update order by id in repository: " + err.Error())
+			return nil, err
+		} else if _, err := tableService.UpdateTable(ctx, int(order.TableId), &tableUpdatable); err != nil {
+			fmt.Println("Error while update table in repository: " + err.Error())
 			return nil, err
 		}
 		return &order.ID, nil
@@ -144,6 +162,9 @@ func (s *sqlStorage) CompensatedOrder(ctx context.Context, orderId int, employee
 	if order, err := orderService.ReadOrderById(ctx, uint(orderId)); err != nil {
 		fmt.Println("Error while update order in repository: " + err.Error())
 		return nil, err
+	} else if order.Rejected || order.Status {
+		fmt.Println("Error while update order in repository: ")
+		return nil, exceptions.ErrorCompensatedFinishedOrRejectedOrder
 	} else {
 		compensated := true
 		orderUpdatable := s.GetUpdatableOrder(ctx, *order)
@@ -162,7 +183,8 @@ func (s *sqlStorage) CompensatedOrder(ctx context.Context, orderId int, employee
 				billCreatable := s.Bill2Creatable(ctx, &bill)
 				compensatedBills[i] = billCreatable
 			}
-			if _, err := bookingService.CreateBooking(ctx, &compensatedOrder, compensatedBills); err != nil {
+			secretCode := ctx.Value("secretCode").(int)
+			if _, err := bookingService.CreateBooking(ctx, &compensatedOrder, compensatedBills, secretCode); err != nil {
 				fmt.Println("Error while create compensated booking: " + err.Error())
 				return nil, err
 			}

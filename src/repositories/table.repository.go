@@ -65,10 +65,10 @@ func (s *sqlStorage) GetDetailTable(ctx context.Context, table models.Table) mod
 	fmt.Println("ID: ", table.EmployeeId)
 	embedEmployee, _ := employeeService.ReadEmployeeById(ctx, table.EmployeeId)
 	embedArea, _ := areaService.ReadAreaById(ctx, table.AreaId)
-	return models.TableResponse{Model: table.Model, NormalTable: &table.NormalTable, Available: &table.NormalTable, Capacity: &table.Capacity, BasePrice: &table.BasePrice, Orders: nil, Employee: *embedEmployee, Area: *embedArea}
+	return models.TableResponse{Model: table.Model, NormalTable: &table.NormalTable, Available: &table.Available, Capacity: &table.Capacity, BasePrice: &table.BasePrice, Orders: nil, Employee: *embedEmployee, Area: *embedArea}
 }
 
-func (s *sqlStorage) Table2Updatable(ctx context.Context, table *models.Table) models.TableUpdatable {
+func (s *sqlStorage) GetUpdatableTable(ctx context.Context, table *models.Table) models.TableUpdatable {
 	return models.TableUpdatable{Model: table.Model, NormalTable: &table.NormalTable, Available: &table.Available, Capacity: &table.Capacity, BasePrice: &table.BasePrice}
 }
 

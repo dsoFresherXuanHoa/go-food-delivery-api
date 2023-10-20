@@ -8,13 +8,13 @@ POST {{host}}/sign-up
 Content-Type: {{contentType}}
 
 {
-    "fullName": "Xuan Hoa Le",
-	"tel": "0364015071",
+    "fullName": "Le Xuan Hoa",
+	"tel": "0356415806",
     "gender": true,
-    "email": "dso.intern.xuanhoa@gmail.com",
-    "username": "dsoFresherXuanHoa",
-    "password": "dsoFresherXuanHoa",
-    "roleId": 1
+    "email": "training.dso.xuanhoa@gmail.com",
+    "username": "dsoInternXuanHoa",
+    "password": "dsoInternXuanHoa",
+    "roleId": 2
 }
 
 ###
@@ -22,8 +22,8 @@ POST {{host}}/sign-in
 Content-Type: {{contentType}}
 
 {
-    "username": "dsoFresherXuanHoa",
-    "password": "dsoFresherXuanHoa"
+    "username": "dsoInternXuanHoa",
+    "password": "dsoInternXuanHoa"
 }
 
 ###

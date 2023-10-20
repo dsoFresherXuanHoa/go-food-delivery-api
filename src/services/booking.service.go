@@ -7,7 +7,7 @@ import (
 )
 
 type BookingStorage interface {
-	CreateBooking(ctx context.Context, order *models.OrderCreatable, bills []models.BillCreatable) (*uint, error)
+	CreateBooking(ctx context.Context, order *models.OrderCreatable, bills []models.BillCreatable, secretCode int) (*uint, error)
 	AcceptOrder(ctx context.Context, orderId int) (*uint, error)
 	RejectOrder(ctx context.Context, orderId int) (*uint, error)
 	FinishOrder(ctx context.Context, orderId int) (*uint, error)
@@ -23,8 +23,8 @@ func NewBookingBusiness(storage BookingStorage) *bookingBusiness {
 	return &bookingBusiness{storage: storage}
 }
 
-func (business *bookingBusiness) CreateBooking(ctx context.Context, order *models.OrderCreatable, bills []models.BillCreatable) (*uint, error) {
-	if orderId, err := business.storage.CreateBooking(ctx, order, bills); err != nil {
+func (business *bookingBusiness) CreateBooking(ctx context.Context, order *models.OrderCreatable, bills []models.BillCreatable, secretCode int) (*uint, error) {
+	if orderId, err := business.storage.CreateBooking(ctx, order, bills, secretCode); err != nil {
 		fmt.Println("Error while create order in service: " + err.Error())
 		return nil, err
 	} else {

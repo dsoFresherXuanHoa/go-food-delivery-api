@@ -1,9 +1,13 @@
 package middlewares
 
 import (
+	"context"
 	"fmt"
+	"go-food-delivery-api/src/configs"
 	"go-food-delivery-api/src/constants"
 	"go-food-delivery-api/src/models"
+	"go-food-delivery-api/src/repositories"
+	"go-food-delivery-api/src/services"
 	"go-food-delivery-api/src/tokens/jwt"
 	"net/http"
 	"strings"
@@ -25,6 +29,7 @@ func GetTokenFromHeader(c *gin.Context, key string) (token *string, err error) {
 
 func RequiredWaiterPermissionOrMore(secretKey string) gin.HandlerFunc {
 	jwtTokenProvider := jwt.NewJWTProvider(secretKey)
+	db, _ := configs.GetGormInstance()
 	return func(c *gin.Context) {
 		if authToken, err := GetTokenFromHeader(c, "Authorization"); err != nil {
 			fmt.Println("Error while get Bearer header: " + err.Error())
@@ -40,8 +45,13 @@ func RequiredWaiterPermissionOrMore(secretKey string) gin.HandlerFunc {
 				} else {
 					accountId := jwtPayload.AccountId
 					employeeId := jwtPayload.EmployeeId
+					repository := repositories.NewSQLStore(db)
+					accountService := services.NewAccountBusiness(repository)
+					account, _ := accountService.ReadAccountById(context.Background(), uint(accountId))
+					secretCode := account.SecretCode
 					c.Set("accountId", accountId)
 					c.Set("employeeId", employeeId)
+					c.Set("secretCode", secretCode)
 					c.Next()
 				}
 			}

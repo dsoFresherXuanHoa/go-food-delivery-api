@@ -11,7 +11,7 @@ Authorization: Bearer {{managerAccessToken}}
 {
     "name": "Pessi",
     "description": "Pessi, Thơm Ngon Bổ Dưỡng",
-    "price": 30000,
+    "price": 5000,
     "stockAmount": 200,
     "categoryId": 3,
     "minQuantity": 5,

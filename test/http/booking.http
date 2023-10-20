@@ -9,8 +9,9 @@ Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}
 
 {
-    "note": "Cho nhiều tỏi phi",
-    "tableId": 1,
+    "note": "Cho cay lên xíu nữa",
+    "secretCode": 2868,
+    "tableId": 2,
     "quantities": [1, 2],
     "productsId": [2, 1]
 }
@@ -25,18 +26,17 @@ PATCH {{host}}/rejected/?orderId=1
 Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}
 
-
 ### 
-PATCH {{host}}/finished/?orderId=1
+PATCH {{host}}/finished/?orderId=2
 Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}
 
 ### 
-GET {{host}}/?orderId=5
+GET {{host}}/?orderId=1
 Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}
 
 ### 
-PATCH {{host}}/compensated/?orderId=1
+PATCH {{host}}/compensated/?orderId=5
 Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}

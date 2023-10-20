@@ -32,7 +32,7 @@ func CreateBooking() gin.HandlerFunc {
 			repositories := repositories.NewSQLStore(db)
 			bookingService := services.NewBookingBusiness(repositories)
 
-			if orderId, err := bookingService.CreateBooking(ctx, &order, bills); err != nil {
+			if orderId, err := bookingService.CreateBooking(ctx, &order, bills, *booking.SecretCode); err != nil {
 				fmt.Println("Error while create booking in booking controller: " + err.Error())
 				ctx.JSON(http.StatusInternalServerError, models.NewStandardResponse(nil, http.StatusInternalServerError, err.Error(), constants.CannotCreateBooking))
 			} else {

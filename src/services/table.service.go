@@ -13,6 +13,7 @@ type TableStorage interface {
 	ReadTableByEmployeeIdAndStatus(ctx context.Context, employeeId uint, status bool) ([]models.TableResponse, error)
 	UpdateTable(ctx context.Context, id int, table *models.TableUpdatable) (*int64, error)
 	GetDetailTable(ctx context.Context, table models.Table) models.TableResponse
+	GetUpdatableTable(ctx context.Context, table *models.Table) models.TableUpdatable
 }
 
 type tableBusiness struct {
@@ -70,4 +71,8 @@ func (business *tableBusiness) UpdateTable(ctx context.Context, id int, table *m
 
 func (business *tableBusiness) GetDetailTable(ctx context.Context, table models.Table) models.TableResponse {
 	return business.storage.GetDetailTable(ctx, table)
+}
+
+func (business *tableBusiness) GetUpdatableTable(ctx context.Context, table models.Table) models.TableUpdatable {
+	return business.storage.GetUpdatableTable(ctx, &table)
 }
