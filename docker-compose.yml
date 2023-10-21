@@ -1,0 +1,40 @@
+version: "3"
+
+services:
+  gin-application:
+    container_name: gin-application
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3001:3001
+    depends_on:
+      mysql-database:
+        condition: service_healthy
+    networks:
+      - gin-food-delivery-api-net
+
+  mysql-database:
+    container_name: mysql-database
+    image: mysql:8.0
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=PBRAGJDejNumgLLyNM4wzFYkq8JA5QXS
+    ports:
+      - 3306:3306
+    volumes:
+      - ./docker/mysql:/var/lib/mysql
+      - ./script:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3306"]
+      interval: 30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+    networks:
+      - gin-food-delivery-api-net
+
+networks:
+  gin-restful-gorm-net:
+    driver: bridge

@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS `go_food_delivery_dev`
