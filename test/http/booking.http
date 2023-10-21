@@ -6,11 +6,11 @@
 ###
 POST {{host}}/
 Content-Type: {{contentType}}
-Authorization: Bearer {{waiterAccessToken}}
+Authorization: Bearer {{managerAccessToken}}
 
 {
     "note": "Cho cay lên xíu nữa",
-    "secretCode": 2868,
+    "secretCode": 8594,
     "tableId": 2,
     "quantities": [1, 2],
     "productsId": [2, 1]

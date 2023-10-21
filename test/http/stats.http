@@ -1,0 +1,9 @@
+@host = http://localhost:3001/api/v1/stats
+@contentType = application/json
+@waiterAccessToken = {{$dotenv WAITER_ACCESS_TOKEN}}
+@managerAccessToken = {{$dotenv MANAGER_ACCESS_TOKEN}}
+
+###
+GET {{host}}/employee/top/?startTime=1697821200&endTime=1697907600
+Content-Type: {{contentType}}
+Authorization: Bearer {{managerAccessToken}}
