@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"go-food-delivery-api/src/models"
 	"go-food-delivery-api/src/services"
+	"time"
 )
 
 func (s *sqlStorage) GetDetailProduct(ctx context.Context, product models.Product) models.ProductResponse {
@@ -94,4 +95,16 @@ func (s *sqlStorage) UpdateProductById(ctx context.Context, id int, product *mod
 	} else {
 		return &result.RowsAffected, nil
 	}
+}
+
+func (s *sqlStorage) ReadTopGoodsByReorderLevel(ctx context.Context, startTime int, endTime int) ([]models.StatsTopGoodsByReorderLevel, error) {
+	var res []models.StatsTopGoodsByReorderLevel
+	startTimeUnix := time.Unix(int64(startTime), 0)
+	endTimeUnix := time.Unix(int64(endTime), 0)
+	if err := s.db.Table(models.StatsTopGoodsByReorderLevel{}.GetTableName()).Order("reorder_level DESC").Select("id, reorder_level").Where("created_at >= ? AND created_at <= ?", startTimeUnix, endTimeUnix).Find(&res).Error; err != nil {
+		fmt.Println("Error while get all product by reorderLevel: " + err.Error())
+		return nil, err
+	}
+	fmt.Println(res[0].Id)
+	return res, nil
 }

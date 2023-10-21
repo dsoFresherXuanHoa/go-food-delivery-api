@@ -13,5 +13,6 @@ func StatsRouteConfig(router *gin.Engine) {
 	stats := router.Group("/api/v1/stats")
 	{
 		stats.GET("/employee/top", middlewares.RequiredManagerPermission(secretKey), controllers.ReadTopEmployeeByOrderNumber())
+		stats.GET("/goods/top", middlewares.RequiredManagerPermission(secretKey), controllers.ReadTopProductByReorderLevel())
 	}
 }

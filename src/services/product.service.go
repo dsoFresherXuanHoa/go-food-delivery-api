@@ -13,6 +13,7 @@ type ProductStorage interface {
 	ReadProductById(ctx context.Context, id uint) (*models.ProductResponse, error)
 	ReadRecommendProduct(ctx context.Context, limit int) ([]models.ProductResponse, error)
 	UpdateProductById(ctx context.Context, id int, product *models.ProductUpdatable) (*int64, error)
+	ReadTopGoodsByReorderLevel(ctx context.Context, startTime int, endTime int) ([]models.StatsTopGoodsByReorderLevel, error)
 }
 
 type productBusiness struct {
@@ -74,5 +75,14 @@ func (business *productBusiness) UpdateProductById(ctx context.Context, id int, 
 		return nil, err
 	} else {
 		return productId, nil
+	}
+}
+
+func (business *productBusiness) ReadTopGoodsByReorderLevel(ctx context.Context, startTime int, endTime int) ([]models.StatsTopGoodsByReorderLevel, error) {
+	if res, err := business.storage.ReadTopGoodsByReorderLevel(ctx, startTime, endTime); err != nil {
+		fmt.Println("Error while read all product by reorderLevel in service: " + err.Error())
+		return nil, err
+	} else {
+		return res, nil
 	}
 }

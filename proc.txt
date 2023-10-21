@@ -26,6 +26,5 @@
 - [PATCH]: /api/v1/bill/finished/:billId ✓
 
 
-- [GET]: /api/v1/stat/employee/top/:limit ✓
-- [GET]: /api/v1/stat/revenue/top/:limit
-- [GET]: /api/v1/stat/goods/top/:limit
+- [GET]: /api/v1/stat/employee/top/ ✓
+- [GET]: /api/v1/stat/goods/top/ ✓
