@@ -12,8 +12,8 @@ func ProductRouteConfig(router *gin.Engine) {
 	secretKey := os.Getenv("JWT_ACCESS_SECRET")
 	products := router.Group("/api/v1/products")
 	{
-		products.GET("/category/:categoryId", middlewares.RequiredWaiterPermissionOrMore(secretKey), controllers.ReadProductByCategoryId())
+		products.GET("/category/:categoryId", middlewares.RequiredAuthorize(secretKey), controllers.ReadProductByCategoryId())
 		products.GET("/recommend/:limit", middlewares.RequiredWaiterPermissionOrMore(secretKey), controllers.ReadRecommendProduct())
-		products.GET("/", middlewares.RequiredWaiterPermissionOrMore(secretKey), controllers.ReadProduct())
+		products.GET("/", middlewares.RequiredAuthorize(secretKey), controllers.ReadProduct())
 	}
 }

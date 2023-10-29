@@ -10,10 +10,10 @@ Authorization: Bearer {{managerAccessToken}}
 
 {
     "normalTable": true,
-    "capacity": 20,
-    "basePrice": 50000,
+    "capacity": 10,
+    "basePrice": 25000,
     "employeeId": 1,
-    "areaId": 1
+    "areaId": 2
 }
 
 ###

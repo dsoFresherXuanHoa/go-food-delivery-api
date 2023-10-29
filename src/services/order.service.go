@@ -10,6 +10,7 @@ type OrderStorage interface {
 	CreateOrder(ctx context.Context, order models.OrderCreatable) (*uint, error)
 	ReadOrderById(ctx context.Context, orderId uint) (*models.Order, error)
 	UpdateOrderById(ctx context.Context, orderId int, order *models.OrderUpdatable) (*int64, error)
+	ReadOrdersByEmployeeId(ctx context.Context, employeeId uint) ([]models.Order, error)
 }
 
 type orderBusiness struct {
@@ -35,6 +36,15 @@ func (business *orderBusiness) ReadOrderById(ctx context.Context, orderId uint) 
 		return nil, err
 	} else {
 		return id, nil
+	}
+}
+
+func (business *orderBusiness) ReadOrdersByEmployeeId(ctx context.Context, employeeId uint) ([]models.Order, error) {
+	if orders, err := business.storage.ReadOrdersByEmployeeId(ctx, employeeId); err != nil {
+		fmt.Println("Error while find order by employeeId in service: " + err.Error())
+		return nil, err
+	} else {
+		return orders, nil
 	}
 }
 

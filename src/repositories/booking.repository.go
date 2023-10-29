@@ -192,3 +192,21 @@ func (s *sqlStorage) CompensatedOrder(ctx context.Context, orderId int, employee
 		return &order.ID, nil
 	}
 }
+
+func (s *sqlStorage) GetOrdersByEmployeeId(ctx context.Context, employeeId int) ([]models.BookingResponse, error) {
+	repository := NewSQLStore(s.db)
+	orderService := services.NewOrderBusiness(repository)
+	bookingService := services.NewBookingBusiness(repository)
+	if orders, err := orderService.ReadOrdersByEmployeeId(ctx, uint(employeeId)); err != nil {
+		fmt.Println("Error while get all order by employeeId in repository: " + err.Error())
+		return nil, err
+	} else {
+		var res = make([]models.BookingResponse, len(orders))
+		for i, order := range orders {
+			orderId := order.ID
+			orderDetail, _ := bookingService.GetDetailBooking(ctx, int(orderId))
+			res[i] = *orderDetail
+		}
+		return res, nil
+	}
+}

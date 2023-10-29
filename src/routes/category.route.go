@@ -12,7 +12,7 @@ func CategoriesRouteConfig(router *gin.Engine) {
 	secretKey := os.Getenv("JWT_ACCESS_SECRET")
 	categories := router.Group("/api/v1/categories")
 	{
-		categories.GET("/", middlewares.RequiredWaiterPermissionOrMore(secretKey), controllers.ReadCategory())
+		categories.GET("/", middlewares.RequiredAuthorize(secretKey), controllers.ReadCategory())
 		categories.POST("/", middlewares.RequiredManagerPermission(secretKey), controllers.CreateCategory())
 	}
 }

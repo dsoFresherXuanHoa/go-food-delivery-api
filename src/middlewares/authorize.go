@@ -41,7 +41,7 @@ func RequiredWaiterPermissionOrMore(secretKey string) gin.HandlerFunc {
 			} else {
 				// TODO: Strict validate by query from database
 				if roleId := jwtPayload.RoleId; roleId != 1 && roleId != 2 {
-					c.AbortWithStatusJSON(http.StatusForbidden, models.NewStandardResponse(nil, http.StatusForbidden, err.Error(), constants.PermissionDenied))
+					c.AbortWithStatusJSON(http.StatusForbidden, models.NewStandardResponse(nil, http.StatusForbidden, constants.PermissionDenied, constants.PermissionDenied))
 				} else {
 					accountId := jwtPayload.AccountId
 					employeeId := jwtPayload.EmployeeId
@@ -72,7 +72,7 @@ func RequiredChiefPermissionOrMore(secretKey string) gin.HandlerFunc {
 			} else {
 				// TODO: Strict validate by query from database
 				if roleId := jwtPayload.RoleId; roleId != 1 && roleId != 3 {
-					c.AbortWithStatusJSON(http.StatusForbidden, models.NewStandardResponse("", http.StatusForbidden, err.Error(), constants.PermissionDenied))
+					c.AbortWithStatusJSON(http.StatusForbidden, models.NewStandardResponse("", http.StatusForbidden, constants.PermissionDenied, constants.PermissionDenied))
 				} else {
 					accountId := jwtPayload.AccountId
 					employeeId := jwtPayload.EmployeeId
@@ -98,6 +98,32 @@ func RequiredManagerPermission(secretKey string) gin.HandlerFunc {
 			} else {
 				// TODO: Strict validate by query from database
 				if roleId := jwtPayload.RoleId; roleId != 1 {
+					c.AbortWithStatusJSON(http.StatusForbidden, models.NewStandardResponse(nil, http.StatusForbidden, constants.PermissionDenied, constants.PermissionDenied))
+				} else {
+					accountId := jwtPayload.AccountId
+					employeeId := jwtPayload.EmployeeId
+					c.Set("accountId", accountId)
+					c.Set("employeeId", employeeId)
+					c.Next()
+				}
+			}
+		}
+	}
+}
+
+func RequiredAuthorize(secretKey string) gin.HandlerFunc {
+	jwtTokenProvider := jwt.NewJWTProvider(secretKey)
+	return func(c *gin.Context) {
+		if authToken, err := GetTokenFromHeader(c, "Authorization"); err != nil {
+			fmt.Println("Error while get Bearer header: " + err.Error())
+			c.AbortWithStatusJSON(http.StatusUnauthorized, models.NewStandardResponse(nil, http.StatusUnauthorized, err.Error(), constants.EmptyBearerHeader))
+		} else {
+			if jwtPayload, err := jwtTokenProvider.Validate(*authToken); err != nil {
+				fmt.Println("Error while validate accessToken: " + err.Error())
+				c.AbortWithStatusJSON(http.StatusUnauthorized, models.NewStandardResponse(nil, http.StatusUnauthorized, err.Error(), constants.InvalidAccessToken))
+			} else {
+				// TODO: Strict validate by query from database
+				if roleId := jwtPayload.RoleId; roleId == 0 {
 					c.AbortWithStatusJSON(http.StatusForbidden, models.NewStandardResponse(nil, http.StatusForbidden, constants.PermissionDenied, constants.PermissionDenied))
 				} else {
 					accountId := jwtPayload.AccountId

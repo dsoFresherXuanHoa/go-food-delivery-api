@@ -140,3 +140,19 @@ func CompensatedOrder() gin.HandlerFunc {
 		}
 	}
 }
+
+func GetDetailBookingByEmployeeId() gin.HandlerFunc {
+	db, _ := configs.GetGormInstance()
+	return func(ctx *gin.Context) {
+		id := ctx.Value("employeeId").(int)
+		employeeId := uint(id)
+		repositories := repositories.NewSQLStore(db)
+		bookingService := services.NewBookingBusiness(repositories)
+		if bookings, err := bookingService.GetOrdersByEmployeeId(ctx, int(employeeId)); err != nil {
+			fmt.Println("Error while get all order by employeeId in booking controller: " + err.Error())
+			ctx.JSON(http.StatusInternalServerError, models.NewStandardResponse(nil, http.StatusInternalServerError, err.Error(), constants.CannotGetAllOrderByEmployeeId))
+		} else {
+			ctx.JSON(http.StatusOK, models.NewStandardResponse(bookings, http.StatusOK, "", constants.GetAllOrderByEmployeeIdSuccess))
+		}
+	}
+}

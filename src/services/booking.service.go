@@ -13,6 +13,7 @@ type BookingStorage interface {
 	FinishOrder(ctx context.Context, orderId int) (*uint, error)
 	GetDetailBooking(ctx context.Context, orderId int) (*models.BookingResponse, error)
 	CompensatedOrder(ctx context.Context, orderId int, employeeId int) (*uint, error)
+	GetOrdersByEmployeeId(ctx context.Context, employeeId int) ([]models.BookingResponse, error)
 }
 
 type bookingBusiness struct {
@@ -74,5 +75,14 @@ func (business *bookingBusiness) CompensatedOrder(ctx context.Context, orderId i
 		return nil, err
 	} else {
 		return orderId, nil
+	}
+}
+
+func (business *bookingBusiness) GetOrdersByEmployeeId(ctx context.Context, employeeId int) ([]models.BookingResponse, error) {
+	if orders, err := business.storage.GetOrdersByEmployeeId(ctx, employeeId); err != nil {
+		fmt.Println("Error while get all booking by employeeId in service: " + err.Error())
+		return nil, err
+	} else {
+		return orders, nil
 	}
 }

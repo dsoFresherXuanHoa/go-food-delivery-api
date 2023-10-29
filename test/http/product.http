@@ -9,12 +9,12 @@ Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}
 
 ###
-GET {{host}}/category/3
+GET {{host}}/category/1
 Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}
 
 
 ###
-GET {{host}}/recommend/2
+GET {{host}}/recommend/1
 Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}

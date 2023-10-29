@@ -18,6 +18,7 @@
 
 - [POST]: /api/v1/booking ✓
 - [GET]: /api/v1/booking ✓
+- [GET]: /api/v1/booking/table/:tableId ✓
 - [PATCH]: /api/v1/booking/accepted/?orderId=1 ✓
 - [PATCH]: /api/v1/booking/rejected/?orderId=1 ✓
 - [PATCH]: /api/v1/booking/finished/?orderId=1 ✓
@@ -28,3 +29,5 @@
 
 - [GET]: /api/v1/stat/employee/top/ ✓
 - [GET]: /api/v1/stat/goods/top/ ✓
+
+- [GET]: /api/v1/booking/employee/:employeeId 

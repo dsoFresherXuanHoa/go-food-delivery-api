@@ -9,8 +9,8 @@ Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}
 
 {
-    "note": "Cho cay lên xíu nữa",
-    "secretCode": 8594,
+    "note": "Không Cho Cay Nha",
+    "secretCode": 1557,
     "tableId": 2,
     "quantities": [1, 2],
     "productsId": [2, 1]
@@ -37,6 +37,11 @@ Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}
 
 ### 
-PATCH {{host}}/compensated/?orderId=5
+PATCH {{host}}/compensated/?orderId=1
 Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}
+
+### 
+GET {{host}}/employee
+Content-Type: {{contentType}}
+Authorization: Bearer {{waiterAccessToken}}

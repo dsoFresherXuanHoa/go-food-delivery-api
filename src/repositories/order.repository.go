@@ -27,6 +27,15 @@ func (s *sqlStorage) ReadOrderById(ctx context.Context, orderId uint) (*models.O
 	return &order, nil
 }
 
+func (s *sqlStorage) ReadOrdersByEmployeeId(ctx context.Context, employeeId uint) ([]models.Order, error) {
+	var orders []models.Order
+	if err := s.db.Where("employee_id = ?", employeeId).Find(&orders).Error; err != nil {
+		fmt.Println("Error while find order by employeeId in repository: " + err.Error())
+		return nil, err
+	}
+	return orders, nil
+}
+
 func (s *sqlStorage) UpdateOrderById(ctx context.Context, orderId int, order *models.OrderUpdatable) (*int64, error) {
 	if result := s.db.Table(models.OrderUpdatable{}.GetTableName()).Where("id = ?", orderId).Updates(order); result.Error != nil {
 		fmt.Println("Error while update order in repository: " + result.Error.Error())

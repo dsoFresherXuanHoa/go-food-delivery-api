@@ -9,12 +9,12 @@ Content-Type: {{contentType}}
 
 {
     "fullName": "Le Xuan Hoa",
-	"tel": "0356415806",
+	"tel": "0364015071",
     "gender": true,
-    "email": "training.dso.xuanhoa@gmail.com",
-    "username": "dsoInternXuanHoa",
-    "password": "dsoInternXuanHoa",
-    "roleId": 2
+    "email": "dso.intern.xuanhoa@gmail.com",
+    "username": "dsoFresherXuanHoa",
+    "password": "dsoFresherXuanHoa",
+    "roleId": 1
 }
 
 ###
@@ -22,8 +22,8 @@ POST {{host}}/sign-in
 Content-Type: {{contentType}}
 
 {
-    "username": "dsoInternXuanHoa",
-    "password": "dsoInternXuanHoa"
+    "username": "dsoFresherXuanHoa",
+    "password": "dsoFresherXuanHoa"
 }
 
 ###

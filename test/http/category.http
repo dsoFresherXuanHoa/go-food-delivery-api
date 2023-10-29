@@ -9,8 +9,8 @@ Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}
 
 {
-    "name": "Trái Cây",
-    "description": "Trái Cây, Thơm Ngon Bổ Dưỡng!"
+    "name": "Nước Giải Khát",
+    "description": "Nước Giải Khát, Thơm Ngon Bổ Dưỡng!"
 }
 
 
