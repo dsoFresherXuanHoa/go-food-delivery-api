@@ -156,3 +156,22 @@ func GetDetailBookingByEmployeeId() gin.HandlerFunc {
 		}
 	}
 }
+
+func GetServeBookingByTableId() gin.HandlerFunc {
+	db, _ := configs.GetGormInstance()
+	return func(ctx *gin.Context) {
+		if tableId, err := strconv.Atoi(ctx.Param("tableId")); err != nil {
+			fmt.Println("Error while get tableId in query string in booking controller: " + err.Error())
+			ctx.JSON(http.StatusBadRequest, models.NewStandardResponse(nil, http.StatusBadRequest, err.Error(), constants.InvalidTableIdQueryString))
+		} else {
+			repositories := repositories.NewSQLStore(db)
+			bookingService := services.NewBookingBusiness(repositories)
+			if bookings, err := bookingService.GetServeBookingsByTableId(ctx, tableId); err != nil {
+				fmt.Println("Error while get serve order by tableId in booking controller: " + err.Error())
+				ctx.JSON(http.StatusInternalServerError, models.NewStandardResponse(nil, http.StatusInternalServerError, err.Error(), constants.CannotGetServeOrderByTableId))
+			} else {
+				ctx.JSON(http.StatusOK, models.NewStandardResponse(bookings, http.StatusOK, "", constants.GetServeOrderByTableIdSuccess))
+			}
+		}
+	}
+}

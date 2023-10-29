@@ -6,14 +6,14 @@
 ###
 POST {{host}}/
 Content-Type: {{contentType}}
-Authorization: Bearer {{managerAccessToken}}
+Authorization: Bearer {{waiterAccessToken}}
 
 {
-    "note": "Không Cho Cay Nha",
-    "secretCode": 1557,
-    "tableId": 2,
-    "quantities": [1, 2],
-    "productsId": [2, 1]
+    "note": "Không Cay Không Lấy Tiền",
+    "secretCode": 8242,
+    "tableId": 1,
+    "quantities": [1],
+    "productsId": [1]
 }
 
 ### 
@@ -43,5 +43,10 @@ Authorization: Bearer {{managerAccessToken}}
 
 ### 
 GET {{host}}/employee
+Content-Type: {{contentType}}
+Authorization: Bearer {{waiterAccessToken}}
+
+### 
+GET {{host}}/table/1
 Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}

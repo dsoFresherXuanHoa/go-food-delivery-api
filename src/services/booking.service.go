@@ -14,6 +14,7 @@ type BookingStorage interface {
 	GetDetailBooking(ctx context.Context, orderId int) (*models.BookingResponse, error)
 	CompensatedOrder(ctx context.Context, orderId int, employeeId int) (*uint, error)
 	GetOrdersByEmployeeId(ctx context.Context, employeeId int) ([]models.BookingResponse, error)
+	GetServeBookingsByTableId(ctx context.Context, tableId int) ([]models.BookingResponse, error)
 }
 
 type bookingBusiness struct {
@@ -81,6 +82,15 @@ func (business *bookingBusiness) CompensatedOrder(ctx context.Context, orderId i
 func (business *bookingBusiness) GetOrdersByEmployeeId(ctx context.Context, employeeId int) ([]models.BookingResponse, error) {
 	if orders, err := business.storage.GetOrdersByEmployeeId(ctx, employeeId); err != nil {
 		fmt.Println("Error while get all booking by employeeId in service: " + err.Error())
+		return nil, err
+	} else {
+		return orders, nil
+	}
+}
+
+func (business *bookingBusiness) GetServeBookingsByTableId(ctx context.Context, tableId int) ([]models.BookingResponse, error) {
+	if orders, err := business.storage.GetServeBookingsByTableId(ctx, tableId); err != nil {
+		fmt.Println("Error while get serve booking by tableId in service: " + err.Error())
 		return nil, err
 	} else {
 		return orders, nil

@@ -38,7 +38,6 @@ func (s *sqlStorage) ReadBillsByOrderId(ctx context.Context, orderId uint) ([]mo
 		fmt.Println("Error while find bill by order id in repository: ", err.Error())
 		return nil, err
 	}
-	fmt.Println(bills[0], bills[1])
 	return bills, nil
 }
 
