@@ -12,6 +12,7 @@ type OrderStorage interface {
 	UpdateOrderById(ctx context.Context, orderId int, order *models.OrderUpdatable) (*int64, error)
 	ReadOrdersByEmployeeId(ctx context.Context, employeeId uint) ([]models.Order, error)
 	GetServeOrdersByTableId(ctx context.Context, tableId int) ([]models.Order, error)
+	GetPreparingOrdersByTableId(ctx context.Context, tableId int) ([]models.Order, error)
 }
 
 type orderBusiness struct {
@@ -52,6 +53,15 @@ func (business *orderBusiness) ReadOrdersByEmployeeId(ctx context.Context, emplo
 func (business *orderBusiness) GetServeOrdersByTableId(ctx context.Context, tableId int) ([]models.Order, error) {
 	if orders, err := business.storage.GetServeOrdersByTableId(ctx, tableId); err != nil {
 		fmt.Println("Error while find serve order by tableId in service: " + err.Error())
+		return nil, err
+	} else {
+		return orders, nil
+	}
+}
+
+func (business *orderBusiness) GetPreparingOrdersByTableId(ctx context.Context, tableId int) ([]models.Order, error) {
+	if orders, err := business.storage.GetPreparingOrdersByTableId(ctx, tableId); err != nil {
+		fmt.Println("Error while find preparing order by tableId in service: " + err.Error())
 		return nil, err
 	} else {
 		return orders, nil

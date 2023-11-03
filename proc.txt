@@ -21,6 +21,7 @@
 - [GET]: /api/v1/booking/?orderId=1 ✓
 - [GET]: /api/v1/booking/employee ✓
 - [GET]: /api/v1/booking/table/:tableId ✓
+- [GET]: /api/v1/booking/table/preparing/:tableId ✓
 - [PATCH]: /api/v1/booking/accepted/?orderId=1 ✓
 - [PATCH]: /api/v1/booking/rejected/?orderId=1 ✓
 - [PATCH]: /api/v1/booking/finished/?orderId=1 ✓

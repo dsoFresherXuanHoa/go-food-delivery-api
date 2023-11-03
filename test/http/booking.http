@@ -50,3 +50,9 @@ Authorization: Bearer {{waiterAccessToken}}
 GET {{host}}/table/1
 Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}
+
+
+### 
+GET {{host}}/table/preparing/1
+Content-Type: {{contentType}}
+Authorization: Bearer {{waiterAccessToken}}
