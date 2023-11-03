@@ -18,7 +18,7 @@
 - [GET]: /api/v1/products/recommend/:limit ✓   
 
 - [POST]: /api/v1/booking ✓
-- [GET]: /api/v1/booking ✓
+- [GET]: /api/v1/booking/?orderId=1 ✓
 - [GET]: /api/v1/booking/employee ✓
 - [GET]: /api/v1/booking/table/:tableId ✓
 - [PATCH]: /api/v1/booking/accepted/?orderId=1 ✓
