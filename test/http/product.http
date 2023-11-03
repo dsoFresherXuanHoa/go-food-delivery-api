@@ -18,3 +18,8 @@ Authorization: Bearer {{waiterAccessToken}}
 GET {{host}}/recommend/1
 Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}
+
+###
+GET {{host}}/1
+Content-Type: {{contentType}}
+Authorization: Bearer {{waiterAccessToken}}

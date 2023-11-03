@@ -13,6 +13,7 @@
 - [GET]: /api/v1/tables/status/:status ✓
 
 - [GET]: /api/v1/products ✓
+- [GET]: /api/v1/products/:productId ✓
 - [GET]: /api/v1/products/category/:categoryId ✓
 - [GET]: /api/v1/products/recommend/:limit ✓   
 
@@ -26,7 +27,6 @@
 
 - [PATCH]: /api/v1/booking/compensated/?orderId=1 ✓
 - [PATCH]: /api/v1/bill/finished/:billId ✓
-
 
 - [GET]: /api/v1/stat/employee/top/ ✓
 - [GET]: /api/v1/stat/goods/top/ ✓

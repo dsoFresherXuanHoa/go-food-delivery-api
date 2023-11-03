@@ -9,15 +9,15 @@ Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}
 
 {
-    "note": "Không Cay Không Lấy Tiền",
-    "secretCode": 8242,
-    "tableId": 1,
-    "quantities": [1],
-    "productsId": [1]
+    "note": "Ít Cay Thôi Nha",
+    "secretCode": 6433,
+    "tableId": 2,
+    "quantities": [1, 3],
+    "productsId": [3, 1]
 }
 
 ### 
-PATCH {{host}}/accepted/?orderId=1
+PATCH {{host}}/accepted/?orderId=2
 Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}
 

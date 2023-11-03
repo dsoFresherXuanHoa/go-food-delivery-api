@@ -9,8 +9,8 @@ Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}
 
 {
-    "name": "Nước Giải Khát",
-    "description": "Nước Giải Khát, Thơm Ngon Bổ Dưỡng!"
+    "name": "Điểm Tâm",
+    "description": "Điểm Tâm, Thơm Ngon Bổ Dưỡng!"
 }
 
 

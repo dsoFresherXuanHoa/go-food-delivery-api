@@ -66,3 +66,22 @@ func ReadRecommendProduct() gin.HandlerFunc {
 		}
 	}
 }
+
+func ReadProductById() gin.HandlerFunc {
+	db, _ := configs.GetGormInstance()
+	return func(ctx *gin.Context) {
+		if productId, err := strconv.Atoi(ctx.Param("productId")); err != nil {
+			fmt.Println("Error while read product by id in product controller: " + err.Error())
+			ctx.JSON(http.StatusBadRequest, models.NewStandardResponse(nil, http.StatusBadRequest, err.Error(), constants.InvalidProductIDQueryString))
+		} else {
+			repositories := repositories.NewSQLStore(db)
+			categoryService := services.NewProductBusiness(repositories)
+			if product, err := categoryService.ReadProductById(ctx, uint(productId)); err != nil {
+				fmt.Println("Error while read product by id in product controller: " + err.Error())
+				ctx.JSON(http.StatusInternalServerError, models.NewStandardResponse(nil, http.StatusInternalServerError, err.Error(), constants.CannotReadProductByID))
+			} else {
+				ctx.JSON(http.StatusOK, models.NewStandardResponse(product, http.StatusOK, "", constants.ReadProductSuccess))
+			}
+		}
+	}
+}
