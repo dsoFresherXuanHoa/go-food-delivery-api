@@ -150,7 +150,16 @@ func (s *sqlStorage) FinishOrder(ctx context.Context, orderId int) (*uint, error
 		orderUpdatable := s.GetUpdatableOrder(ctx, *order)
 		tableUpdatable := s.GetUpdatableTable(ctx, table)
 		orderUpdatable.Status = &finishedOrder
-		tableUpdatable.Available = &availableTable
+
+		if serveOrder, err := orderService.GetServeOrdersByTableId(ctx, int(order.TableId)); err == nil && len(serveOrder) <= 1 {
+			fmt.Println("Incoming: ", err, len(serveOrder))
+			tableUpdatable.Available = &availableTable
+			if preparingTable, err := orderService.GetPreparingOrdersByTableId(ctx, int(order.TableId)); err == nil && len(preparingTable) == 0 {
+				tableUpdatable.Available = &availableTable
+			}
+		} else {
+			fmt.Println("Incoming: ", err, len(serveOrder))
+		}
 		if _, err := orderService.UpdateOrderById(ctx, orderId, &orderUpdatable); err != nil {
 			fmt.Println("Error while update order by id in repository: " + err.Error())
 			return nil, err

@@ -29,7 +29,7 @@ Authorization: Bearer {{managerAccessToken}}
 ### 
 PATCH {{host}}/finished/?orderId=2
 Content-Type: {{contentType}}
-Authorization: Bearer {{managerAccessToken}}
+Authorization: Bearer {{waiterAccessToken}}
 
 ### 
 GET {{host}}/?orderId=1

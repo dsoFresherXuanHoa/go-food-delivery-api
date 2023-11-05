@@ -14,7 +14,7 @@ func BookingRouteConfig(router *gin.Engine) {
 	{
 		booking.PATCH("/accepted", middlewares.RequiredChiefPermissionOrMore(secretKey), controllers.AcceptOrder())
 		booking.PATCH("/rejected", middlewares.RequiredChiefPermissionOrMore(secretKey), controllers.RejectOrder())
-		booking.PATCH("/finished", middlewares.RequiredChiefPermissionOrMore(secretKey), controllers.FinishOrder())
+		booking.PATCH("/finished", middlewares.RequiredWaiterPermissionOrMore(secretKey), controllers.FinishOrder())
 		booking.POST("/", middlewares.RequiredWaiterPermissionOrMore(secretKey), controllers.CreateBooking())
 		booking.GET("/", middlewares.RequiredAuthorize(secretKey), controllers.GetDetailBooking())
 		booking.PATCH("/compensated", middlewares.RequiredWaiterPermissionOrMore(secretKey), controllers.CompensatedOrder())
