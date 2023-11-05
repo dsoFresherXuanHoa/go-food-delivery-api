@@ -3,14 +3,15 @@ package models
 import "time"
 
 type BookingResponse struct {
-	Table       TableResponse         `json:"table"`
-	OrderID     uint                  `json:"orderId"`
-	CreatedTime time.Time             `json:"CreatedTime"`
-	Items       []BookingItemResponse `json:"items"`
-	Note        string                `json:"note"`
-	Status      bool                  `json:"status"`
-	Accepted    bool                  `json:"accepted"`
-	Compensate  bool                  `json:"compensate"`
+	Table        TableResponse         `json:"table"`
+	OrderID      uint                  `json:"orderId"`
+	CreatedTime  time.Time             `json:"createdTime"`
+	AcceptedTime *time.Time            `json:"acceptedTime"`
+	Items        []BookingItemResponse `json:"items"`
+	Note         string                `json:"note"`
+	Status       bool                  `json:"status"`
+	Accepted     bool                  `json:"accepted"`
+	Compensate   bool                  `json:"compensate"`
 }
 
 type BookingCreatable struct {

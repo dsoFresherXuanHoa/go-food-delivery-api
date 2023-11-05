@@ -6,6 +6,7 @@ import (
 	exceptions "go-food-delivery-api/src/errors"
 	"go-food-delivery-api/src/models"
 	"go-food-delivery-api/src/services"
+	"time"
 )
 
 func (s *sqlStorage) CreateBooking(ctx context.Context, order *models.OrderCreatable, bills []models.BillCreatable, secretCode int) (*uint, error) {
@@ -82,7 +83,13 @@ func (s *sqlStorage) GetDetailBooking(ctx context.Context, orderId int) (*models
 		}
 		embedTable, _ := tableService.ReadTableById(ctx, order.TableId)
 		detailEmbedTable := s.GetDetailTable(ctx, *embedTable)
-		return &models.BookingResponse{Table: detailEmbedTable, OrderID: uint(orderId), CreatedTime: order.CreatedAt, Items: embedItems, Note: order.Note, Status: order.Status, Accepted: order.Accepted, Compensate: order.Compensate}, nil
+		var acceptedTime *time.Time
+		if order.Accepted == true {
+			acceptedTime = &order.UpdatedAt
+		} else {
+			acceptedTime = nil
+		}
+		return &models.BookingResponse{Table: detailEmbedTable, OrderID: uint(orderId), CreatedTime: order.CreatedAt, AcceptedTime: acceptedTime, Items: embedItems, Note: order.Note, Status: order.Status, Accepted: order.Accepted, Compensate: order.Compensate}, nil
 	}
 }
 
