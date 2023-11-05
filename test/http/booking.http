@@ -34,7 +34,7 @@ Authorization: Bearer {{managerAccessToken}}
 ### 
 GET {{host}}/?orderId=1
 Content-Type: {{contentType}}
-Authorization: Bearer {{managerAccessToken}}
+Authorization: Bearer {{waiterAccessToken}}
 
 ### 
 PATCH {{host}}/compensated/?orderId=1

@@ -82,7 +82,7 @@ func (s *sqlStorage) GetDetailBooking(ctx context.Context, orderId int) (*models
 		}
 		embedTable, _ := tableService.ReadTableById(ctx, order.TableId)
 		detailEmbedTable := s.GetDetailTable(ctx, *embedTable)
-		return &models.BookingResponse{Table: detailEmbedTable, Items: embedItems, Note: order.Note, Status: order.Status, Accepted: order.Accepted, Compensate: order.Compensate}, nil
+		return &models.BookingResponse{Table: detailEmbedTable, OrderID: uint(orderId), CreatedTime: order.CreatedAt, Items: embedItems, Note: order.Note, Status: order.Status, Accepted: order.Accepted, Compensate: order.Compensate}, nil
 	}
 }
 
