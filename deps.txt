@@ -1,2 +1,2 @@
 go install github.com/cosmtrek/air@latest
-go get github.com/gin-gonic/gin gorm.io/gorm gorm.io/driver/mysql github.com/joho/godotenv golang.org/x/crypto/bcrypt github.com/golang-jwt/jwt gopkg.in/gomail.v2 
+go get github.com/gin-gonic/gin gorm.io/gorm gorm.io/driver/mysql github.com/joho/godotenv golang.org/x/crypto/bcrypt github.com/golang-jwt/jwt gopkg.in/gomail.v2 github.com/gin-contrib/cors
