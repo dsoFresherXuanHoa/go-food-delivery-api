@@ -9,37 +9,18 @@ Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}
 
 {
-    "note": "Ít Cay Thôi Nha",
-    "secretCode": 6433,
-    "tableId": 2,
+    "note": "Không Cho Hành Lá",
+    "secretCode": 7648,
+    "tableId": 1,
     "quantities": [1, 3],
-    "productsId": [3, 1]
+    "productsId": [3, 1],
+    "refundable": false
 }
-
-### 
-PATCH {{host}}/accepted/?orderId=2
-Content-Type: {{contentType}}
-Authorization: Bearer {{managerAccessToken}}
-
-### 
-PATCH {{host}}/rejected/?orderId=1
-Content-Type: {{contentType}}
-Authorization: Bearer {{managerAccessToken}}
-
-### 
-PATCH {{host}}/finished/?orderId=2
-Content-Type: {{contentType}}
-Authorization: Bearer {{waiterAccessToken}}
 
 ### 
 GET {{host}}/?orderId=1
 Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}
-
-### 
-PATCH {{host}}/compensated/?orderId=1
-Content-Type: {{contentType}}
-Authorization: Bearer {{managerAccessToken}}
 
 ### 
 GET {{host}}/employee
@@ -51,8 +32,22 @@ GET {{host}}/table/1
 Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}
 
-
 ### 
 GET {{host}}/table/preparing/1
+Content-Type: {{contentType}}
+Authorization: Bearer {{waiterAccessToken}}
+
+### 
+PATCH {{host}}/accepted/?orderId=4
+Content-Type: {{contentType}}
+Authorization: Bearer {{managerAccessToken}}
+
+### 
+PATCH {{host}}/rejected/?orderId=1
+Content-Type: {{contentType}}
+Authorization: Bearer {{managerAccessToken}}
+
+### 
+PATCH {{host}}/finished/?orderId=4
 Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}

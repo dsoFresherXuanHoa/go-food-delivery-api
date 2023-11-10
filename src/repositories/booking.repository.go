@@ -79,7 +79,7 @@ func (s *sqlStorage) GetDetailBooking(ctx context.Context, orderId int) (*models
 		var embedItems []models.BookingItemResponse
 		for _, bill := range bills {
 			product, _ := productService.ReadProductById(ctx, bill.ProductId)
-			embedItems = append(embedItems, models.BookingItemResponse{Product: *product, Quantity: bill.Quantity})
+			embedItems = append(embedItems, models.BookingItemResponse{Product: *product, Quantity: bill.Quantity, BillId: bill.ID})
 		}
 		embedTable, _ := tableService.ReadTableById(ctx, order.TableId)
 		detailEmbedTable := s.GetDetailTable(ctx, *embedTable)
@@ -89,7 +89,7 @@ func (s *sqlStorage) GetDetailBooking(ctx context.Context, orderId int) (*models
 		} else {
 			acceptedTime = nil
 		}
-		return &models.BookingResponse{Table: detailEmbedTable, OrderID: uint(orderId), CreatedTime: order.CreatedAt, AcceptedTime: acceptedTime, Items: embedItems, Note: order.Note, Status: order.Status, Accepted: order.Accepted, Compensate: order.Compensate}, nil
+		return &models.BookingResponse{Table: detailEmbedTable, OrderID: uint(orderId), CreatedTime: order.CreatedAt, AcceptedTime: acceptedTime, Items: embedItems, Note: order.Note, Status: order.Status, Accepted: order.Accepted}, nil
 	}
 }
 
@@ -171,45 +171,7 @@ func (s *sqlStorage) FinishOrder(ctx context.Context, orderId int) (*uint, error
 	}
 }
 
-func (s *sqlStorage) CompensatedOrder(ctx context.Context, orderId int, employeeId int) (*uint, error) {
-	repository := NewSQLStore(s.db)
-	orderService := services.NewOrderBusiness(repository)
-	bookingService := services.NewBookingBusiness(repository)
-	if order, err := orderService.ReadOrderById(ctx, uint(orderId)); err != nil {
-		fmt.Println("Error while update order in repository: " + err.Error())
-		return nil, err
-	} else if order.Rejected || order.Status {
-		fmt.Println("Error while update order in repository: ")
-		return nil, exceptions.ErrorCompensatedFinishedOrRejectedOrder
-	} else {
-		compensated := true
-		orderUpdatable := s.GetUpdatableOrder(ctx, *order)
-		orderUpdatable.Compensate = &compensated
-		if _, err := orderService.UpdateOrderById(ctx, orderId, &orderUpdatable); err != nil {
-			fmt.Println("Error while update order by id in repository: " + err.Error())
-			return nil, err
-		} else if booking, err := bookingService.GetDetailBooking(ctx, orderId); err != nil {
-			fmt.Println("Error while get order detail in booking repository: " + err.Error())
-			return nil, err
-		} else {
-			compensatedOrder := models.OrderCreatable{Note: &booking.Note, EmployeeId: &order.EmployeeId, TableId: &order.TableId}
-			compensatedBills := make([]models.BillCreatable, len(booking.Items))
-			for i, item := range booking.Items {
-				bill := models.Bill{Quantity: item.Quantity, OrderId: order.ID, ProductId: item.Product.ID}
-				billCreatable := s.Bill2Creatable(ctx, &bill)
-				compensatedBills[i] = billCreatable
-			}
-			secretCode := ctx.Value("secretCode").(int)
-			if _, err := bookingService.CreateBooking(ctx, &compensatedOrder, compensatedBills, secretCode); err != nil {
-				fmt.Println("Error while create compensated booking: " + err.Error())
-				return nil, err
-			}
-		}
-		return &order.ID, nil
-	}
-}
-
-func (s *sqlStorage) GetOrdersByEmployeeId(ctx context.Context, employeeId int) ([]models.BookingResponse, error) {
+func (s *sqlStorage) GetTop10OrdersByEmployeeId(ctx context.Context, employeeId int) ([]models.BookingResponse, error) {
 	repository := NewSQLStore(s.db)
 	orderService := services.NewOrderBusiness(repository)
 	bookingService := services.NewBookingBusiness(repository)

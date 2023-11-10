@@ -13,7 +13,6 @@ func RouteConfig(db *gorm.DB) {
 	port := os.Getenv("PORT")
 	router := gin.Default()
 	router.Use(cors.Default())
-	router.MaxMultipartMemory = 8 << 20
 
 	routes.RoleRouteConfig(router)
 	routes.CategoriesRouteConfig(router)

@@ -7,13 +7,13 @@ import (
 type ResetPassword struct {
 	gorm.Model
 	ManagerId int    `json:"-" gorm:"column:managerId;not null"`
-	Username  string `json:"-" gorm:"column:username;not null"`
+	Email     string `json:"-" gorm:"column:email;not null"`
 }
 
 type ResetPasswordCreatable struct {
 	gorm.Model
 	ManagerId *int    `json:"-" gorm:"column:managerId;not null"`
-	Username  *string `json:"username" gorm:"column:username;not null"`
+	Email     *string `json:"email" gorm:"column:email;not null"`
 }
 
 type ResetPasswords []ResetPassword

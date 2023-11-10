@@ -32,7 +32,7 @@ func ImportWarehouse() gin.HandlerFunc {
 				ctx.JSON(http.StatusInternalServerError, models.NewStandardResponse(nil, http.StatusInternalServerError, err.Error(), constants.CannotSaveProductThumbnailsToLocalStorage))
 			} else {
 				discount := models.DiscountCreatable{MinQuantity: &warehouse.MinQuantity, DiscountPercent: &warehouse.DiscountPercent}
-				product := models.ProductCreatable{Name: &warehouse.Name, Description: &warehouse.Description, Price: warehouse.Price, Thumb: &warehouse.Thumb, StockAmount: &warehouse.StockAmount, CategoryId: &warehouse.CategoryId}
+				product := models.ProductCreatable{Name: &warehouse.Name, Description: &warehouse.Description, Price: warehouse.Price, Thumb: &warehouse.Thumb, StockAmount: &warehouse.StockAmount, CategoryId: &warehouse.CategoryId, Uint: &warehouse.Uint}
 				repositories := repositories.NewSQLStore(db)
 				warehouseService := services.NewWarehouseBusiness(repositories)
 				if discountId, productId, err := warehouseService.ImportWareHouse(ctx, &discount, &product, uploadFile); err != nil {

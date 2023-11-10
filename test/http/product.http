@@ -15,7 +15,7 @@ Authorization: Bearer {{waiterAccessToken}}
 
 
 ###
-GET {{host}}/recommend/1
+GET {{host}}/recommend/2
 Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}
 

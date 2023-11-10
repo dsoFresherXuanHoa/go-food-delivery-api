@@ -25,7 +25,7 @@ func (s *sqlStorage) ReadAccountById(ctx context.Context, id uint) (*models.Acco
 
 func (s *sqlStorage) ReadAccountByUsername(ctx context.Context, username string) (*models.Account, error) {
 	var account models.Account
-	if err := s.db.Where("username = ?", username).First(&account).Error; err != nil {
+	if err := s.db.Where("email = ?", username).First(&account).Error; err != nil {
 		fmt.Println("Error while read account by username in repository: " + err.Error())
 		return nil, err
 	}
@@ -46,7 +46,7 @@ func (s *sqlStorage) GetUpdatableAccount(ctx context.Context, account *models.Ac
 }
 
 func (s *sqlStorage) UpdateAccount(ctx context.Context, username string, account *models.AccountUpdatable) (*int64, error) {
-	if result := s.db.Table(models.AccountUpdatable{}.GetTableName()).Where("username = ?", username).Updates(account); result.Error != nil {
+	if result := s.db.Table(models.AccountUpdatable{}.GetTableName()).Where("email = ?", username).Updates(account); result.Error != nil {
 		fmt.Println("Error while update account in repository: " + result.Error.Error())
 		return nil, result.Error
 	} else {

@@ -4,6 +4,6 @@
 @managerAccessToken = {{$dotenv MANAGER_ACCESS_TOKEN}}
 
 ###
-PATCH {{host}}/finished/2
+PATCH {{host}}/finished/1
 Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}

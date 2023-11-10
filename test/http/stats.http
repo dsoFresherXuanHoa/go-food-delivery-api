@@ -4,11 +4,11 @@
 @managerAccessToken = {{$dotenv MANAGER_ACCESS_TOKEN}}
 
 ###
-GET {{host}}/employee/top/?startTime=1697821200&endTime=1697907600
+GET {{host}}/employee/top/?startTime=1699478954&endTime=1699651754
 Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}
 
 ###
-GET {{host}}/goods/top/?startTime=1697648400&endTime=1697907600
+GET {{host}}/goods/top/?startTime=1699478954&endTime=1699651754
 Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}

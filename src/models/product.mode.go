@@ -16,6 +16,7 @@ type Product struct {
 	StockAmount   int     `json:"stockAmount" gorm:"column:stock_amount;default:0"`
 	CategoryId    uint    `json:"categoryId" gorm:"column:category_id;not null"`
 	DiscountId    uint    `json:"discountId" gorm:"column:discount_id;not null"`
+	Uint          string  `json:"uint" gorm:"column:uint;not null"`
 }
 
 type ProductResponse struct {
@@ -30,6 +31,7 @@ type ProductResponse struct {
 	StockAmount   *int     `json:"stockAmount"`
 	Category      Category `json:"category" sql:"-" gorm:"-"`
 	Discount      Discount `json:"discount" sql:"-" gorm:"-"`
+	Uint          *string  `json:"uint"`
 }
 
 type ProductCreatable struct {
@@ -42,6 +44,7 @@ type ProductCreatable struct {
 	ReorderLevel *int    `json:"-" gorm:"column:reorder_level;default:0"`
 	CategoryId   *uint   `json:"categoryId" gorm:"column:category_id;not null"`
 	DiscountId   *uint   `json:"discountId" gorm:"column:discount_id;not null"`
+	Uint         *string `json:"uint" gorm:"column:uint;not null"`
 }
 
 type ProductUpdatable struct {

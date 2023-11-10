@@ -36,7 +36,7 @@ func (s *sqlStorage) SignUp(ctx context.Context, account *models.AccountCreatabl
 func (s *sqlStorage) SignIn(ctx context.Context, signIn *models.SignIn) (*tokens.Token, error) {
 	repository := NewSQLStore(s.db)
 	accountService := services.NewAccountBusiness(repository)
-	if account, err := accountService.ReadAccountByUsername(ctx, signIn.Username); err != nil {
+	if account, err := accountService.ReadAccountByUsername(ctx, signIn.Password); err != nil {
 		fmt.Println("Error while read account by username in repository: " + err.Error())
 		return nil, err
 	} else if account == nil {
@@ -64,15 +64,15 @@ func (s *sqlStorage) CreateResetPassword(ctx context.Context, resetPassword *mod
 	resetPassword.ManagerId = &currentAccountId
 	repository := NewSQLStore(s.db)
 	accountService := services.NewAccountBusiness(repository)
-	if account, err := accountService.ReadAccountByUsername(ctx, *resetPassword.Username); err != nil {
+	if account, err := accountService.ReadAccountByUsername(ctx, *resetPassword.Email); err != nil {
 		fmt.Println("Error while reset password in reset password in repository: " + err.Error())
 		return nil, err
 	} else {
-		hashPasswordBytes, _ := bcrypt.GenerateFromPassword([]byte(account.Username), 5)
+		hashPasswordBytes, _ := bcrypt.GenerateFromPassword([]byte(account.Email), 5)
 		hashPassword := string(hashPasswordBytes)
 		accountUpdatable := accountService.GetUpdatableAccount(ctx, account)
 		accountUpdatable.Password = &hashPassword
-		if _, err := accountService.UpdateAccount(ctx, *resetPassword.Username, &accountUpdatable); err != nil {
+		if _, err := accountService.UpdateAccount(ctx, *resetPassword.Email, &accountUpdatable); err != nil {
 			fmt.Println("Error while update account in reset password repository: " + err.Error())
 			return nil, err
 		} else if result := s.db.Table(models.ResetPasswordCreatable{}.GetTableName()).Create(resetPassword); result.Error != nil {

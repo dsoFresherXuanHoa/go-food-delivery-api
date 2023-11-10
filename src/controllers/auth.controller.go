@@ -21,7 +21,7 @@ func SignUp() gin.HandlerFunc {
 			ctx.JSON(http.StatusBadRequest, models.NewStandardResponse(nil, http.StatusBadRequest, err.Error(), constants.InvalidRequestBody))
 		} else {
 			employee := models.EmployeeCreatable{FullName: &signUp.FullName, Tel: &signUp.Tel, Gender: &signUp.Gender}
-			account := models.AccountCreatable{Username: &signUp.Username, Password: &signUp.Password, Email: &signUp.Email, RoleId: &signUp.RoleId, EmployeeId: &employee.ID}
+			account := models.AccountCreatable{Password: &signUp.Email, Email: &signUp.Email, RoleId: &signUp.RoleId, EmployeeId: &employee.ID}
 
 			repositories := repositories.NewSQLStore(db)
 			authService := services.NewAuthBusiness(repositories)

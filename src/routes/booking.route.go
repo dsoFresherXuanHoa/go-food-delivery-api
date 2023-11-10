@@ -17,9 +17,8 @@ func BookingRouteConfig(router *gin.Engine) {
 		booking.PATCH("/finished", middlewares.RequiredWaiterPermissionOrMore(secretKey), controllers.FinishOrder())
 		booking.POST("/", middlewares.RequiredWaiterPermissionOrMore(secretKey), controllers.CreateBooking())
 		booking.GET("/", middlewares.RequiredAuthorize(secretKey), controllers.GetDetailBooking())
-		booking.PATCH("/compensated", middlewares.RequiredWaiterPermissionOrMore(secretKey), controllers.CompensatedOrder())
-		booking.GET("/employee", middlewares.RequiredWaiterPermissionOrMore(secretKey), controllers.GetDetailBookingByEmployeeId())
-		booking.GET("/table/:tableId", middlewares.RequiredWaiterPermissionOrMore(secretKey), controllers.GetServeBookingByTableId())
+		booking.GET("/employee", middlewares.RequiredWaiterPermissionOrMore(secretKey), controllers.GetTop10DetailBookingByEmployeeId())
+		booking.GET("/table/:tableId", middlewares.RequiredAuthorize(secretKey), controllers.GetServeBookingByTableId())
 		booking.GET("/table/preparing/:tableId", middlewares.RequiredWaiterPermissionOrMore(secretKey), controllers.GetPreparingBookingByTableId())
 	}
 }

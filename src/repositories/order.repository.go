@@ -7,7 +7,7 @@ import (
 )
 
 func (s *sqlStorage) GetUpdatableOrder(ctx context.Context, order models.Order) models.OrderUpdatable {
-	return models.OrderUpdatable{Model: order.Model, Note: &order.Note, Status: &order.Status, Accepted: &order.Accepted, Rejected: &order.Rejected, Compensate: &order.Compensate}
+	return models.OrderUpdatable{Model: order.Model, Note: &order.Note, Status: &order.Status, Accepted: &order.Accepted, Rejected: &order.Rejected}
 }
 
 func (s *sqlStorage) CreateOrder(ctx context.Context, order models.OrderCreatable) (*uint, error) {
@@ -47,7 +47,7 @@ func (s *sqlStorage) GetServeOrdersByTableId(ctx context.Context, tableId int) (
 
 func (s *sqlStorage) GetPreparingOrdersByTableId(ctx context.Context, tableId int) ([]models.Order, error) {
 	var orders []models.Order
-	if err := s.db.Where("table_id = ?", tableId).Where("status = ?", false).Where("accepted = ?", false).Where("rejected = ?", false).Where("compensate = ?", false).Find(&orders).Error; err != nil {
+	if err := s.db.Where("table_id = ?", tableId).Where("status = ?", false).Where("accepted = ?", false).Where("rejected = ?", false).Find(&orders).Error; err != nil {
 		fmt.Println("Error while find preparing order by tableId in repository: " + err.Error())
 		return nil, err
 	}

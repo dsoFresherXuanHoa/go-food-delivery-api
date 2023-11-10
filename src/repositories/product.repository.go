@@ -17,11 +17,11 @@ func (s *sqlStorage) GetDetailProduct(ctx context.Context, product models.Produc
 	discountPercent := embedDiscount.DiscountPercent
 	salePercent := 1 - float64(discountPercent)/100
 	product.DiscountPrice = salePercent * product.Price
-	return models.ProductResponse{Model: product.Model, Bills: nil, Name: &product.Name, Description: &product.Description, Price: &product.Price, DiscountPrice: &product.DiscountPrice, ReorderLevel: &product.ReorderLevel, Thumb: &product.Thumb, StockAmount: &product.StockAmount, Category: *embedCategory, Discount: *embedDiscount}
+	return models.ProductResponse{Model: product.Model, Bills: nil, Name: &product.Name, Description: &product.Description, Price: &product.Price, DiscountPrice: &product.DiscountPrice, ReorderLevel: &product.ReorderLevel, Thumb: &product.Thumb, StockAmount: &product.StockAmount, Category: *embedCategory, Discount: *embedDiscount, Uint: &product.Uint}
 }
 
 func (s *sqlStorage) GetCreatableProduct(ctx context.Context, product models.ProductResponse) models.ProductCreatable {
-	return models.ProductCreatable{Model: product.Model, Name: product.Name, Description: product.Description, Price: *product.Price, Thumb: product.Thumb, StockAmount: product.StockAmount, ReorderLevel: product.ReorderLevel, CategoryId: &product.Category.ID, DiscountId: &product.Discount.ID}
+	return models.ProductCreatable{Model: product.Model, Name: product.Name, Description: product.Description, Price: *product.Price, Thumb: product.Thumb, StockAmount: product.StockAmount, ReorderLevel: product.ReorderLevel, CategoryId: &product.Category.ID, DiscountId: &product.Discount.ID, Uint: product.Uint}
 }
 
 func (s *sqlStorage) GetUpdatableProduct(ctx context.Context, product models.ProductCreatable) models.ProductUpdatable {

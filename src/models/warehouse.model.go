@@ -9,4 +9,5 @@ type Warehouse struct {
 	CategoryId      uint    `form:"categoryId" json:"categoryId"`
 	MinQuantity     int     `form:"minQuantity" json:"minQuantity"`
 	DiscountPercent int     `form:"discountPercent" json:"discountPercent"`
+	Uint            string  `form:"unit" json:"uint"`
 }

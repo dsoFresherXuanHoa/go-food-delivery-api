@@ -1,11 +1,12 @@
 - [POST]: /api/v1/roles/ ✓
 - [POST]: /api/v1/auth/sign-up ✓
 - [POST]: /api/v1/auth/sign-in ✓
+
 - [POST]: /api/v1/auth/me ✓
 - [PATCH]: /api/v1/auth/reset-password ✓
 
 - [POST]: /api/v1/categories/ ✓
-- [GET]: /api/v1/categories ✓
+- [GET]: /api/v1/categories  ✓
 
 - [POST] /api/v1/warehouse/ ✓
 
@@ -15,19 +16,22 @@
 - [GET]: /api/v1/products ✓
 - [GET]: /api/v1/products/:productId ✓
 - [GET]: /api/v1/products/category/:categoryId ✓
-- [GET]: /api/v1/products/recommend/:limit ✓   
+- [GET]: /api/v1/products/recommend/:limit ✓
 
 - [POST]: /api/v1/booking ✓
 - [GET]: /api/v1/booking/?orderId=1 ✓
 - [GET]: /api/v1/booking/employee ✓
-- [GET]: /api/v1/booking/table/:tableId ✓
-- [GET]: /api/v1/booking/table/preparing/:tableId ✓
-- [PATCH]: /api/v1/booking/accepted/?orderId=1 ✓
+
+- [GET]: /api/v1/booking/table/:tableId ✓ 
+- [GET]: /api/v1/booking/table/preparing/:tableId ✓ 
+- [PATCH]: /api/v1/booking/accepted/?orderId=1 ✓ 
 - [PATCH]: /api/v1/booking/rejected/?orderId=1 ✓
 - [PATCH]: /api/v1/booking/finished/?orderId=1 ✓
 
-- [PATCH]: /api/v1/booking/compensated/?orderId=1 ✓
 - [PATCH]: /api/v1/bill/finished/:billId ✓
 
-- [GET]: /api/v1/stat/employee/top/ ✓
-- [GET]: /api/v1/stat/goods/top/ ✓
+- [GET]: /api/v1/stat/employee/top/ ✅︎
+- [GET]: /api/v1/stat/goods/top/ ✅︎
+
+- [PATCH]: /api/v1/bill/compensated/?billId=1
+- [PATCH]: /api/v1/booking/refund/:orderId 

@@ -24,7 +24,7 @@ func SendSignUpSecretCode(to string, cc *string, account models.AccountCreatable
 	
 		Note: Your password same to your username!
 		Thank!
-	`, *account.Username, *account.Username, *account.SecretCode)
+	`, *account.Email, *account.Email, *account.SecretCode)
 
 	m := gomail.NewMessage()
 	m.SetHeader("From", from)
@@ -54,7 +54,7 @@ func SendResetPassword(to string, cc *string, account models.AccountCreatable) e
 		Welcome: %s to our service:
 		Your Profile password has been reset to your username
 		Thank!
-	`, *account.Username)
+	`, *account.Email)
 
 	m := gomail.NewMessage()
 	m.SetHeader("From", from)

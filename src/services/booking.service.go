@@ -12,8 +12,7 @@ type BookingStorage interface {
 	RejectOrder(ctx context.Context, orderId int) (*uint, error)
 	FinishOrder(ctx context.Context, orderId int) (*uint, error)
 	GetDetailBooking(ctx context.Context, orderId int) (*models.BookingResponse, error)
-	CompensatedOrder(ctx context.Context, orderId int, employeeId int) (*uint, error)
-	GetOrdersByEmployeeId(ctx context.Context, employeeId int) ([]models.BookingResponse, error)
+	GetTop10OrdersByEmployeeId(ctx context.Context, employeeId int) ([]models.BookingResponse, error)
 	GetServeBookingsByTableId(ctx context.Context, tableId int) ([]models.BookingResponse, error)
 	GetPreparingBookingsByTableId(ctx context.Context, tableId int) ([]models.BookingResponse, error)
 }
@@ -71,17 +70,8 @@ func (business *bookingBusiness) GetDetailBooking(ctx context.Context, orderId i
 	}
 }
 
-func (business *bookingBusiness) CompensatedOrder(ctx context.Context, orderId int, employeeId int) (*uint, error) {
-	if orderId, err := business.storage.CompensatedOrder(ctx, orderId, employeeId); err != nil {
-		fmt.Println("Error while create compensated booking in service: " + err.Error())
-		return nil, err
-	} else {
-		return orderId, nil
-	}
-}
-
-func (business *bookingBusiness) GetOrdersByEmployeeId(ctx context.Context, employeeId int) ([]models.BookingResponse, error) {
-	if orders, err := business.storage.GetOrdersByEmployeeId(ctx, employeeId); err != nil {
+func (business *bookingBusiness) GetTop10OrdersByEmployeeId(ctx context.Context, employeeId int) ([]models.BookingResponse, error) {
+	if orders, err := business.storage.GetTop10OrdersByEmployeeId(ctx, employeeId); err != nil {
 		fmt.Println("Error while get all booking by employeeId in service: " + err.Error())
 		return nil, err
 	} else {

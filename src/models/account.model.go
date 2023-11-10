@@ -6,7 +6,6 @@ import (
 
 type Account struct {
 	gorm.Model
-	Username   string `json:"-" gorm:"column:username;unique;not null"`
 	Password   string `json:"-" gorm:"column:password;not null"`
 	Email      string `json:"-" gorm:"column:email;unique;not null"`
 	SecretCode int    `json:"-" gorm:"column:secret_code;not null"`
@@ -16,7 +15,6 @@ type Account struct {
 
 type AccountResponse struct {
 	gorm.Model
-	Username   string   `json:"username"`
 	Password   string   `json:"password"`
 	Email      string   `json:"email"`
 	SecretCode int      `json:"secretCode"`
@@ -26,8 +24,7 @@ type AccountResponse struct {
 
 type AccountCreatable struct {
 	gorm.Model
-	Username   *string `json:"username" gorm:"column:username;unique;not null"`
-	Password   *string `json:"password" gorm:"column:password;not null"`
+	Password   *string `json:"-" gorm:"column:password;not null"`
 	Email      *string `json:"email" gorm:"column:email;unique;not null"`
 	SecretCode *int    `json:"-" gorm:"column:secret_code;not null"`
 	EmployeeId *uint   `json:"employeeId" gorm:"column:employee_id;unique;not null"`

@@ -12,6 +12,8 @@ type BookingResponse struct {
 	Status       bool                  `json:"status"`
 	Accepted     bool                  `json:"accepted"`
 	Compensate   bool                  `json:"compensate"`
+	Refundable   bool                  `json:"refundable"`
+	Reason       string                `json:"reason"`
 }
 
 type BookingCreatable struct {
@@ -20,4 +22,6 @@ type BookingCreatable struct {
 	SecretCode *int    `json:"secretCode"`
 	Quantities []int   `json:"quantities"`
 	ProductsId []uint  `json:"productsId"`
+	Refundable *bool   `json:"refundable"`
+	Reason     *string `json:"reason"`
 }

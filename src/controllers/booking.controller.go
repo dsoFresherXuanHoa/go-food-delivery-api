@@ -23,7 +23,7 @@ func CreateBooking() gin.HandlerFunc {
 		} else {
 			id := ctx.Value("employeeId").(int)
 			employeeId := uint(id)
-			order := models.OrderCreatable{Note: booking.Note, EmployeeId: &employeeId, TableId: booking.TableId}
+			order := models.OrderCreatable{Note: booking.Note, EmployeeId: &employeeId, TableId: booking.TableId, Refundable: booking.Refundable}
 			bills := make([]models.BillCreatable, len(booking.ProductsId))
 			for i := 0; i < len(booking.ProductsId); i++ {
 				bills[i] = models.BillCreatable{Quantity: &booking.Quantities[i], ProductId: &booking.ProductsId[i]}
@@ -120,35 +120,14 @@ func GetDetailBooking() gin.HandlerFunc {
 	}
 }
 
-func CompensatedOrder() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
-	return func(ctx *gin.Context) {
-		if orderId, err := strconv.Atoi(ctx.Query("orderId")); err != nil {
-			fmt.Println("Error while update order by id in category controller: " + err.Error())
-			ctx.JSON(http.StatusBadRequest, models.NewStandardResponse(nil, http.StatusBadRequest, err.Error(), constants.InvalidOrderIDQueryString))
-		} else {
-			repositories := repositories.NewSQLStore(db)
-			bookingService := services.NewBookingBusiness(repositories)
-			id := ctx.Value("employeeId").(int)
-			employeeId := uint(id)
-			if orderId, err := bookingService.CompensatedOrder(ctx, orderId, int(employeeId)); err != nil {
-				fmt.Println("Error while update order in booking controller: " + err.Error())
-				ctx.JSON(http.StatusInternalServerError, models.NewStandardResponse(nil, http.StatusInternalServerError, err.Error(), constants.CannotCompensateBooking))
-			} else {
-				ctx.JSON(http.StatusOK, models.NewStandardResponse(orderId, http.StatusOK, "", constants.CompensatedBookingSuccess))
-			}
-		}
-	}
-}
-
-func GetDetailBookingByEmployeeId() gin.HandlerFunc {
+func GetTop10DetailBookingByEmployeeId() gin.HandlerFunc {
 	db, _ := configs.GetGormInstance()
 	return func(ctx *gin.Context) {
 		id := ctx.Value("employeeId").(int)
 		employeeId := uint(id)
 		repositories := repositories.NewSQLStore(db)
 		bookingService := services.NewBookingBusiness(repositories)
-		if bookings, err := bookingService.GetOrdersByEmployeeId(ctx, int(employeeId)); err != nil {
+		if bookings, err := bookingService.GetTop10OrdersByEmployeeId(ctx, int(employeeId)); err != nil {
 			fmt.Println("Error while get all order by employeeId in booking controller: " + err.Error())
 			ctx.JSON(http.StatusInternalServerError, models.NewStandardResponse(nil, http.StatusInternalServerError, err.Error(), constants.CannotGetAllOrderByEmployeeId))
 		} else {

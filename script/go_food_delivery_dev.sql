@@ -27,14 +27,12 @@ CREATE TABLE `accounts` (
   `created_at` datetime(3) DEFAULT NULL,
   `updated_at` datetime(3) DEFAULT NULL,
   `deleted_at` datetime(3) DEFAULT NULL,
-  `username` varchar(191) NOT NULL,
   `password` longtext NOT NULL,
   `email` varchar(191) NOT NULL,
   `secret_code` bigint NOT NULL,
   `employee_id` bigint unsigned NOT NULL,
   `role_id` bigint unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `employee_id` (`employee_id`),
   KEY `idx_accounts_deleted_at` (`deleted_at`),
@@ -50,7 +48,7 @@ CREATE TABLE `accounts` (
 
 LOCK TABLES `accounts` WRITE;
 /*!40000 ALTER TABLE `accounts` DISABLE KEYS */;
-INSERT INTO `accounts` VALUES (1,'2023-11-03 09:26:22.525','2023-11-03 09:26:22.525',NULL,'dsoFresherXuanHoa','$2a$05$oLLG/OC6hDtE8lcC3NUhke3LIm34XMpbXDpvZd96oyCvtGX5GwIh6','dso.intern.xuanhoa@gmail.com',2248,1,1),(2,'2023-11-03 09:27:37.726','2023-11-03 09:27:37.726',NULL,'dsoInternXuanHoa','$2a$05$TjI1083YKkLAk7L2tTvZk.MgC9OvlrP/2aHCSujAS7zmMjmaFgqAy','training.dso.xuanhoa@gmail.com',6433,2,2);
+INSERT INTO `accounts` VALUES (1,'2023-11-10 08:27:25.709','2023-11-10 08:45:22.063',NULL,'$2a$05$ij9HKt39eYXdmqTiYvoqyu72BJmSVjlnf8F9xYMO6TGdcvCWtUib6','training.dso.xuanhoa@gmail.com',7648,1,2),(2,'2023-11-10 08:37:10.240','2023-11-10 08:37:10.240',NULL,'$2a$05$RTSdwKT25.Hdg5PjykT6tODeSqDj0GuC/xGrPloB097GKognbGODq','dso.intern.xuanhoa@gmail.com',2441,2,1);
 /*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -78,7 +76,7 @@ CREATE TABLE `areas` (
 
 LOCK TABLES `areas` WRITE;
 /*!40000 ALTER TABLE `areas` DISABLE KEYS */;
-INSERT INTO `areas` VALUES (1,'2023-11-03 09:35:15.965','2023-11-03 09:35:15.965',NULL,'F1A1'),(2,'2023-11-03 09:35:20.588','2023-11-03 09:35:20.588',NULL,'F1A2'),(3,'2023-11-03 09:35:25.808','2023-11-03 09:35:25.808',NULL,'F1A3'),(4,'2023-11-03 09:35:29.706','2023-11-03 09:35:29.706',NULL,'F1A4'),(5,'2023-11-03 09:35:44.194','2023-11-03 09:35:44.194',NULL,'F2A1'),(6,'2023-11-03 09:35:48.077','2023-11-03 09:35:48.077',NULL,'F2A2'),(7,'2023-11-03 09:35:52.229','2023-11-03 09:35:52.229',NULL,'F2A3'),(8,'2023-11-03 09:35:56.081','2023-11-03 09:35:56.081',NULL,'F2A4');
+INSERT INTO `areas` VALUES (1,'2023-11-10 09:31:04.321','2023-11-10 09:31:04.321',NULL,'F1A1'),(2,'2023-11-10 09:31:08.786','2023-11-10 09:31:08.786',NULL,'F1A2'),(3,'2023-11-10 09:31:12.917','2023-11-10 09:31:12.917',NULL,'F1A3'),(4,'2023-11-10 09:31:16.639','2023-11-10 09:31:16.639',NULL,'F1A4'),(5,'2023-11-10 09:31:21.856','2023-11-10 09:31:21.856',NULL,'F2A1'),(6,'2023-11-10 09:31:26.583','2023-11-10 09:31:26.583',NULL,'F2A2'),(7,'2023-11-10 09:31:30.052','2023-11-10 09:31:30.052',NULL,'F2A3'),(8,'2023-11-10 09:31:33.202','2023-11-10 09:31:33.202',NULL,'F2A4');
 /*!40000 ALTER TABLE `areas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -98,13 +96,14 @@ CREATE TABLE `bills` (
   `quantity` bigint NOT NULL,
   `order_id` bigint unsigned NOT NULL,
   `product_id` bigint unsigned NOT NULL,
+  `compensate` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `idx_bills_deleted_at` (`deleted_at`),
   KEY `fk_orders_bills` (`order_id`),
   KEY `fk_products_bills` (`product_id`),
   CONSTRAINT `fk_orders_bills` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
   CONSTRAINT `fk_products_bills` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -113,7 +112,7 @@ CREATE TABLE `bills` (
 
 LOCK TABLES `bills` WRITE;
 /*!40000 ALTER TABLE `bills` DISABLE KEYS */;
-INSERT INTO `bills` VALUES (1,'2023-11-03 09:43:55.725','2023-11-03 09:43:55.725',NULL,0,1,1,2),(2,'2023-11-03 09:43:55.814','2023-11-03 09:43:55.814',NULL,0,2,1,1),(3,'2023-11-03 09:44:17.203','2023-11-03 09:44:17.203',NULL,0,1,2,3),(4,'2023-11-03 09:44:17.269','2023-11-03 09:44:17.269',NULL,0,3,2,1);
+INSERT INTO `bills` VALUES (1,'2023-11-10 10:39:59.720','2023-11-10 11:27:28.975',NULL,1,2,1,2,0),(2,'2023-11-10 10:39:59.774','2023-11-10 10:39:59.774',NULL,0,2,1,2,0),(3,'2023-11-10 10:40:24.175','2023-11-10 10:40:24.175',NULL,0,1,2,3,0),(4,'2023-11-10 10:40:24.327','2023-11-10 10:40:24.327',NULL,0,3,2,1,0),(5,'2023-11-10 11:28:05.170','2023-11-10 11:28:05.170',NULL,0,1,3,3,0),(6,'2023-11-10 11:28:05.225','2023-11-10 11:28:05.225',NULL,0,3,3,1,0),(7,'2023-11-10 11:28:06.648','2023-11-10 11:28:06.648',NULL,0,1,4,3,0),(8,'2023-11-10 11:28:06.737','2023-11-10 11:28:06.737',NULL,0,3,4,1,0);
 /*!40000 ALTER TABLE `bills` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -143,7 +142,7 @@ CREATE TABLE `categories` (
 
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
-INSERT INTO `categories` VALUES (1,'2023-11-03 09:33:44.394','2023-11-03 09:33:44.394',NULL,'Món Ăn Chính','Món Ăn Chính, Thơm Ngon Bổ Dưỡng!',NULL),(2,'2023-11-03 09:33:54.489','2023-11-03 09:33:54.489',NULL,'Món Ăn Nhẹ','Món Ăn Nhẹ, Thơm Ngon Bổ Dưỡng!',NULL),(3,'2023-11-03 09:34:06.131','2023-11-03 09:34:06.131',NULL,'Nước Giải Khát','Nước Giải Khát, Thơm Ngon Bổ Dưỡng!',NULL),(4,'2023-11-03 09:34:32.106','2023-11-03 09:34:32.106',NULL,'Điểm Tâm','Điểm Tâm, Thơm Ngon Bổ Dưỡng!',NULL);
+INSERT INTO `categories` VALUES (1,'2023-11-10 08:48:04.942','2023-11-10 08:48:04.942',NULL,'Món Chính','Món Chính, Thơm Ngon Bổ Dưỡng!',NULL),(2,'2023-11-10 08:48:27.831','2023-11-10 08:48:27.831',NULL,'Món Ăn Nhẹ','Món Ăn Nhẹ, Thơm Ngon Bổ Dưỡng!',NULL),(3,'2023-11-10 08:48:39.542','2023-11-10 08:48:39.542',NULL,'Nước Giải Khát','Nước Giải Khát, Thơm Ngon Bổ Dưỡng!',NULL),(4,'2023-11-10 08:48:59.118','2023-11-10 08:48:59.118',NULL,'Điểm Tâm','Điểm Tâm, Thơm Ngon Bổ Dưỡng!',NULL);
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -163,7 +162,7 @@ CREATE TABLE `discounts` (
   `discount_percent` bigint NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `idx_discounts_deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -172,7 +171,7 @@ CREATE TABLE `discounts` (
 
 LOCK TABLES `discounts` WRITE;
 /*!40000 ALTER TABLE `discounts` DISABLE KEYS */;
-INSERT INTO `discounts` VALUES (1,'2023-11-03 09:40:24.543','2023-11-03 09:40:24.543',NULL,5,10),(2,'2023-11-03 09:40:58.911','2023-11-03 09:40:58.911',NULL,10,10),(3,'2023-11-03 09:41:40.100','2023-11-03 09:41:40.100',NULL,10,15),(4,'2023-11-03 09:42:32.026','2023-11-03 09:42:32.026',NULL,6,5);
+INSERT INTO `discounts` VALUES (4,'2023-11-10 09:27:10.339','2023-11-10 09:27:10.339',NULL,3,10),(5,'2023-11-10 09:28:05.359','2023-11-10 09:28:05.359',NULL,2,5),(6,'2023-11-10 09:29:31.633','2023-11-10 09:29:31.633',NULL,5,3),(11,'2023-11-10 09:48:13.629','2023-11-10 09:48:13.629',NULL,5,3);
 /*!40000 ALTER TABLE `discounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -203,7 +202,7 @@ CREATE TABLE `employees` (
 
 LOCK TABLES `employees` WRITE;
 /*!40000 ALTER TABLE `employees` DISABLE KEYS */;
-INSERT INTO `employees` VALUES (1,'2023-11-03 09:26:22.476','2023-11-03 09:26:22.476',NULL,'Le Xuan Hoa','0364015071',1),(2,'2023-11-03 09:27:37.667','2023-11-03 09:27:37.667',NULL,'Xuan Hoa Le','0356415806',1);
+INSERT INTO `employees` VALUES (1,'2023-11-10 08:27:25.673','2023-11-10 08:27:25.673',NULL,'Le Xuan Hoa','0356415806',0),(2,'2023-11-10 08:37:10.142','2023-11-10 08:37:10.142',NULL,'Le Xuan Hoa','0364015071',0);
 /*!40000 ALTER TABLE `employees` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -223,16 +222,17 @@ CREATE TABLE `orders` (
   `status` tinyint(1) DEFAULT '0',
   `accepted` tinyint(1) DEFAULT '0',
   `rejected` tinyint(1) DEFAULT '0',
-  `compensate` tinyint(1) DEFAULT '0',
   `employee_id` bigint unsigned NOT NULL,
   `table_id` bigint unsigned NOT NULL,
+  `refundable` tinyint(1) NOT NULL,
+  `reason` longtext,
   PRIMARY KEY (`id`),
   KEY `idx_orders_deleted_at` (`deleted_at`),
-  KEY `fk_employees_orders` (`employee_id`),
   KEY `fk_tables_orders` (`table_id`),
+  KEY `fk_employees_orders` (`employee_id`),
   CONSTRAINT `fk_employees_orders` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`),
   CONSTRAINT `fk_tables_orders` FOREIGN KEY (`table_id`) REFERENCES `tables` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -241,7 +241,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,'2023-11-03 09:43:55.671','2023-11-03 09:44:22.180',NULL,'Không Cay Không Lấy Tiền',0,1,0,0,2,1),(2,'2023-11-03 09:44:17.171','2023-11-03 09:44:26.736',NULL,'Ít Cay Thôi Nha',0,1,0,0,2,2);
+INSERT INTO `orders` VALUES (1,'2023-11-10 10:39:59.678','2023-11-10 11:21:36.326',NULL,'Chỉ Nước Giải Khát Thôi',0,0,1,1,1,1,NULL),(2,'2023-11-10 10:40:24.107','2023-11-10 11:24:07.907',NULL,'Không Cho Hành Lá',1,1,0,1,1,0,NULL),(3,'2023-11-10 11:28:05.129','2023-11-10 11:28:27.144',NULL,'Không Cho Hành Lá',1,1,0,1,1,0,NULL),(4,'2023-11-10 11:28:06.605','2023-11-10 11:28:42.250',NULL,'Không Cho Hành Lá',1,1,0,1,1,0,NULL);
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -265,13 +265,14 @@ CREATE TABLE `products` (
   `stock_amount` bigint DEFAULT '0',
   `category_id` bigint unsigned NOT NULL,
   `discount_id` bigint unsigned NOT NULL,
+  `uint` longtext NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_products_deleted_at` (`deleted_at`),
-  KEY `fk_discounts_products` (`discount_id`),
   KEY `fk_categories_products` (`category_id`),
+  KEY `fk_discounts_products` (`discount_id`),
   CONSTRAINT `fk_categories_products` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`),
   CONSTRAINT `fk_discounts_products` FOREIGN KEY (`discount_id`) REFERENCES `discounts` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -280,7 +281,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'2023-11-03 09:40:27.247','2023-11-03 09:44:17.305',NULL,'Cơm Chiên Dương Châu','Cơm Chiên Dương Châu',30000,'http://res.cloudinary.com/dxn6kjfnd/image/upload/v1698979227/go_food_delivery_dev/hyo6vjxfprpfwqxxiylp.png',5,195,1,1),(2,'2023-11-03 09:40:59.740','2023-11-03 09:43:55.758',NULL,'Cơm Gà Xối Mỡ','Cơm Gà Xối Mỡ',35000,'http://res.cloudinary.com/dxn6kjfnd/image/upload/v1698979260/go_food_delivery_dev/fep1cukus4zfhwvpgswd.png',1,299,1,2),(3,'2023-11-03 09:41:41.048','2023-11-03 09:44:17.244',NULL,'Gà Xào Xả Ớt','Cơm Gà Xối Mỡ',35000,'http://res.cloudinary.com/dxn6kjfnd/image/upload/v1698979301/go_food_delivery_dev/jwhb3kwqahleozhe7wzv.png',1,199,1,3),(4,'2023-11-03 09:42:32.774','2023-11-03 09:42:32.774',NULL,'Pessi','Pessi',15000,'http://res.cloudinary.com/dxn6kjfnd/image/upload/v1698979353/go_food_delivery_dev/dv82jv5syy2wuxjcyco9.jpg',0,200,3,4);
+INSERT INTO `products` VALUES (1,'2023-11-10 09:27:13.638','2023-11-10 11:28:06.763',NULL,'Cơm Chiên Dương Châu','Cơm Chiên Dương Châu',30000,'http://res.cloudinary.com/dxn6kjfnd/image/upload/v1699583234/go_food_delivery_dev/yc5k4f4i46vvlwuakbkf.png',11,189,1,4,'Dĩa'),(2,'2023-11-10 09:28:06.516','2023-11-10 10:39:59.800',NULL,'Cơm Gà Xối Mỡ','Cơm Gà Xối Mỡ',35000,'http://res.cloudinary.com/dxn6kjfnd/image/upload/v1699583286/go_food_delivery_dev/evt4k2ktu0pmmdvq4auz.png',9,201,1,5,'Dĩa'),(3,'2023-11-10 09:29:33.077','2023-11-10 11:28:06.710',NULL,'Pepsi','Pepsi',10000,'http://res.cloudinary.com/dxn6kjfnd/image/upload/v1699583373/go_food_delivery_dev/yiertay9ybmwk1aqaffp.jpg',3,97,3,6,'Lon'),(8,'2023-11-10 09:48:14.657','2023-11-10 09:48:14.657',NULL,'Coca','Coca',10000,'http://res.cloudinary.com/dxn6kjfnd/image/upload/v1699584495/go_food_delivery_dev/zvc4wfgyqvwft1qjntkw.jpg',0,100,3,11,'Lon');
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -297,10 +298,10 @@ CREATE TABLE `reset_passwords` (
   `updated_at` datetime(3) DEFAULT NULL,
   `deleted_at` datetime(3) DEFAULT NULL,
   `managerId` bigint NOT NULL,
-  `username` longtext NOT NULL,
+  `email` longtext NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_reset_passwords_deleted_at` (`deleted_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -309,6 +310,7 @@ CREATE TABLE `reset_passwords` (
 
 LOCK TABLES `reset_passwords` WRITE;
 /*!40000 ALTER TABLE `reset_passwords` DISABLE KEYS */;
+INSERT INTO `reset_passwords` VALUES (1,'2023-11-10 08:45:22.221','2023-11-10 08:45:22.221',NULL,2,'training.dso.xuanhoa@gmail.com');
 /*!40000 ALTER TABLE `reset_passwords` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -337,7 +339,7 @@ CREATE TABLE `roles` (
 
 LOCK TABLES `roles` WRITE;
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
-INSERT INTO `roles` VALUES (1,'2023-11-03 09:24:35.322','2023-11-03 09:24:35.322',NULL,'Manager'),(2,'2023-11-03 09:24:40.631','2023-11-03 09:24:40.631',NULL,'Waiter'),(3,'2023-11-03 09:24:48.328','2023-11-03 09:24:48.328',NULL,'Chief');
+INSERT INTO `roles` VALUES (1,'2023-11-10 08:25:39.847','2023-11-10 08:25:39.847',NULL,'Manager'),(2,'2023-11-10 08:25:49.660','2023-11-10 08:25:49.660',NULL,'Waiter'),(3,'2023-11-10 08:25:56.144','2023-11-10 08:25:56.144',NULL,'Chief');
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -365,7 +367,7 @@ CREATE TABLE `tables` (
   KEY `fk_areas_tables` (`area_id`),
   CONSTRAINT `fk_areas_tables` FOREIGN KEY (`area_id`) REFERENCES `areas` (`id`),
   CONSTRAINT `fk_employees_tables` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -374,7 +376,7 @@ CREATE TABLE `tables` (
 
 LOCK TABLES `tables` WRITE;
 /*!40000 ALTER TABLE `tables` DISABLE KEYS */;
-INSERT INTO `tables` VALUES (1,'2023-11-03 09:36:55.817','2023-11-03 09:43:55.881',NULL,1,0,10,25000,2,2),(2,'2023-11-03 09:36:58.756','2023-11-03 09:44:17.335',NULL,1,0,10,25000,2,2),(3,'2023-11-03 09:37:03.675','2023-11-03 09:37:03.675',NULL,1,1,10,25000,2,1),(4,'2023-11-03 09:37:09.161','2023-11-03 09:37:09.161',NULL,1,1,10,25000,2,1),(5,'2023-11-03 09:37:20.975','2023-11-03 09:37:20.975',NULL,0,1,20,35000,2,1),(6,'2023-11-03 09:37:21.685','2023-11-03 09:37:21.685',NULL,0,1,20,35000,2,1),(7,'2023-11-03 09:37:27.457','2023-11-03 09:37:27.457',NULL,0,1,20,35000,1,1),(8,'2023-11-03 09:37:28.058','2023-11-03 09:37:28.058',NULL,0,1,20,35000,1,1);
+INSERT INTO `tables` VALUES (1,'2023-11-10 09:32:27.647','2023-11-10 11:28:42.274',NULL,1,1,10,20000,1,1),(2,'2023-11-10 09:32:29.080','2023-11-10 09:32:29.080',NULL,1,1,10,20000,1,1),(3,'2023-11-10 09:32:29.631','2023-11-10 09:32:29.631',NULL,1,1,10,20000,1,1),(4,'2023-11-10 09:32:38.081','2023-11-10 09:32:38.081',NULL,0,1,20,30000,1,1),(5,'2023-11-10 09:32:42.475','2023-11-10 09:32:42.475',NULL,0,1,20,30000,1,2),(6,'2023-11-10 09:32:48.190','2023-11-10 09:32:48.190',NULL,0,1,20,30000,2,2),(7,'2023-11-10 09:32:52.035','2023-11-10 09:32:52.035',NULL,0,1,20,30000,2,1),(8,'2023-11-10 09:33:03.475','2023-11-10 09:33:03.475',NULL,0,1,15,20000,2,1),(9,'2023-11-10 09:33:03.995','2023-11-10 09:33:03.995',NULL,0,1,15,20000,2,1);
 /*!40000 ALTER TABLE `tables` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -387,4 +389,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-11-03 10:03:14
+-- Dump completed on 2023-11-10 13:13:50

@@ -31,7 +31,6 @@ func (s *sqlStorage) ImportWareHouse(ctx context.Context, discount *models.Disco
 			fmt.Println("Error while upload image to cloudinary: " + res.Error.Message)
 			return nil, nil, exceptions.ErrSaveProductThumbnailsToCloudinaryStorage
 		} else {
-			fmt.Println("Discount Id: ", discountId)
 			product.DiscountId = discountId
 			product.Thumb = &res.URL
 			if productId, err := productBusiness.CreateProduct(ctx, product); err != nil {
