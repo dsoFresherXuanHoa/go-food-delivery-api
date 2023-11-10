@@ -79,12 +79,17 @@ func (s *sqlStorage) GetDetailBooking(ctx context.Context, orderId int) (*models
 		var embedItems []models.BookingItemResponse
 		for _, bill := range bills {
 			product, _ := productService.ReadProductById(ctx, bill.ProductId)
+			if bill.Quantity >= product.Discount.MinQuantity {
+				product.ActualDiscountPrice = product.DiscountPrice
+			} else {
+				product.ActualDiscountPrice = product.Price
+			}
 			embedItems = append(embedItems, models.BookingItemResponse{Product: *product, Quantity: bill.Quantity, BillId: bill.ID})
 		}
 		embedTable, _ := tableService.ReadTableById(ctx, order.TableId)
 		detailEmbedTable := s.GetDetailTable(ctx, *embedTable)
 		var acceptedTime *time.Time
-		if order.Accepted == true {
+		if order.Accepted {
 			acceptedTime = &order.UpdatedAt
 		} else {
 			acceptedTime = nil

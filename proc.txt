@@ -11,6 +11,7 @@
 - [POST] /api/v1/warehouse/ ✓
 
 - [GET]: /api/v1/tables/ ✓
+- [GET]: /api/v1/tables/all
 - [GET]: /api/v1/tables/status/:status ✓
 
 - [GET]: /api/v1/products ✓

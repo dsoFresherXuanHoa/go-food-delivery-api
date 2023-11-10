@@ -17,7 +17,8 @@ func (s *sqlStorage) GetDetailProduct(ctx context.Context, product models.Produc
 	discountPercent := embedDiscount.DiscountPercent
 	salePercent := 1 - float64(discountPercent)/100
 	product.DiscountPrice = salePercent * product.Price
-	return models.ProductResponse{Model: product.Model, Bills: nil, Name: &product.Name, Description: &product.Description, Price: &product.Price, DiscountPrice: &product.DiscountPrice, ReorderLevel: &product.ReorderLevel, Thumb: &product.Thumb, StockAmount: &product.StockAmount, Category: *embedCategory, Discount: *embedDiscount, Uint: &product.Uint}
+
+	return models.ProductResponse{Model: product.Model, Bills: nil, Name: &product.Name, Description: &product.Description, Price: &product.Price, DiscountPrice: &product.DiscountPrice, ReorderLevel: &product.ReorderLevel, Thumb: &product.Thumb, StockAmount: &product.StockAmount, Category: *embedCategory, Discount: *embedDiscount, Uint: &product.Uint, ActualDiscountPrice: nil}
 }
 
 func (s *sqlStorage) GetCreatableProduct(ctx context.Context, product models.ProductResponse) models.ProductCreatable {

@@ -14,6 +14,7 @@ type TableStorage interface {
 	UpdateTable(ctx context.Context, id int, table *models.TableUpdatable) (*int64, error)
 	GetDetailTable(ctx context.Context, table models.Table) models.TableResponse
 	GetUpdatableTable(ctx context.Context, table *models.Table) models.TableUpdatable
+	ReadAllTable(ctx context.Context) ([]models.TableResponse, error)
 }
 
 type tableBusiness struct {
@@ -75,4 +76,13 @@ func (business *tableBusiness) GetDetailTable(ctx context.Context, table models.
 
 func (business *tableBusiness) GetUpdatableTable(ctx context.Context, table models.Table) models.TableUpdatable {
 	return business.storage.GetUpdatableTable(ctx, &table)
+}
+
+func (business *tableBusiness) ReadAllTable(ctx context.Context) ([]models.TableResponse, error) {
+	if tables, err := business.storage.ReadAllTable(ctx); err != nil {
+		fmt.Println("Error while find Table in service: " + err.Error())
+		return nil, err
+	} else {
+		return tables, nil
+	}
 }

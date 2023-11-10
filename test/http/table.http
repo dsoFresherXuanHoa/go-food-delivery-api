@@ -25,3 +25,9 @@ Authorization: Bearer {{waiterAccessToken}}
 GET {{host}}/status/false
 Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}
+
+
+###
+GET {{host}}/all
+Content-Type: {{contentType}}
+Authorization: Bearer {{managerAccessToken}}

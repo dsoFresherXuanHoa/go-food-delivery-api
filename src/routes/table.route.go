@@ -15,5 +15,6 @@ func TableRouteConfig(router *gin.Engine) {
 		tables.GET("/status/:status", middlewares.RequiredWaiterPermissionOrMore(secretKey), controllers.ReadTableByEmployeeIdAndStatus())
 		tables.GET("/", middlewares.RequiredAuthorize(secretKey), controllers.ReadTableByEmployeeId())
 		tables.POST("/", middlewares.RequiredManagerPermission(secretKey), controllers.CreateTable())
+		tables.GET("/all", middlewares.RequiredAuthorize(secretKey), controllers.ReadAllTable())
 	}
 }

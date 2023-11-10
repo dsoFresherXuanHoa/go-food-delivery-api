@@ -18,7 +18,7 @@ Authorization: Bearer {{waiterAccessToken}}
 }
 
 ### 
-GET {{host}}/?orderId=1
+GET {{host}}/?orderId=12
 Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}
 

@@ -70,3 +70,18 @@ func ReadTableByEmployeeIdAndStatus() gin.HandlerFunc {
 		}
 	}
 }
+
+func ReadAllTable() gin.HandlerFunc {
+	db, _ := configs.GetGormInstance()
+	return func(ctx *gin.Context) {
+		repositories := repositories.NewSQLStore(db)
+		tableService := services.NewTableBusiness(repositories)
+
+		if tables, err := tableService.ReadAllTable(ctx); err != nil {
+			fmt.Println("Error while read all table in table controller: " + err.Error())
+			ctx.JSON(http.StatusInternalServerError, models.NewStandardResponse(nil, http.StatusInternalServerError, err.Error(), constants.CannotReadAllTable))
+		} else {
+			ctx.JSON(http.StatusOK, models.NewStandardResponse(tables, http.StatusOK, "", constants.CannotReadAllTableSuccess))
+		}
+	}
+}

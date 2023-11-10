@@ -79,3 +79,20 @@ func (s *sqlStorage) UpdateTable(ctx context.Context, id int, table *models.Tabl
 		return &result.RowsAffected, nil
 	}
 }
+
+func (s *sqlStorage) ReadAllTable(ctx context.Context) ([]models.TableResponse, error) {
+	var tables models.Tables
+	if err := s.db.Find(&tables).Error; err != nil {
+		fmt.Println("Error while find all table in repository: " + err.Error())
+		return nil, err
+	} else if tables == nil {
+		fmt.Println("No record found while find table by employeeId in repository: " + err.Error())
+		return nil, err
+	}
+
+	var res = make([]models.TableResponse, len(tables))
+	for i, table := range tables {
+		res[i] = s.GetDetailTable(ctx, table)
+	}
+	return res, nil
+}
