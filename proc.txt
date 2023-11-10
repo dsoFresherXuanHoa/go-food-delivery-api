@@ -27,11 +27,10 @@
 - [PATCH]: /api/v1/booking/accepted/?orderId=1 ✓ 
 - [PATCH]: /api/v1/booking/rejected/?orderId=1 ✓
 - [PATCH]: /api/v1/booking/finished/?orderId=1 ✓
+- [PATCH]: /api/v1/booking/refund/:orderId  ✓
 
 - [PATCH]: /api/v1/bill/finished/:billId ✓
+- [PATCH]: /api/v1/bill/compensated/?orderId=1&billId=1 ✓
 
 - [GET]: /api/v1/stat/employee/top/ ✅︎
 - [GET]: /api/v1/stat/goods/top/ ✅︎
-
-- [PATCH]: /api/v1/bill/compensated/?billId=1
-- [PATCH]: /api/v1/booking/refund/:orderId 

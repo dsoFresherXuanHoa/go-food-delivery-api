@@ -113,7 +113,7 @@ func (s *sqlStorage) AcceptOrder(ctx context.Context, orderId int) (*uint, error
 	}
 }
 
-func (s *sqlStorage) RejectOrder(ctx context.Context, orderId int) (*uint, error) {
+func (s *sqlStorage) RejectOrder(ctx context.Context, orderId int, reason string) (*uint, error) {
 	repository := NewSQLStore(s.db)
 	orderService := services.NewOrderBusiness(repository)
 	if order, err := orderService.ReadOrderById(ctx, uint(orderId)); err != nil {
@@ -125,6 +125,7 @@ func (s *sqlStorage) RejectOrder(ctx context.Context, orderId int) (*uint, error
 		orderUpdatable := s.GetUpdatableOrder(ctx, *order)
 		orderUpdatable.Rejected = &rejectedOrder
 		orderUpdatable.Accepted = &acceptedOrder
+		orderUpdatable.Reason = &reason
 		if _, err := orderService.UpdateOrderById(ctx, orderId, &orderUpdatable); err != nil {
 			fmt.Println("Error while update order by id in repository: " + err.Error())
 			return nil, err
@@ -222,5 +223,18 @@ func (s *sqlStorage) GetPreparingBookingsByTableId(ctx context.Context, tableId 
 			res[i] = *orderDetail
 		}
 		return res, nil
+	}
+}
+
+func (s *sqlStorage) RefundOrderById(ctx context.Context, orderId int, order *models.OrderCreatable, bills []models.BillCreatable, secretCode int) (*uint, *uint, error) {
+	var deletedOrder models.Order
+	if result := s.db.Table(models.OrderCreatable{}.GetTableName()).Where("id = ?", orderId).Delete(&deletedOrder); result.Error != nil {
+		fmt.Println("Error while delete a refund order in repository: " + result.Error.Error())
+		return nil, nil, result.Error
+	} else if newOrderId, err := s.CreateBooking(ctx, order, bills, secretCode); err != nil {
+		fmt.Println("Error while create new order after refunding in repository: " + err.Error())
+		return nil, nil, result.Error
+	} else {
+		return &deletedOrder.ID, newOrderId, nil
 	}
 }

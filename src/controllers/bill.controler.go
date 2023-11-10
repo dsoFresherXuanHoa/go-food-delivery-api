@@ -31,3 +31,28 @@ func FinishBill() gin.HandlerFunc {
 		}
 	}
 }
+
+func CompensatedBill() gin.HandlerFunc {
+	db, _ := configs.GetGormInstance()
+	return func(ctx *gin.Context) {
+		if orderId, err := strconv.Atoi(ctx.Query("orderId")); err != nil {
+			fmt.Println("Error while get orderId from query string: " + err.Error())
+			ctx.JSON(http.StatusBadRequest, models.NewStandardResponse(nil, http.StatusBadRequest, err.Error(), constants.InvalidOrderIDQueryString))
+		} else if billId, err := strconv.Atoi(ctx.Query("billId")); err != nil {
+			fmt.Println("Error while get billId from query string: " + err.Error())
+			ctx.JSON(http.StatusBadRequest, models.NewStandardResponse(nil, http.StatusBadRequest, err.Error(), constants.InvalidBillIDQueryString))
+		} else {
+			repositories := repositories.NewSQLStore(db)
+			billService := services.NewBillBusiness(repositories)
+			if compensatedBillId, newBillId, err := billService.CompensatedBillById(ctx, uint(orderId), uint(billId)); err != nil {
+				fmt.Println("Error while compensated a bill in bill controller: " + err.Error())
+				ctx.JSON(http.StatusInternalServerError, models.NewStandardResponse(nil, http.StatusInternalServerError, err.Error(), constants.CannotCompensatedBill))
+			} else {
+				ctx.JSON(http.StatusOK, models.NewStandardResponse(gin.H{
+					"compensatedBillId": compensatedBillId,
+					"newBillId":         newBillId,
+				}, http.StatusOK, "", constants.CompensatedBillSuccess))
+			}
+		}
+	}
+}

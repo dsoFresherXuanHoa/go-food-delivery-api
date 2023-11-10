@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"go-food-delivery-api/src/models"
 	"go-food-delivery-api/src/services"
+
+	"gorm.io/gorm"
 )
 
 func (s *sqlStorage) Bill2Creatable(ctx context.Context, bill *models.Bill) models.BillCreatable {
@@ -34,7 +36,7 @@ func (s *sqlStorage) ReadBillById(ctx context.Context, billId uint) (*models.Bil
 
 func (s *sqlStorage) ReadBillsByOrderId(ctx context.Context, orderId uint) ([]models.Bill, error) {
 	var bills []models.Bill
-	if err := s.db.Where("order_id = ?", orderId).Find(&bills).Error; err != nil {
+	if err := s.db.Where("order_id = ?", orderId).Where("compensate = ?", false).Find(&bills).Error; err != nil {
 		fmt.Println("Error while find bill by order id in repository: ", err.Error())
 		return nil, err
 	}
@@ -64,5 +66,28 @@ func (s *sqlStorage) FinishBillById(ctx context.Context, billId uint) (*uint, er
 			return nil, err
 		}
 		return &bill.ID, nil
+	}
+}
+
+func (s *sqlStorage) CompensatedBillById(ctx context.Context, orderId uint, billId uint) (*uint, *uint, error) {
+	billService := services.NewBillBusiness(s)
+	if bill, err := billService.ReadBillById(ctx, billId); err != nil {
+		fmt.Println("Error while read bill by id in repository: " + err.Error())
+		return nil, nil, err
+	} else {
+		compensated := true
+		billUpdatable := s.Bill2Updatable(ctx, bill)
+		billUpdatable.Compensate = &compensated
+		billCreatable := s.Bill2Creatable(ctx, bill)
+		billCreatable.Model = gorm.Model{}
+		if _, err := billService.UpdateBillById(ctx, int(billId), &billUpdatable); err != nil {
+			fmt.Println("Error while compensated a bill in repository: " + err.Error())
+			return nil, nil, err
+		} else if newBillId, err := billService.CreateBill(ctx, &billCreatable); err != nil {
+			fmt.Println("Error while create new bill after compensating in repository: " + err.Error())
+			return nil, nil, err
+		} else {
+			return &bill.ID, newBillId, nil
+		}
 	}
 }

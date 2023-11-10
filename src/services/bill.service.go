@@ -12,6 +12,7 @@ type BillStorage interface {
 	ReadBillsByOrderId(ctx context.Context, orderId uint) ([]models.Bill, error)
 	UpdateBillById(ctx context.Context, billId int, bill *models.BillUpdatable) (*int64, error)
 	FinishBillById(ctx context.Context, billId uint) (*uint, error)
+	CompensatedBillById(ctx context.Context, orderId uint, billId uint) (*uint, *uint, error)
 }
 
 type billBusiness struct {
@@ -64,5 +65,14 @@ func (business *billBusiness) FinishBillById(ctx context.Context, billId uint) (
 		return nil, err
 	} else {
 		return id, nil
+	}
+}
+
+func (business *billBusiness) CompensatedBillById(ctx context.Context, orderId uint, billId uint) (*uint, *uint, error) {
+	if compensatedBillId, newBillId, err := business.storage.CompensatedBillById(ctx, orderId, billId); err != nil {
+		fmt.Println("Error while compensated bill by order id in service: " + err.Error())
+		return nil, nil, err
+	} else {
+		return compensatedBillId, newBillId, nil
 	}
 }

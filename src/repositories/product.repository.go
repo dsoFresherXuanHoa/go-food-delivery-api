@@ -76,7 +76,7 @@ func (s *sqlStorage) ReadProductById(ctx context.Context, id uint) (*models.Prod
 
 func (s *sqlStorage) ReadRecommendProduct(ctx context.Context, limit int) ([]models.ProductResponse, error) {
 	var products models.Products
-	if err := s.db.Table(models.Products{}.GetTableName()).Order("reorder_level").Limit(limit).Find(&products).Error; err != nil {
+	if err := s.db.Table(models.Products{}.GetTableName()).Order("reorder_level desc").Limit(limit).Find(&products).Error; err != nil {
 		fmt.Println("Error while read recommend product in repository: " + err.Error())
 		return nil, err
 	} else {

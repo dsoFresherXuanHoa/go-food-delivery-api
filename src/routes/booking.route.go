@@ -20,5 +20,6 @@ func BookingRouteConfig(router *gin.Engine) {
 		booking.GET("/employee", middlewares.RequiredWaiterPermissionOrMore(secretKey), controllers.GetTop10DetailBookingByEmployeeId())
 		booking.GET("/table/:tableId", middlewares.RequiredAuthorize(secretKey), controllers.GetServeBookingByTableId())
 		booking.GET("/table/preparing/:tableId", middlewares.RequiredWaiterPermissionOrMore(secretKey), controllers.GetPreparingBookingByTableId())
+		booking.PATCH("/refund/:orderId", middlewares.RequiredWaiterPermissionOrMore(secretKey), controllers.RefundBooking())
 	}
 }

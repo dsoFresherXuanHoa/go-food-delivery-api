@@ -62,7 +62,6 @@ func (s *sqlStorage) ReadTableByEmployeeIdAndStatus(ctx context.Context, employe
 func (s *sqlStorage) GetDetailTable(ctx context.Context, table models.Table) models.TableResponse {
 	employeeService := services.NewEmployeeBusiness(s)
 	areaService := services.NewAreaBusiness(s)
-	fmt.Println("ID: ", table.EmployeeId)
 	embedEmployee, _ := employeeService.ReadEmployeeById(ctx, table.EmployeeId)
 	embedArea, _ := areaService.ReadAreaById(ctx, table.AreaId)
 	return models.TableResponse{Model: table.Model, NormalTable: &table.NormalTable, Available: &table.Available, Capacity: &table.Capacity, BasePrice: &table.BasePrice, Orders: nil, Employee: *embedEmployee, Area: *embedArea}

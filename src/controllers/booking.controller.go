@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"go-food-delivery-api/src/configs"
 	"go-food-delivery-api/src/constants"
+	exceptions "go-food-delivery-api/src/errors"
 	"go-food-delivery-api/src/models"
 	"go-food-delivery-api/src/repositories"
 	"go-food-delivery-api/src/services"
@@ -69,10 +70,13 @@ func RejectOrder() gin.HandlerFunc {
 		if orderId, err := strconv.Atoi(ctx.Query("orderId")); err != nil {
 			fmt.Println("Error while update order by id in category controller: " + err.Error())
 			ctx.JSON(http.StatusBadRequest, models.NewStandardResponse(nil, http.StatusBadRequest, err.Error(), constants.InvalidOrderIDQueryString))
+		} else if reason := ctx.Query("reason"); reason == "" {
+			fmt.Println("Error while get reason rejected order in query string: reason can not be empty")
+			ctx.JSON(http.StatusBadRequest, models.NewStandardResponse(nil, http.StatusBadRequest, exceptions.ErrReasonEmpty.Error(), constants.InvalidReasonQueryString))
 		} else {
 			repositories := repositories.NewSQLStore(db)
 			bookingService := services.NewBookingBusiness(repositories)
-			if orderId, err := bookingService.RejectOrder(ctx, orderId); err != nil {
+			if orderId, err := bookingService.RejectOrder(ctx, orderId, reason); err != nil {
 				fmt.Println("Error while update order in booking controller: " + err.Error())
 				ctx.JSON(http.StatusInternalServerError, models.NewStandardResponse(nil, http.StatusInternalServerError, err.Error(), constants.CannotRejectBooking))
 			} else {
@@ -169,6 +173,52 @@ func GetPreparingBookingByTableId() gin.HandlerFunc {
 				ctx.JSON(http.StatusInternalServerError, models.NewStandardResponse(nil, http.StatusInternalServerError, err.Error(), constants.CannotGetPreparingOrderByTableId))
 			} else {
 				ctx.JSON(http.StatusOK, models.NewStandardResponse(bookings, http.StatusOK, "", constants.GetPreparingOrderByTableIdSuccess))
+			}
+		}
+	}
+}
+
+func RefundBooking() gin.HandlerFunc {
+	db, _ := configs.GetGormInstance()
+	var booking models.BookingCreatable
+	return func(ctx *gin.Context) {
+		if orderId, err := strconv.Atoi(ctx.Param("orderId")); err != nil {
+			fmt.Println("Error while get orderId in query string in booking controller: " + err.Error())
+			ctx.JSON(http.StatusBadRequest, models.NewStandardResponse(nil, http.StatusBadRequest, err.Error(), constants.InvalidOrderIDQueryString))
+		} else if err := ctx.ShouldBind(&booking); err != nil {
+			fmt.Println("Error while try parse request body to struct: " + err.Error())
+			ctx.JSON(http.StatusBadRequest, models.NewStandardResponse(nil, http.StatusBadRequest, err.Error(), constants.InvalidRequestBody))
+		} else {
+			repositories := repositories.NewSQLStore(db)
+			bookingService := services.NewBookingBusiness(repositories)
+			billService := services.NewBillBusiness(repositories)
+
+			id := ctx.Value("employeeId").(int)
+			employeeId := uint(id)
+			finishedOrder := true
+			order := models.OrderCreatable{Note: booking.Note, EmployeeId: &employeeId, TableId: booking.TableId, Refundable: booking.Refundable}
+			order.EmployeeId = &employeeId
+			order.Accepted = true
+			order.Status = &finishedOrder
+
+			if refundBills, err := billService.ReadBillsByOrderId(ctx, uint(orderId)); err != nil {
+				fmt.Println("Error while find bills by order id before refund: " + err.Error())
+				ctx.JSON(http.StatusInternalServerError, models.NewStandardResponse(nil, http.StatusInternalServerError, err.Error(), constants.RefundTargetNotFound))
+			} else {
+				bills := make([]models.BillCreatable, len(booking.ProductsId))
+				for i := 0; i < len(booking.ProductsId); i++ {
+					quantity := refundBills[i].Quantity - booking.Quantities[i]
+					bills[i] = models.BillCreatable{Quantity: &quantity, ProductId: &booking.ProductsId[i]}
+				}
+				if refundOrderId, newOrderId, err := bookingService.RefundOrderById(ctx, orderId, &order, bills, *booking.SecretCode); err != nil {
+					fmt.Println("Error while refund order by id in booking controller: " + err.Error())
+					ctx.JSON(http.StatusInternalServerError, models.NewStandardResponse(nil, http.StatusInternalServerError, err.Error(), constants.CannotRefundOrderByOrderId))
+				} else {
+					ctx.JSON(http.StatusOK, models.NewStandardResponse(gin.H{
+						"refundOrderId": refundOrderId,
+						"newOrderId":    newOrderId,
+					}, http.StatusOK, "", constants.RefundOrderByOrderIdSuccess))
+				}
 			}
 		}
 	}

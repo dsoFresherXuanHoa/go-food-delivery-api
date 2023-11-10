@@ -7,3 +7,8 @@
 PATCH {{host}}/finished/1
 Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}
+
+###
+PATCH {{host}}/compensated/?orderId=1&billId=1
+Content-Type: {{contentType}}
+Authorization: Bearer {{managerAccessToken}}

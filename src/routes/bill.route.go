@@ -13,5 +13,6 @@ func BillRouteConfig(router *gin.Engine) {
 	bills := router.Group("/api/v1/bills")
 	{
 		bills.PATCH("/finished/:billId", middlewares.RequiredChiefPermissionOrMore(secretKey), controllers.FinishBill())
+		bills.PATCH("/compensated", middlewares.RequiredChiefPermissionOrMore(secretKey), controllers.CompensatedBill())
 	}
 }

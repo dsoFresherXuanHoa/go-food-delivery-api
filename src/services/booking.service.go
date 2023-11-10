@@ -9,12 +9,13 @@ import (
 type BookingStorage interface {
 	CreateBooking(ctx context.Context, order *models.OrderCreatable, bills []models.BillCreatable, secretCode int) (*uint, error)
 	AcceptOrder(ctx context.Context, orderId int) (*uint, error)
-	RejectOrder(ctx context.Context, orderId int) (*uint, error)
+	RejectOrder(ctx context.Context, orderId int, reason string) (*uint, error)
 	FinishOrder(ctx context.Context, orderId int) (*uint, error)
 	GetDetailBooking(ctx context.Context, orderId int) (*models.BookingResponse, error)
 	GetTop10OrdersByEmployeeId(ctx context.Context, employeeId int) ([]models.BookingResponse, error)
 	GetServeBookingsByTableId(ctx context.Context, tableId int) ([]models.BookingResponse, error)
 	GetPreparingBookingsByTableId(ctx context.Context, tableId int) ([]models.BookingResponse, error)
+	RefundOrderById(ctx context.Context, orderId int, order *models.OrderCreatable, bills []models.BillCreatable, secretCode int) (*uint, *uint, error)
 }
 
 type bookingBusiness struct {
@@ -43,8 +44,8 @@ func (business *bookingBusiness) AcceptOrder(ctx context.Context, orderId int) (
 	}
 }
 
-func (business *bookingBusiness) RejectOrder(ctx context.Context, orderId int) (*uint, error) {
-	if orderId, err := business.storage.RejectOrder(ctx, orderId); err != nil {
+func (business *bookingBusiness) RejectOrder(ctx context.Context, orderId int, reason string) (*uint, error) {
+	if orderId, err := business.storage.RejectOrder(ctx, orderId, reason); err != nil {
 		fmt.Println("Error while update order in service: " + err.Error())
 		return nil, err
 	} else {
@@ -94,5 +95,14 @@ func (business *bookingBusiness) GetPreparingBookingsByTableId(ctx context.Conte
 		return nil, err
 	} else {
 		return orders, nil
+	}
+}
+
+func (business *bookingBusiness) RefundOrderById(ctx context.Context, orderId int, order *models.OrderCreatable, bills []models.BillCreatable, secretCode int) (*uint, *uint, error) {
+	if refundOrderId, newOrderId, err := business.storage.RefundOrderById(ctx, orderId, order, bills, secretCode); err != nil {
+		fmt.Println("Error while refund order by id in service: " + err.Error())
+		return nil, nil, err
+	} else {
+		return refundOrderId, newOrderId, nil
 	}
 }
