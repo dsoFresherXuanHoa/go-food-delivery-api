@@ -12,6 +12,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"golang.org/x/exp/slices"
 )
 
 func CreateBooking() gin.HandlerFunc {
@@ -195,28 +196,43 @@ func RefundBooking() gin.HandlerFunc {
 
 			id := ctx.Value("employeeId").(int)
 			employeeId := uint(id)
-			finishedOrder := true
 			order := models.OrderCreatable{Note: booking.Note, EmployeeId: &employeeId, TableId: booking.TableId, Refundable: booking.Refundable}
 			order.EmployeeId = &employeeId
 			order.Accepted = true
-			order.Status = &finishedOrder
 
 			if refundBills, err := billService.ReadBillsByOrderId(ctx, uint(orderId)); err != nil {
 				fmt.Println("Error while find bills by order id before refund: " + err.Error())
 				ctx.JSON(http.StatusInternalServerError, models.NewStandardResponse(nil, http.StatusInternalServerError, err.Error(), constants.RefundTargetNotFound))
 			} else {
-				bills := make([]models.BillCreatable, len(booking.ProductsId))
-				for i := 0; i < len(booking.ProductsId); i++ {
-					quantity := refundBills[i].Quantity - booking.Quantities[i]
-					bills[i] = models.BillCreatable{Quantity: &quantity, ProductId: &booking.ProductsId[i]}
+				bills := make([]models.BillCreatable, len(refundBills))
+				refundProductId := make([]uint, len(refundBills))
+				refundProductQuantity := make([]int, len(refundBills))
+				requestProductId := make([]uint, len(booking.ProductsId))
+				requestProductQuantity := make([]int, len(booking.ProductsId))
+				for i := 0; i < len(refundBills); i++ {
+					refundProductId[i] = refundBills[i].ProductId
+					refundProductQuantity[i] = refundBills[i].Quantity
 				}
-				if refundOrderId, newOrderId, err := bookingService.RefundOrderById(ctx, orderId, &order, bills, *booking.SecretCode); err != nil {
+				for i := 0; i < len(booking.ProductsId); i++ {
+					requestProductId[i] = booking.ProductsId[i]
+					requestProductQuantity[i] = booking.Quantities[i]
+				}
+				for i := 0; i < len(refundProductId); i++ {
+					current := refundProductId[i]
+					if index := slices.Index(requestProductId, current); index != -1 {
+						quantity := refundProductQuantity[i] - requestProductQuantity[index]
+						bills[i] = models.BillCreatable{Quantity: &quantity, ProductId: &refundBills[i].ProductId}
+					} else {
+						bills[i] = models.BillCreatable{Quantity: &refundBills[i].Quantity, ProductId: &refundBills[i].ProductId}
+					}
+				}
+				if _, newOrderId, err := bookingService.RefundOrderById(ctx, orderId, &order, bills, *booking.SecretCode); err != nil {
 					fmt.Println("Error while refund order by id in booking controller: " + err.Error())
 					ctx.JSON(http.StatusInternalServerError, models.NewStandardResponse(nil, http.StatusInternalServerError, err.Error(), constants.CannotRefundOrderByOrderId))
 				} else {
 					ctx.JSON(http.StatusOK, models.NewStandardResponse(gin.H{
-						"refundOrderId": refundOrderId,
-						"newOrderId":    newOrderId,
+						"refundOrderId": orderId,
+						"newOrderId":    *newOrderId,
 					}, http.StatusOK, "", constants.RefundOrderByOrderIdSuccess))
 				}
 			}

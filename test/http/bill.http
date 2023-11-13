@@ -9,6 +9,6 @@ Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}
 
 ###
-PATCH {{host}}/compensated/?orderId=1&billId=1
+PATCH {{host}}/compensated/?orderId=5&billId=9
 Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}

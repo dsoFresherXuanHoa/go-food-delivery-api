@@ -11,8 +11,11 @@ import (
 
 func RouteConfig(db *gorm.DB) {
 	port := os.Getenv("PORT")
+	config := cors.DefaultConfig()
+	config.AllowAllOrigins = true
+
 	router := gin.Default()
-	router.Use(cors.Default())
+	router.Use(cors.New(config))
 
 	routes.RoleRouteConfig(router)
 	routes.CategoriesRouteConfig(router)

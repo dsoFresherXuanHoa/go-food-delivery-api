@@ -238,7 +238,7 @@ func (s *sqlStorage) RefundOrderById(ctx context.Context, orderId int, order *mo
 		return nil, nil, result.Error
 	} else if newOrderId, err := s.CreateBooking(ctx, order, bills, secretCode); err != nil {
 		fmt.Println("Error while create new order after refunding in repository: " + err.Error())
-		return nil, nil, result.Error
+		return nil, nil, err
 	} else {
 		return &deletedOrder.ID, newOrderId, nil
 	}

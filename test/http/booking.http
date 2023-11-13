@@ -12,8 +12,8 @@ Authorization: Bearer {{waiterAccessToken}}
     "note": "Không Cho Hành Lá",
     "secretCode": 7648,
     "tableId": 1,
-    "quantities": [1, 3],
-    "productsId": [3, 1],
+    "quantities": [1, 2, 3],
+    "productsId": [3, 2, 1],
     "refundable": false
 }
 
@@ -53,15 +53,15 @@ Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}
 
 ###
-PATCH {{host}}/refund/2
+PATCH {{host}}/refund/16
 Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}
 
 {
     "note": "Không Cho Hành Lá",
-    "secretCode": 7648,
+    "secretCode": 7647,
     "tableId": 1,
     "quantities": [1, 1],
-    "productsId": [3, 1],
+    "productsId": [1, 2],
     "refundable": true
 }
