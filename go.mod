@@ -4,7 +4,6 @@ go 1.20
 
 require (
 	github.com/cloudinary/cloudinary-go/v2 v2.5.1
-	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-gonic/gin v1.9.1
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/joho/godotenv v1.5.1
@@ -13,6 +12,12 @@ require (
 	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
 	gorm.io/driver/mysql v1.5.2
 	gorm.io/gorm v1.25.5
+)
+
+require (
+	github.com/kr/pretty v0.3.0 // indirect
+	github.com/rogpeppe/go-internal v1.8.0 // indirect
+	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 )
 
 require (
@@ -37,6 +42,8 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.8 // indirect
+	github.com/rs/cors v1.8.1 // indirect
+	github.com/rs/cors/wrapper/gin v0.0.0-20231013084403-73f81b45a644
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.11 // indirect
 	golang.org/x/arch v0.3.0 // indirect

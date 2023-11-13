@@ -4,18 +4,16 @@ import (
 	"go-food-delivery-api/src/routes"
 	"os"
 
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
+
+	cors "github.com/rs/cors/wrapper/gin"
 )
 
 func RouteConfig(db *gorm.DB) {
 	port := os.Getenv("PORT")
-	config := cors.DefaultConfig()
-	config.AllowAllOrigins = true
-
 	router := gin.Default()
-	router.Use(cors.New(config))
+	router.Use(cors.Default())
 
 	routes.RoleRouteConfig(router)
 	routes.CategoriesRouteConfig(router)
