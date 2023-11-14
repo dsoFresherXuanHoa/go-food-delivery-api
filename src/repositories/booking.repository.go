@@ -84,7 +84,7 @@ func (s *sqlStorage) GetDetailBooking(ctx context.Context, orderId int) (*models
 			} else {
 				product.ActualDiscountPrice = product.Price
 			}
-			embedItems = append(embedItems, models.BookingItemResponse{Product: *product, Quantity: bill.Quantity, BillId: bill.ID})
+			embedItems = append(embedItems, models.BookingItemResponse{Product: *product, Quantity: bill.Quantity, BillId: bill.ID, Status: bill.Status})
 		}
 		embedTable, _ := tableService.ReadTableById(ctx, order.TableId)
 		detailEmbedTable := s.GetDetailTable(ctx, *embedTable)
