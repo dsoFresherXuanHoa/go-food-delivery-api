@@ -7,10 +7,10 @@ import (
 type Account struct {
 	gorm.Model
 	Password   string `json:"-" gorm:"column:password;not null"`
-	Email      string `json:"-" gorm:"column:email;unique;not null"`
+	Email      string `json:"email" gorm:"column:email;unique;not null"`
 	SecretCode int    `json:"-" gorm:"column:secret_code;not null"`
 	EmployeeId uint   `json:"-" gorm:"column:employee_id;unique;not null"`
-	RoleId     uint   `json:"-" gorm:"column:role_id;not null"`
+	RoleId     uint   `json:"roleId" gorm:"column:role_id;not null"`
 }
 
 type AccountResponse struct {

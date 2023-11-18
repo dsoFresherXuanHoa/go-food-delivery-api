@@ -22,3 +22,11 @@ func (s *sqlStorage) ReadDiscountById(ctx context.Context, discountId uint) (*mo
 	}
 	return &discount, nil
 }
+
+func (s *sqlStorage) UpdateDiscountById(ctx context.Context, discountId uint, discount *models.DiscountUpdatable) (*uint, error) {
+	if result := s.db.Table(models.DiscountUpdatable{}.GetTableName()).Where("id = ?", discountId).Updates(discount); result.Error != nil {
+		fmt.Println("Error while update discount by id in repository: ", result.Error.Error())
+		return nil, result.Error
+	}
+	return &discountId, nil
+}

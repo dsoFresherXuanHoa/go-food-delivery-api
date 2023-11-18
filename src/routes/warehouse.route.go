@@ -13,5 +13,6 @@ func WarehouseRouteConfig(router *gin.Engine) {
 	warehouses := router.Group("/api/v1/warehouses")
 	{
 		warehouses.POST("/", middlewares.RequiredManagerPermission(secretKey), controllers.ImportWarehouse())
+		warehouses.PATCH("/", middlewares.RequiredManagerPermission(secretKey), controllers.UpdateWarehouse())
 	}
 }

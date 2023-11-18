@@ -39,7 +39,7 @@ func (s *sqlStorage) CreateProduct(ctx context.Context, product *models.ProductC
 
 func (s *sqlStorage) ReadProduct(ctx context.Context) ([]models.ProductResponse, error) {
 	var products models.Products
-	if err := s.db.Table(models.Products{}.GetTableName()).Find(&products).Error; err != nil {
+	if err := s.db.Unscoped().Table(models.Products{}.GetTableName()).Find(&products).Error; err != nil {
 		fmt.Println("Error while read product in repository: " + err.Error())
 		return nil, err
 	}
@@ -106,6 +106,14 @@ func (s *sqlStorage) ReadTopGoodsByReorderLevel(ctx context.Context, startTime i
 		fmt.Println("Error while get all product by reorderLevel: " + err.Error())
 		return nil, err
 	}
-	fmt.Println(res[0].Id)
 	return res, nil
+}
+
+func (s *sqlStorage) DeleteProductById(ctx context.Context, productId int) (*int, error) {
+	var product models.Product
+	if err := s.db.Table(models.Product{}.GetTableName()).Where("id = ?", productId).Delete(&product).Error; err != nil {
+		fmt.Println("Error while delete product by id: " + err.Error())
+		return nil, err
+	}
+	return &productId, nil
 }

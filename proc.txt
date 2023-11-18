@@ -16,6 +16,7 @@
 
 - [GET]: /api/v1/products ✓
 - [GET]: /api/v1/products/:productId ✓
+- [PATCH]: /api/v1/products/:productId ✓
 - [GET]: /api/v1/products/category/:categoryId ✓
 - [GET]: /api/v1/products/recommend/:limit ✓
 

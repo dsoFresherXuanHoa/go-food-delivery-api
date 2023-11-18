@@ -17,3 +17,18 @@ Authorization: Bearer {{managerAccessToken}}
     "minQuantity": 5,
     "discountPercent": 10
 }
+
+
+###
+PATCH  {{host}}/?productId=16&discountId=19
+Content-Type: {{contentType}}
+Authorization: Bearer {{managerAccessToken}}
+
+{
+    "name": "Pessi",
+    "description": "Pessi, Thơm Ngon Bổ Dưỡng",
+    "price": 5000,
+    "stockAmount": 200,
+    "minQuantity": 10,
+    "discountPercent": 10
+}

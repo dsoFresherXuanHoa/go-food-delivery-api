@@ -85,3 +85,22 @@ func ReadProductById() gin.HandlerFunc {
 		}
 	}
 }
+
+func DeleteProductById() gin.HandlerFunc {
+	db, _ := configs.GetGormInstance()
+	return func(ctx *gin.Context) {
+		if productId, err := strconv.Atoi(ctx.Param("productId")); err != nil {
+			fmt.Println("Error while read product by id in product controller: " + err.Error())
+			ctx.JSON(http.StatusBadRequest, models.NewStandardResponse(nil, http.StatusBadRequest, err.Error(), constants.InvalidProductIDQueryString))
+		} else {
+			repositories := repositories.NewSQLStore(db)
+			productService := services.NewProductBusiness(repositories)
+			if deleteProductId, err := productService.DeleteProductById(ctx, productId); err != nil {
+				fmt.Println("Error while delete product by id in product controller: " + err.Error())
+				ctx.JSON(http.StatusInternalServerError, models.NewStandardResponse(nil, http.StatusInternalServerError, err.Error(), constants.CannotDeleteProductByID))
+			} else {
+				ctx.JSON(http.StatusOK, models.NewStandardResponse(deleteProductId, http.StatusOK, "", constants.DeleteProductByIDSuccess))
+			}
+		}
+	}
+}

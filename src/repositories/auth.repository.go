@@ -59,7 +59,7 @@ func (s *sqlStorage) SignIn(ctx context.Context, signIn *models.SignIn) (*tokens
 	}
 }
 
-func (s *sqlStorage) CreateResetPassword(ctx context.Context, resetPassword *models.ResetPasswordCreatable) (*uint, error) {
+func (s *sqlStorage) ResetPassword(ctx context.Context, resetPassword *models.ResetPasswordCreatable) (*uint, error) {
 	currentAccountId := ctx.Value("accountId").(int)
 	resetPassword.ManagerId = &currentAccountId
 	repository := NewSQLStore(s.db)

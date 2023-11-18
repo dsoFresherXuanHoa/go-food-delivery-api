@@ -12,8 +12,10 @@ var (
 	CannotReadRecommendProduct                = "Cannot read recommend product right now: check your information or permission again! If you think nothing went wrong, try again later!"
 	CannotSaveProductThumbnailsToLocalStorage = "Cannot save product thumbnail to local storage: check your request file or try again later"
 	CannotReadProductByID                     = "Cannot read Product by id right now: check your information or permission again! If you think nothing went wrong, try again later!"
+	CannotDeleteProductByID                   = "Cannot delete Product by id right now: check your information or permission again! If you think nothing went wrong, try again later!"
 
 	CreateProductSuccess        = "Create Product success: congrats!"
 	ReadProductSuccess          = "Read Product success: congrats!"
 	ReadProductRecommendSuccess = "Read recommend Product success: congrats!"
+	DeleteProductByIDSuccess    = "Delete Product success: congrats!"
 )

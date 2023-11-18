@@ -16,5 +16,6 @@ func ProductRouteConfig(router *gin.Engine) {
 		products.GET("/recommend/:limit", middlewares.RequiredWaiterPermissionOrMore(secretKey), controllers.ReadRecommendProduct())
 		products.GET("/", middlewares.RequiredAuthorize(secretKey), controllers.ReadProduct())
 		products.GET("/:productId", middlewares.RequiredAuthorize(secretKey), controllers.ReadProductById())
+		products.DELETE("/:productId", middlewares.RequiredManagerPermission(secretKey), controllers.DeleteProductById())
 	}
 }

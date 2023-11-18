@@ -92,7 +92,7 @@ func ResetPassword() gin.HandlerFunc {
 		} else {
 			repository := repositories.NewSQLStore(db)
 			authService := services.NewAuthBusiness(repository)
-			if resetPasswordId, err := authService.CreateResetPassword(ctx, &resetPassword); err != nil {
+			if resetPasswordId, err := authService.ResetPassword(ctx, &resetPassword); err != nil {
 				fmt.Println("Error while reset password in auth controller: " + err.Error())
 				ctx.JSON(http.StatusInternalServerError, models.NewStandardResponse(nil, http.StatusInternalServerError, err.Error(), constants.CannotResetPassword))
 			} else {

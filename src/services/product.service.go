@@ -14,6 +14,7 @@ type ProductStorage interface {
 	ReadRecommendProduct(ctx context.Context, limit int) ([]models.ProductResponse, error)
 	UpdateProductById(ctx context.Context, id int, product *models.ProductUpdatable) (*int64, error)
 	ReadTopGoodsByReorderLevel(ctx context.Context, startTime int, endTime int) ([]models.StatsTopGoodsByReorderLevel, error)
+	DeleteProductById(ctx context.Context, productId int) (*int, error)
 }
 
 type productBusiness struct {
@@ -84,5 +85,14 @@ func (business *productBusiness) ReadTopGoodsByReorderLevel(ctx context.Context,
 		return nil, err
 	} else {
 		return res, nil
+	}
+}
+
+func (business *productBusiness) DeleteProductById(ctx context.Context, productId int) (*int, error) {
+	if deletedProduct, err := business.storage.DeleteProductById(ctx, productId); err != nil {
+		fmt.Println("Error while delete product by id in service: " + err.Error())
+		return nil, err
+	} else {
+		return deletedProduct, nil
 	}
 }

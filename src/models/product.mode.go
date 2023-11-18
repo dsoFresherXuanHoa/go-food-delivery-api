@@ -50,10 +50,11 @@ type ProductCreatable struct {
 
 type ProductUpdatable struct {
 	gorm.Model
-	Name         *string `json:"name" gorm:"column:name;not null"`
-	Description  *string `json:"description" gorm:"column:description;not null"`
-	ReorderLevel *int    `json:"reorderLevel" gorm:"column:reorder_level;default:0"`
-	StockAmount  *int    `json:"stockAmount" gorm:"column:stock_amount;default:0"`
+	Name         *string  `json:"name" gorm:"column:name;not null"`
+	Description  *string  `json:"description" gorm:"column:description;not null"`
+	Price        *float64 `json:"price" gorm:"column:price;not null"`
+	ReorderLevel *int     `json:"reorderLevel" gorm:"column:reorder_level;default:0"`
+	StockAmount  *int     `json:"stockAmount" gorm:"column:stock_amount;default:0"`
 }
 
 type Products []Product

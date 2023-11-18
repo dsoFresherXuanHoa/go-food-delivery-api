@@ -53,3 +53,21 @@ func (s *sqlStorage) UpdateAccount(ctx context.Context, username string, account
 		return &result.RowsAffected, nil
 	}
 }
+
+func (s *sqlStorage) ReadAllAccount(ctx context.Context) (models.Accounts, error) {
+	var accounts models.Accounts
+	if err := s.db.Table(models.Account{}.GetTableName()).Find(&accounts).Error; err != nil {
+		fmt.Println("Error while read all accounts in repository: " + err.Error())
+		return nil, err
+	}
+	return accounts, nil
+}
+
+func (s *sqlStorage) DeleteAccountById(ctx context.Context, accountId int) (*int, error) {
+	var account models.Account
+	if err := s.db.Table(models.Account{}.GetTableName()).Where("id = ?", accountId).Delete(&account).Error; err != nil {
+		fmt.Println("Error while delete account by id: " + err.Error())
+		return nil, err
+	}
+	return &accountId, nil
+}

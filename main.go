@@ -3,6 +3,11 @@ package main
 import (
 	"go-food-delivery-api/src/configs"
 	"go-food-delivery-api/src/models"
+	"go-food-delivery-api/src/routes"
+	"os"
+
+	"github.com/gin-gonic/gin"
+	cors "github.com/rs/cors/wrapper/gin"
 )
 
 func main() {
@@ -23,6 +28,24 @@ func main() {
 			&models.ResetPassword{},
 		}
 		db.AutoMigrate(models...)
-		RouteConfig(db)
+
+		port := os.Getenv("PORT")
+		router := gin.Default()
+
+		router.Use(cors.AllowAll())
+
+		routes.RoleRouteConfig(router)
+		routes.CategoriesRouteConfig(router)
+		routes.AreaRouteConfig(router)
+		routes.TableRouteConfig(router)
+		routes.ProductRouteConfig(router)
+		routes.BillRouteConfig(router)
+		routes.AuthRouteConfig(router)
+		routes.WarehouseRouteConfig(router)
+		routes.BookingRouteConfig(router)
+		routes.StatsRouteConfig(router)
+		routes.EmployeeRouteConfig(router)
+
+		router.Run(":" + port)
 	}
 }

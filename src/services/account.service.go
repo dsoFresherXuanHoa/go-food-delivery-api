@@ -17,6 +17,8 @@ type AccountStorage interface {
 	ReadAccountByEmail(ctx context.Context, email string) (*models.Account, error)
 	GetUpdatableAccount(ctx context.Context, account *models.Account) models.AccountUpdatable
 	UpdateAccount(ctx context.Context, username string, account *models.AccountUpdatable) (*int64, error)
+	ReadAllAccount(ctx context.Context) (models.Accounts, error)
+	DeleteAccountById(ctx context.Context, accountId int) (*int, error)
 }
 
 type accountBusiness struct {
@@ -81,4 +83,13 @@ func (business *accountBusiness) UpdateAccount(ctx context.Context, username str
 
 func (business *accountBusiness) GetUpdatableAccount(ctx context.Context, account *models.Account) models.AccountUpdatable {
 	return business.storage.GetUpdatableAccount(ctx, account)
+}
+
+func (business *employeeBusiness) DeleteAccountById(ctx context.Context, accountId int) (*int, error) {
+	if deletedAccount, err := business.storage.DeleteEmployeeById(ctx, accountId); err != nil {
+		fmt.Println("Error while delete account by id in service: " + err.Error())
+		return nil, err
+	} else {
+		return deletedAccount, nil
+	}
 }

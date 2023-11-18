@@ -1,0 +1,14 @@
+@host = http://localhost:3001/api/v1/employees
+@contentType = application/json
+@managerAccessToken = {{$dotenv MANAGER_ACCESS_TOKEN}}
+
+###
+GET {{host}}/
+Content-Type: {{contentType}}
+Authorization: Bearer {{managerAccessToken}}
+
+
+###
+DELETE {{host}}/1
+Content-Type: {{contentType}}
+Authorization: Bearer {{managerAccessToken}}

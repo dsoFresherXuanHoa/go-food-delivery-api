@@ -6,7 +6,7 @@
 ###
 GET {{host}}/
 Content-Type: {{contentType}}
-Authorization: Bearer {{waiterAccessToken}}
+Authorization: Bearer {{managerAccessToken}}
 
 ###
 GET {{host}}/category/3
@@ -23,3 +23,9 @@ Authorization: Bearer {{waiterAccessToken}}
 GET {{host}}/1
 Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}
+
+
+###
+DELETE {{host}}/20
+Content-Type: {{contentType}}
+Authorization: Bearer {{managerAccessToken}}

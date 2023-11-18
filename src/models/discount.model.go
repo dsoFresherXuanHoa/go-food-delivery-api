@@ -26,8 +26,8 @@ type DiscountCreatable struct {
 
 type DiscountUpdatable struct {
 	gorm.Model
-	MinQuantity     int `json:"minQuantity" gorm:"column:min_quantity;not null;default:0"`
-	DiscountPercent int `json:"discountPercent" gorm:"column:discount_percent;default:0;not null"`
+	MinQuantity     *int `json:"minQuantity" gorm:"column:min_quantity;not null;default:0"`
+	DiscountPercent *int `json:"discountPercent" gorm:"column:discount_percent;default:0;not null"`
 }
 
 type Discounts []Discount

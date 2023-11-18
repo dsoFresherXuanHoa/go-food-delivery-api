@@ -9,6 +9,7 @@ import (
 type DiscountStorage interface {
 	CreateDiscount(ctx context.Context, discount *models.DiscountCreatable) (*uint, error)
 	ReadDiscountById(ctx context.Context, discountId uint) (*models.Discount, error)
+	UpdateDiscountById(ctx context.Context, discountId uint, discount *models.DiscountUpdatable) (*uint, error)
 }
 
 type discountBusiness struct {
@@ -34,5 +35,14 @@ func (business *discountBusiness) ReadDiscountById(ctx context.Context, discount
 		return nil, err
 	} else {
 		return discount, nil
+	}
+}
+
+func (business *discountBusiness) UpdateDiscountById(ctx context.Context, discountId uint, discount *models.DiscountUpdatable) (*uint, error) {
+	if updatedDiscountId, err := business.storage.UpdateDiscountById(ctx, discountId, discount); err != nil {
+		fmt.Println("Error while update discount by id in service: " + err.Error())
+		return nil, err
+	} else {
+		return updatedDiscountId, nil
 	}
 }

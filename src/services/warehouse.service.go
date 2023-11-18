@@ -9,6 +9,7 @@ import (
 
 type WarehouseStorage interface {
 	ImportWareHouse(ctx context.Context, discount *models.DiscountCreatable, product *models.ProductCreatable, productThumb *multipart.FileHeader) (*uint, *uint, error)
+	UpdateWareHouseById(ctx context.Context, discountId int, discount *models.DiscountUpdatable, productId int, product *models.ProductUpdatable) (*uint, *int64, error)
 }
 
 type warehouseBusiness struct {
@@ -21,7 +22,16 @@ func NewWarehouseBusiness(storage WarehouseStorage) *warehouseBusiness {
 
 func (business *warehouseBusiness) ImportWareHouse(ctx context.Context, discount *models.DiscountCreatable, product *models.ProductCreatable, productThumb *multipart.FileHeader) (*uint, *uint, error) {
 	if discountId, productId, err := business.storage.ImportWareHouse(ctx, discount, product, productThumb); err != nil {
-		fmt.Println("Error while create product in service: " + err.Error())
+		fmt.Println("Error while create warehouse in service: " + err.Error())
+		return nil, nil, err
+	} else {
+		return discountId, productId, nil
+	}
+}
+
+func (business *warehouseBusiness) UpdateWareHouseById(ctx context.Context, discountId int, discount *models.DiscountUpdatable, productId int, product *models.ProductUpdatable) (*uint, *int64, error) {
+	if discountId, productId, err := business.storage.UpdateWareHouseById(ctx, discountId, discount, productId, product); err != nil {
+		fmt.Println("Error while update warehouse in service: " + err.Error())
 		return nil, nil, err
 	} else {
 		return discountId, productId, nil

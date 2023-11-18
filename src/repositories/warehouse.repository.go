@@ -42,3 +42,19 @@ func (s *sqlStorage) ImportWareHouse(ctx context.Context, discount *models.Disco
 		}
 	}
 }
+
+func (s *sqlStorage) UpdateWareHouseById(ctx context.Context, discountId int, discount *models.DiscountUpdatable, productId int, product *models.ProductUpdatable) (*uint, *int64, error) {
+	discountBusiness := services.NewDiscountBusiness(s)
+	if discountId, err := discountBusiness.UpdateDiscountById(ctx, uint(discountId), discount); err != nil {
+		fmt.Println("Error while update discount in warehouse repository: " + err.Error())
+		return nil, nil, err
+	} else {
+		productBusiness := services.NewProductBusiness(s)
+		if productId, err := productBusiness.UpdateProductById(ctx, productId, product); err != nil {
+			fmt.Println("Error while update warehouse in repository: " + err.Error())
+			return nil, nil, err
+		} else {
+			return discountId, productId, nil
+		}
+	}
+}
