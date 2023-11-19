@@ -26,6 +26,7 @@ type BillCreatable struct {
 	OrderId    *uint `json:"orderId" gorm:"column:order_id;not null"`
 	ProductId  *uint `json:"productId" gorm:"column:product_id;not null"`
 	Compensate *bool `json:"compensate" gorm:"column:compensate;default:false"`
+	Status     *bool `json:"-" gorm:"column:status;default:false"`
 }
 
 type BillUpdatable struct {

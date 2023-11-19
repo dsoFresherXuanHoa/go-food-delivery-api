@@ -10,15 +10,15 @@ Authorization: Bearer {{waiterAccessToken}}
 
 {
     "note": "Không Cho Hành Lá",
-    "secretCode": 7648,
+    "secretCode": 3255,
     "tableId": 1,
     "quantities": [1, 2, 3],
     "productsId": [3, 2, 1],
-    "refundable": false
+    "refundable": true
 }
 
 ### 
-GET {{host}}/?orderId=12
+GET {{host}}/?orderId=1
 Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}
 
@@ -43,7 +43,7 @@ Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}
 
 ### 
-PATCH {{host}}/rejected/?orderId=3&reason="Mệt Quá Không Làm Nữa"
+PATCH {{host}}/rejected/?orderId=5&reason="Chỉ Là Kiểm Tra Thử Thôi"
 Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}
 
@@ -65,3 +65,8 @@ Authorization: Bearer {{waiterAccessToken}}
     "productsId": [1, 2],
     "refundable": true
 }
+
+### 
+GET {{host}}/all
+Content-Type: {{contentType}}
+Authorization: Bearer {{managerAccessToken}}

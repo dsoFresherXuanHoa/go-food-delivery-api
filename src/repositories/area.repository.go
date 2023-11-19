@@ -16,7 +16,7 @@ func (s *sqlStorage) CreateArea(ctx context.Context, area *models.AreaCreatable)
 
 func (s *sqlStorage) ReadAreaById(ctx context.Context, areaId uint) (*models.Area, error) {
 	var area models.Area
-	if err := s.db.Where("id = ?", areaId).Find(&area).Error; err != nil {
+	if err := s.db.Unscoped().Where("id = ?", areaId).Find(&area).Error; err != nil {
 		fmt.Println("Error while find area by id in repository: " + err.Error())
 		return nil, err
 	}

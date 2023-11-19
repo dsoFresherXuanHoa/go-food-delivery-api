@@ -134,6 +134,9 @@ func (s *sqlStorage) RejectOrder(ctx context.Context, orderId int, reason string
 		if _, err := orderService.UpdateOrderById(ctx, orderId, &orderUpdatable); err != nil {
 			fmt.Println("Error while update order by id in repository: " + err.Error())
 			return nil, err
+		} else if res := s.db.Model(&models.Table{}).Where("id = ?", order.TableId).Update("available", true); res.Error != nil {
+			fmt.Println("Error while update table status after rejected order: " + res.Error.Error())
+			return nil, res.Error
 		}
 		return &order.ID, nil
 	}
@@ -241,5 +244,20 @@ func (s *sqlStorage) RefundOrderById(ctx context.Context, orderId int, order *mo
 		return nil, nil, err
 	} else {
 		return &deletedOrder.ID, newOrderId, nil
+	}
+}
+
+func (s *sqlStorage) GetAllBooking(ctx context.Context) ([]models.BookingResponse, error) {
+	var bookings []models.BookingResponse
+	var orderIds []uint
+	if result := s.db.Table(models.OrderCreatable{}.GetTableName()).Select("id").Find(&orderIds); result.Error != nil {
+		fmt.Println("Error while get all order id: " + result.Error.Error())
+		return nil, result.Error
+	} else {
+		for _, orderId := range orderIds {
+			detailBooking, _ := s.GetDetailBooking(ctx, int(orderId))
+			bookings = append(bookings, *detailBooking)
+		}
+		return bookings, nil
 	}
 }

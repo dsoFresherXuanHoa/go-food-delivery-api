@@ -1,0 +1,16 @@
+[
+  {
+    "fullName": "Xuân Hòa Lê",
+    "tel": "0364015071",
+    "gender": false,
+    "email": "dso.intern.xuanhoa@gmail.com",
+    "roleId": 1
+  },
+  {
+    "fullName": "Lê Xuân Hòa",
+    "tel": "0356415806",
+    "gender": false,
+    "email": "training.dso.xuanhoa@gmail.com",
+    "roleId": 2
+  }
+]

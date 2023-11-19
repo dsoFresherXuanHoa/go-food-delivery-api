@@ -1,0 +1,278 @@
+[
+  {
+    "name": "Cơm tấm sườn nướng",
+    "description": "Cơm tấm sườn nướng là món ăn đặc sản của miền Nam Việt Nam. Món ăn này bao gồm cơm tấm, sườn nướng, chả lụa, bì, trứng ốp la và nước mắm chua ngọt.",
+    "price": 35000,
+    "stockAmount": 700,
+    "categoryId": 2,
+    "minQuantity": 3,
+    "discountPercent": 5,
+    "thumb": "",
+    "uint": "Dĩa"
+  },
+  {
+    "name": "Cơm tấm chả cá",
+    "description": "Cơm tấm chả cá là món ăn được biến tấu từ cơm tấm sườn nướng. Món ăn này bao gồm cơm tấm, chả cá, trứng ốp la và nước mắm chua ngọt.",
+    "price": 37000,
+    "stockAmount": 600,
+    "categoryId": 2,
+    "minQuantity": 3,
+    "discountPercent": 5,
+    "thumb": "",
+    "uint": "Dĩa"
+  },
+  {
+    "name": "Cơm tấm gà",
+    "description": "Cơm tấm gà là món ăn được biến tấu từ cơm tấm sườn nướng. Món ăn này bao gồm cơm tấm, thịt gà nướng, trứng ốp la và nước mắm chua ngọt.",
+    "price": 38000,
+    "stockAmount": 500,
+    "categoryId": 2,
+    "minQuantity": 5,
+    "discountPercent": 7,
+    "thumb": "",
+    "uint": "Dĩa"
+  },
+  {
+    "name": "Cơm tấm tôm",
+    "description": "Cơm tấm tôm là món ăn được biến tấu từ cơm tấm sườn nướng. Món ăn này bao gồm cơm tấm, tôm nướng, trứng ốp la và nước mắm chua ngọt.",
+    "price": 39000,
+    "stockAmount": 400,
+    "categoryId": 2,
+    "minQuantity": 5,
+    "discountPercent": 10,
+    "thumb": "",
+    "uint": "Dĩa"
+  },
+  {
+    "name": "Cơm tấm thập cẩm",
+    "description": "Cơm tấm thập cẩm là món ăn bao gồm đầy đủ các loại topping như sườn nướng, chả cá, thịt gà, tôm, trứng ốp la và nước mắm chua ngọt.",
+    "price": 40000,
+    "stockAmount": 300,
+    "categoryId": 2,
+    "minQuantity": 3,
+    "discountPercent": 10,
+    "thumb": "",
+    "uint": "Dĩa"
+  },
+  {
+    "name": "Bánh mì thịt nướng",
+    "description": "Bánh mì thịt nướng là loại bánh mì được kẹp với thịt nướng, rau xanh và nước sốt.",
+    "price": 25000,
+    "stockAmount": 500,
+    "categoryId": 1,
+    "minQuantity": 8,
+    "discountPercent": 8,
+    "thumb": "",
+    "uint": "Ổ"
+  },
+  {
+    "name": "Bánh mì ốp la",
+    "description": "Bánh mì ốp la là loại bánh mì được kẹp với trứng ốp la, rau xanh và nước sốt.",
+    "price": 15000,
+    "stockAmount": 300,
+    "categoryId": 1,
+    "minQuantity": 5,
+    "discountPercent": 5,
+    "thumb": "",
+    "uint": "Ổ"
+  },
+  {
+    "name": "Bánh mì chả lụa",
+    "description": "Bánh mì chả lụa là loại bánh mì được kẹp với chả lụa, rau xanh và nước sốt.",
+    "price": 20000,
+    "stockAmount": 400,
+    "categoryId": 1,
+    "minQuantity": 5,
+    "discountPercent": 3,
+    "thumb": "",
+    "uint": "Ổ"
+  },
+  {
+    "name": "Bánh mì pate",
+    "description": "Bánh mì pate là loại bánh mì được kẹp với pate, rau xanh và nước sốt.",
+    "price": 18000,
+    "stockAmount": 200,
+    "categoryId": 1,
+    "minQuantity": 6,
+    "discountPercent": 6,
+    "thumb": "",
+    "uint": "Ổ"
+  },
+  {
+    "name": "Bánh mì chay",
+    "description": "Bánh mì chay là loại bánh mì được kẹp với rau củ quả, đậu phụ và nước sốt.",
+    "price": 15000,
+    "stockAmount": 100,
+    "categoryId": 1,
+    "minQuantity": 5,
+    "discountPercent": 10,
+    "thumb": "",
+    "uint": "Ổ"
+  },
+  {
+    "name": "Bún chả cá",
+    "description": "Bún chả cá là món ăn được chế biến từ bún, chả cá, rau sống và nước dùng chua ngọt.",
+    "price": 30000,
+    "stockAmount": 500,
+    "categoryId": 3,
+    "minQuantity": 3,
+    "discountPercent": 3,
+    "thumb": "",
+    "uint": "Tô"
+  },
+  {
+    "name": "Bún bò Huế",
+    "description": "Bún bò Huế là món ăn đặc sản của Huế, được chế biến từ bún, thịt bò, rau sống và nước dùng đậm đà.",
+    "price": 35000,
+    "stockAmount": 300,
+    "categoryId": 3,
+    "minQuantity": 3,
+    "discountPercent": 5,
+    "thumb": "",
+    "uint": "Tô"
+  },
+  {
+    "name": "Bún đậu mắm tôm",
+    "description": "Bún đậu mắm tôm là món ăn dân dã của người Việt, được chế biến từ bún, đậu hủ chiên, thịt luộc, rau sống và mắm tôm.",
+    "price": 55000,
+    "stockAmount": 400,
+    "categoryId": 3,
+    "minQuantity": 3,
+    "discountPercent": 2,
+    "thumb": "",
+    "uint": "Mẹt"
+  },
+  {
+    "name": "Bún chả Hà Nội",
+    "description": "Bún chả là món ăn truyền thống của Hà Nội, được chế biến từ bún, thịt nướng, rau sống và nước chấm chua ngọt.",
+    "price": 30000,
+    "stockAmount": 200,
+    "categoryId": 3,
+    "minQuantity": 5,
+    "discountPercent": 3,
+    "thumb": "",
+    "uint": "Tô"
+  },
+  {
+    "name": "Bún mọc",
+    "description": "Bún mọc là món ăn có nguồn gốc từ miền Bắc, được chế biến từ bún, mọc, rau sống và nước dùng thanh ngọt.",
+    "price": 25000,
+    "stockAmount": 100,
+    "categoryId": 3,
+    "minQuantity": 2,
+    "discountPercent": 2,
+    "thumb": "",
+    "uint": "Tô"
+  },
+  {
+    "name": "Phở bò",
+    "description": "Phở bò là món ăn truyền thống của Việt Nam, được chế biến từ bánh phở, thịt bò, rau sống và nước dùng đậm đà.",
+    "price": 40000,
+    "stockAmount": 500,
+    "categoryId": 4,
+    "minQuantity": 2,
+    "discountPercent": 2,
+    "thumb": "",
+    "uint": "Tô"
+  },
+  {
+    "name": "Phở gà",
+    "description": "Phở gà là món ăn được chế biến từ bánh phở, thịt gà, rau sống và nước dùng thanh ngọt.",
+    "price": 35000,
+    "stockAmount": 300,
+    "categoryId": 4,
+    "minQuantity": 3,
+    "discountPercent": 3,
+    "thumb": "",
+    "uint": "Tô"
+  },
+  {
+    "name": "Phở chay",
+    "description": "Phở chay là món ăn dành cho người ăn chay, được chế biến từ bánh phở, các loại rau củ quả và nước dùng thanh đạm.",
+    "price": 30000,
+    "stockAmount": 400,
+    "categoryId": 4,
+    "minQuantity": 2,
+    "discountPercent": 3,
+    "thumb": "",
+    "uint": "Tô"
+  },
+  {
+    "name": "Phở trộn",
+    "description": "Phở trộn là món ăn được chế biến từ bánh phở, các loại rau củ quả, thịt bò hoặc thịt gà và nước sốt chua ngọt.",
+    "price": 35000,
+    "stockAmount": 20,
+    "categoryId": 4,
+    "minQuantity": 5,
+    "discountPercent": 5,
+    "thumb": "",
+    "uint": "Tô"
+  },
+  {
+    "name": "Phở xào",
+    "description": "Phở xào là món ăn được chế biến từ bánh phở, các loại rau củ quả, thịt bò hoặc thịt gà và nước sốt đậm đà.",
+    "price": 40000,
+    "stockAmount": 100,
+    "categoryId": 4,
+    "minQuantity": 2,
+    "discountPercent": 0,
+    "thumb": "",
+    "uint": "Tô"
+  },
+  {
+    "name": "Táo",
+    "description": "Táo là loại trái cây có nguồn gốc từ Trung Quốc, có nhiều chất dinh dưỡng tốt cho sức khỏe.",
+    "price": 25000,
+    "stockAmount": 500,
+    "categoryId": 5,
+    "minQuantity": 0,
+    "discountPercent": 0,
+    "thumb": "",
+    "uint": "Phần"
+  },
+  {
+    "name": "Cam",
+    "description": "Cam là loại trái cây có nguồn gốc từ Việt Nam, chứa nhiều vitamin C giúp tăng cường hệ miễn dịch.",
+    "price": 30000,
+    "stockAmount": 300,
+    "categoryId": 5,
+    "minQuantity": 0,
+    "discountPercent": 0,
+    "thumb": "",
+    "uint": "Phần"
+  },
+
+  {
+    "name": "Chuối",
+    "description": "Chuối là loại trái cây có nguồn gốc từ Nam Mỹ, chứa nhiều kali giúp ổn định huyết áp.",
+    "price": 20000,
+    "stockAmount": 400,
+    "categoryId": 5,
+    "minQuantity": 0,
+    "discountPercent": 0,
+    "thumb": "",
+    "uint": "Phần"
+  },
+  {
+    "name": "Ổi",
+    "description": "Ổi là loại trái cây có nguồn gốc từ Đông Nam Á, chứa nhiều vitamin A giúp sáng mắt.",
+    "price": 35000,
+    "stockAmount": 200,
+    "categoryId": 5,
+    "minQuantity": 0,
+    "discountPercent": 0,
+    "thumb": "",
+    "uint": "Phần"
+  },
+  {
+    "name": "Dâu tây",
+    "description": "Dâu tây là loại trái cây có nguồn gốc từ châu Âu, chứa nhiều vitamin C và chất chống oxy hóa.",
+    "price": 40000,
+    "stockAmount": 100,
+    "categoryId": 5,
+    "minQuantity": 0,
+    "discountPercent": 0,
+    "thumb": "",
+    "uint": "Phần"
+  }
+]

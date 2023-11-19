@@ -217,13 +217,14 @@ func RefundBooking() gin.HandlerFunc {
 					requestProductId[i] = booking.ProductsId[i]
 					requestProductQuantity[i] = booking.Quantities[i]
 				}
+				finishedBill := true
 				for i := 0; i < len(refundProductId); i++ {
 					current := refundProductId[i]
 					if index := slices.Index(requestProductId, current); index != -1 {
 						quantity := refundProductQuantity[i] - requestProductQuantity[index]
-						bills[i] = models.BillCreatable{Quantity: &quantity, ProductId: &refundBills[i].ProductId}
+						bills[i] = models.BillCreatable{Quantity: &quantity, ProductId: &refundBills[i].ProductId, Status: &finishedBill}
 					} else {
-						bills[i] = models.BillCreatable{Quantity: &refundBills[i].Quantity, ProductId: &refundBills[i].ProductId}
+						bills[i] = models.BillCreatable{Quantity: &refundBills[i].Quantity, ProductId: &refundBills[i].ProductId, Status: &finishedBill}
 					}
 				}
 				if _, newOrderId, err := bookingService.RefundOrderById(ctx, orderId, &order, bills, *booking.SecretCode); err != nil {
@@ -236,6 +237,20 @@ func RefundBooking() gin.HandlerFunc {
 					}, http.StatusOK, "", constants.RefundOrderByOrderIdSuccess))
 				}
 			}
+		}
+	}
+}
+
+func GetAllBooking() gin.HandlerFunc {
+	db, _ := configs.GetGormInstance()
+	return func(ctx *gin.Context) {
+		repositories := repositories.NewSQLStore(db)
+		bookingService := services.NewBookingBusiness(repositories)
+		if bookings, err := bookingService.GetAllBooking(ctx); err != nil {
+			fmt.Println("Error while get all order in booking controller: " + err.Error())
+			ctx.JSON(http.StatusInternalServerError, models.NewStandardResponse(nil, http.StatusInternalServerError, err.Error(), constants.CannotGetAllBooking))
+		} else {
+			ctx.JSON(http.StatusOK, models.NewStandardResponse(bookings, http.StatusOK, "", constants.GetAllBookingSuccess))
 		}
 	}
 }

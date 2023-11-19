@@ -19,13 +19,12 @@ func (s *sqlStorage) CreateEmployee(ctx context.Context, employee *models.Employ
 func (s *sqlStorage) GetDetailEmployee(ctx context.Context, employee models.Employee) models.EmployeeResponse {
 	accountService := services.NewAccountBusiness(s)
 	embedAccount, _ := accountService.ReadAccountById(ctx, employee.ID)
-	fmt.Println(embedAccount)
 	return models.EmployeeResponse{Model: embedAccount.Model, Account: *embedAccount, Tables: nil, Orders: nil, FullName: employee.FullName, Tel: employee.Tel, Gender: employee.Gender}
 }
 
 func (s *sqlStorage) ReadAllEmployee(ctx context.Context) ([]models.EmployeeResponse, error) {
 	var employees models.Employees
-	if err := s.db.Table(models.Employees{}.GetTableName()).Find(&employees).Error; err != nil {
+	if err := s.db.Unscoped().Table(models.Employees{}.GetTableName()).Find(&employees).Error; err != nil {
 		fmt.Println("Error while read all employee in repository: " + err.Error())
 		return nil, err
 	}
@@ -38,7 +37,7 @@ func (s *sqlStorage) ReadAllEmployee(ctx context.Context) ([]models.EmployeeResp
 
 func (s *sqlStorage) ReadEmployeeById(ctx context.Context, id uint) (*models.Employee, error) {
 	var employee models.Employee
-	if err := s.db.Where("id = ?", id).First(&employee).Error; err != nil {
+	if err := s.db.Unscoped().Where("id = ?", id).First(&employee).Error; err != nil {
 		fmt.Println("Error while read employee by id in repository: " + err.Error())
 		return nil, err
 	}
@@ -58,11 +57,15 @@ func (s *sqlStorage) ReadTopEmployeeOrderNumber(ctx context.Context, startTime i
 
 func (s *sqlStorage) DeleteEmployeeById(ctx context.Context, employeeId int) (*int, error) {
 	var employee models.Employee
+	var deletedAccount models.Account
 	var account models.Account
 	if err := s.db.Table(models.Employee{}.GetTableName()).Where("id = ?", employeeId).Delete(&employee).Error; err != nil {
 		fmt.Println("Error while delete employee by id: " + err.Error())
 		return nil, err
-	} else if err := s.db.Table(models.Account{}.GetTableName()).Where("id = ?", employeeId).Delete(&account).Error; err != nil {
+	} else if res := s.db.Table(models.Account{}.GetTableName()).Where("employee_id = ?", employeeId).First(&deletedAccount); res.Error != nil {
+		fmt.Println("Error while delete account of employee after deleting account: " + res.Error.Error())
+		return nil, res.Error
+	} else if err := s.db.Table(models.Account{}.GetTableName()).Where("id = ?", deletedAccount.ID).Delete(&account).Error; err != nil {
 		fmt.Println("Error while delete account by id: " + err.Error())
 		return nil, err
 	}

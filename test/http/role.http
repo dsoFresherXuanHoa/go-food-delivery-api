@@ -8,5 +8,5 @@ POST {{host}}/
 Content-Type: {{contentType}}
 
 {
-    "name": "Chief"
+    "name": "Chef"
 }

@@ -9,6 +9,6 @@ Authorization: Bearer {{managerAccessToken}}
 
 
 ###
-DELETE {{host}}/1
+DELETE {{host}}/3
 Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}

@@ -16,7 +16,7 @@ func (s *sqlStorage) CreateAccount(ctx context.Context, account *models.AccountC
 
 func (s *sqlStorage) ReadAccountById(ctx context.Context, id uint) (*models.Account, error) {
 	var account models.Account
-	if err := s.db.Where("id = ?", id).First(&account).Error; err != nil {
+	if err := s.db.Unscoped().Where("id = ?", id).First(&account).Error; err != nil {
 		fmt.Println("Error while read account by id in repository: " + err.Error())
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func (s *sqlStorage) UpdateAccount(ctx context.Context, username string, account
 
 func (s *sqlStorage) ReadAllAccount(ctx context.Context) (models.Accounts, error) {
 	var accounts models.Accounts
-	if err := s.db.Table(models.Account{}.GetTableName()).Find(&accounts).Error; err != nil {
+	if err := s.db.Unscoped().Table(models.Account{}.GetTableName()).Find(&accounts).Error; err != nil {
 		fmt.Println("Error while read all accounts in repository: " + err.Error())
 		return nil, err
 	}

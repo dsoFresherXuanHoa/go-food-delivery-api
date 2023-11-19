@@ -16,6 +16,7 @@ type BookingStorage interface {
 	GetServeBookingsByTableId(ctx context.Context, tableId int) ([]models.BookingResponse, error)
 	GetPreparingBookingsByTableId(ctx context.Context, tableId int) ([]models.BookingResponse, error)
 	RefundOrderById(ctx context.Context, orderId int, order *models.OrderCreatable, bills []models.BillCreatable, secretCode int) (*uint, *uint, error)
+	GetAllBooking(ctx context.Context) ([]models.BookingResponse, error)
 }
 
 type bookingBusiness struct {
@@ -104,5 +105,13 @@ func (business *bookingBusiness) RefundOrderById(ctx context.Context, orderId in
 		return nil, nil, err
 	} else {
 		return refundOrderId, newOrderId, nil
+	}
+}
+
+func (business *bookingBusiness) GetAllBooking(ctx context.Context) ([]models.BookingResponse, error) {
+	if bookings, err := business.storage.GetAllBooking(ctx); err != nil {
+		return nil, err
+	} else {
+		return bookings, nil
 	}
 }

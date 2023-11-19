@@ -67,7 +67,7 @@ func (s *sqlStorage) ReadProductByCategoryId(ctx context.Context, categoryId uin
 
 func (s *sqlStorage) ReadProductById(ctx context.Context, id uint) (*models.ProductResponse, error) {
 	var product models.Product
-	if err := s.db.Where("id = ?", id).First(&product).Error; err != nil {
+	if err := s.db.Unscoped().Where("id = ?", id).First(&product).Error; err != nil {
 		fmt.Println("Error while read product by id in repository: " + err.Error())
 		return nil, err
 	}
