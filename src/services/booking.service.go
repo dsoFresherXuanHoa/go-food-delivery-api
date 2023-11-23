@@ -17,6 +17,7 @@ type BookingStorage interface {
 	GetPreparingBookingsByTableId(ctx context.Context, tableId int) ([]models.BookingResponse, error)
 	RefundOrderById(ctx context.Context, orderId int, order *models.OrderCreatable, bills []models.BillCreatable, secretCode int) (*uint, *uint, error)
 	GetAllBooking(ctx context.Context) ([]models.BookingResponse, error)
+	GetRejectedBookingsByTableId(ctx context.Context, tableId int) ([]models.BookingResponse, error)
 }
 
 type bookingBusiness struct {
@@ -93,6 +94,15 @@ func (business *bookingBusiness) GetServeBookingsByTableId(ctx context.Context, 
 func (business *bookingBusiness) GetPreparingBookingsByTableId(ctx context.Context, tableId int) ([]models.BookingResponse, error) {
 	if orders, err := business.storage.GetPreparingBookingsByTableId(ctx, tableId); err != nil {
 		fmt.Println("Error while get preparing booking by tableId in service: " + err.Error())
+		return nil, err
+	} else {
+		return orders, nil
+	}
+}
+
+func (business *bookingBusiness) GetRejectedBookingsByTableId(ctx context.Context, tableId int) ([]models.BookingResponse, error) {
+	if orders, err := business.storage.GetRejectedBookingsByTableId(ctx, tableId); err != nil {
+		fmt.Println("Error while get rejected booking by tableId in service: " + err.Error())
 		return nil, err
 	} else {
 		return orders, nil

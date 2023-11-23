@@ -15,6 +15,7 @@ var (
 	CannotGetAllOrderByEmployeeId    = "Cannot get all booking by employeeId right now: Check your information or permission again! If you think nothing went wrong, try again later!"
 	CannotGetServeOrderByTableId     = "Cannot get serve booking by tableId right now: Check your information or permission again! If you think nothing went wrong, try again later!"
 	CannotGetPreparingOrderByTableId = "Cannot get preparing booking by tableId right now: Check your information or permission again! If you think nothing went wrong, try again later!"
+	CannotGetRejectedOrderByTableId  = "Cannot get rejected booking by tableId right now: Check your information or permission again! If you think nothing went wrong, try again later!"
 	CannotRefundOrderByOrderId       = "Cannot refund booking by orderId right now: Check your information or permission again! If you think nothing went wrong, try again later!"
 	RefundTargetNotFound             = "Cannot find bills by orderId before refunding: Can not refund un exists order"
 
@@ -26,6 +27,7 @@ var (
 	GetDetailBookingSuccess           = "Get detail booking information success: congrats!"
 	GetAllOrderByEmployeeIdSuccess    = "Get all booking by employeeId success: congrats!"
 	GetServeOrderByTableIdSuccess     = "Get serve booking by tableId success: congrats!"
+	GetRejectedOrderByTableIdSuccess  = "Get rejected booking by tableId success: congrats!"
 	GetPreparingOrderByTableIdSuccess = "Get preparing booking by tableId success: congrats!"
 	RefundOrderByOrderIdSuccess       = "Refund booking by orderId success: congrats!"
 )

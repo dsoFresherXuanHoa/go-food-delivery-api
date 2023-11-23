@@ -175,9 +175,22 @@ func (s *sqlStorage) RejectOrder(ctx context.Context, orderId int, reason string
 		if _, err := orderService.UpdateOrderById(ctx, orderId, &orderUpdatable); err != nil {
 			fmt.Println("Error while update order by id in repository: " + err.Error())
 			return nil, err
-		} else if res := s.db.Model(&models.Table{}).Where("id = ?", order.TableId).Update("available", true); res.Error != nil {
-			fmt.Println("Error while update table status after rejected order: " + res.Error.Error())
-			return nil, res.Error
+		}
+
+		tableService := services.NewTableBusiness(repository)
+		table, _ := tableService.ReadTableById(ctx, order.TableId)
+		availableTable := true
+		tableUpdatable := s.GetUpdatableTable(ctx, table)
+		if serveOrder, err := orderService.GetServeOrdersByTableId(ctx, int(order.TableId)); err == nil && len(serveOrder) <= 1 {
+			fmt.Println("Incoming: ", err, len(serveOrder))
+			tableUpdatable.Available = &availableTable
+			if preparingTable, err := orderService.GetPreparingOrdersByTableId(ctx, int(order.TableId)); err == nil && len(preparingTable) == 0 {
+				tableUpdatable.Available = &availableTable
+				if _, err := tableService.UpdateTable(ctx, int(order.TableId), &tableUpdatable); err != nil {
+					fmt.Println("Error while update table in repository: " + err.Error())
+					return nil, err
+				}
+			}
 		}
 		return &order.ID, nil
 	}
@@ -263,6 +276,24 @@ func (s *sqlStorage) GetPreparingBookingsByTableId(ctx context.Context, tableId 
 	bookingService := services.NewBookingBusiness(repository)
 	if orders, err := orderService.GetPreparingOrdersByTableId(ctx, tableId); err != nil {
 		fmt.Println("Error while get preparing order by tableId in repository: " + err.Error())
+		return nil, err
+	} else {
+		var res = make([]models.BookingResponse, len(orders))
+		for i, order := range orders {
+			orderId := order.ID
+			orderDetail, _ := bookingService.GetDetailBooking(ctx, int(orderId))
+			res[i] = *orderDetail
+		}
+		return res, nil
+	}
+}
+
+func (s *sqlStorage) GetRejectedBookingsByTableId(ctx context.Context, tableId int) ([]models.BookingResponse, error) {
+	repository := NewSQLStore(s.db)
+	orderService := services.NewOrderBusiness(repository)
+	bookingService := services.NewBookingBusiness(repository)
+	if orders, err := orderService.GetRejectedOrdersByTableId(ctx, tableId); err != nil {
+		fmt.Println("Error while get rejected order by tableId in repository: " + err.Error())
 		return nil, err
 	} else {
 		var res = make([]models.BookingResponse, len(orders))

@@ -11,14 +11,14 @@ Authorization: Bearer {{waiterAccessToken}}
 {
     "note": "Không Cho Hành Lá",
     "secretCode": 3415,
-    "tableId": 1,
+    "tableId": 2,
     "quantities": [5, 5, 5],
     "productsId": [3, 2, 1],
-    "includeTableCost": true
+    "includeTableCost": false
 }
 
 ### 
-GET {{host}}/?orderId=23
+GET {{host}}/?orderId=24
 Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}
 
@@ -38,12 +38,17 @@ Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}
 
 ### 
+GET {{host}}/table/rejected/2
+Content-Type: {{contentType}}
+Authorization: Bearer {{waiterAccessToken}}
+
+### 
 PATCH {{host}}/accepted/?orderId=4
 Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}
 
 ### 
-PATCH {{host}}/rejected/?orderId=5&reason="Chỉ Là Kiểm Tra Thử Thôi"
+PATCH {{host}}/rejected/?orderId=28&reason="Không đủ nguyên liệu làm món Cơm gà"
 Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}
 
