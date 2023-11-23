@@ -16,8 +16,10 @@ func (s *sqlStorage) CreateBooking(ctx context.Context, order *models.OrderCreat
 	tableService := services.NewTableBusiness(repository)
 	productService := services.NewProductBusiness(repository)
 	accountService := services.NewAccountBusiness(repository)
+	discountService := services.NewDiscountBusiness(repository)
 	accountId := ctx.Value("accountId").(int)
 	account, _ := accountService.ReadAccountById(ctx, uint(accountId))
+	// Create Order without Total Price
 	if account.SecretCode != secretCode {
 		fmt.Println("Error while create booking in repository: invalid secretCode")
 		return nil, exceptions.ErrorInvalidSecretCode
@@ -27,7 +29,32 @@ func (s *sqlStorage) CreateBooking(ctx context.Context, order *models.OrderCreat
 		return nil, err
 	} else {
 		tableId := *order.TableId
-		for _, bill := range bills {
+		// Get Product and Discount
+		// Get Discount
+		var discounts = make([]models.Discount, len(bills))
+		var products = make([]models.Product, len(bills))
+		for i := 0; i < len(bills); i++ {
+			productId := bills[i].ProductId
+			targetDiscount, _ := discountService.ReadDiscountById(ctx, *productId)
+			targetProduct, _ := productService.ReadProductById(ctx, *productId)
+			discounts[i] = *targetDiscount
+			products[i] = models.Product{Price: *targetProduct.Price}
+		}
+
+		// Create Bill
+		totalPrice := 0
+		for i, bill := range bills {
+			// Calc Total Price
+			discountPercent := discounts[i].DiscountPercent
+			minQuantity := discounts[i].MinQuantity
+			originPrice := products[i].Price
+			orderQuantity := *bill.Quantity
+			if orderQuantity >= minQuantity {
+				totalPrice += int(float64(float64(100-discountPercent)/100)*originPrice) * orderQuantity
+			} else {
+				totalPrice += int(originPrice) * orderQuantity
+			}
+
 			bill.OrderId = orderId
 			if _, err := billService.CreateBill(ctx, &bill); err != nil {
 				fmt.Println("Error while create bill in repository: " + err.Error())
@@ -50,15 +77,29 @@ func (s *sqlStorage) CreateBooking(ctx context.Context, order *models.OrderCreat
 				}
 			}
 		}
+
 		if table, err := tableService.ReadTableById(ctx, uint(tableId)); err != nil {
 			fmt.Println("Error while read table by id in booking repository: " + err.Error())
 			return nil, err
 		} else {
-			table.Available = false
-			tableUpdatable := repository.GetUpdatableTable(ctx, table)
-			if _, err := tableService.UpdateTable(ctx, int(tableId), &tableUpdatable); err != nil {
-				fmt.Println("Error while update table status in repository: " + err.Error())
+			// Add Table Cost
+			includeTableCost := *order.IncludeTableCost
+			if includeTableCost {
+				totalPrice += int(table.BasePrice)
+			}
+
+			// Update Total Price
+			order.TotalPrice = &totalPrice
+			if _, err := orderService.UpdateOrderById(ctx, int(*orderId), &models.OrderUpdatable{TotalPrice: &totalPrice}); err != nil {
+				fmt.Println("Error while update total price of order: " + err.Error())
 				return nil, err
+			} else {
+				table.Available = false
+				tableUpdatable := repository.GetUpdatableTable(ctx, table)
+				if _, err := tableService.UpdateTable(ctx, int(tableId), &tableUpdatable); err != nil {
+					fmt.Println("Error while update table status in repository: " + err.Error())
+					return nil, err
+				}
 			}
 		}
 		return orderId, nil
@@ -94,7 +135,7 @@ func (s *sqlStorage) GetDetailBooking(ctx context.Context, orderId int) (*models
 		} else {
 			acceptedTime = nil
 		}
-		return &models.BookingResponse{Table: detailEmbedTable, OrderID: uint(orderId), CreatedTime: order.CreatedAt, AcceptedTime: acceptedTime, Items: embedItems, Note: order.Note, Status: order.Status, Accepted: order.Accepted}, nil
+		return &models.BookingResponse{Table: detailEmbedTable, OrderID: uint(orderId), CreatedTime: order.CreatedAt, AcceptedTime: acceptedTime, Items: embedItems, Note: order.Note, Status: order.Status, Accepted: order.Accepted, TotalPrice: order.TotalPrice}, nil
 	}
 }
 

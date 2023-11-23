@@ -9,5 +9,5 @@ Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}
 
 {
-    "pos": "F2A4"
+    "pos": "F1A2"
 }

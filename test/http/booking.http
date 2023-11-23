@@ -10,15 +10,15 @@ Authorization: Bearer {{waiterAccessToken}}
 
 {
     "note": "Không Cho Hành Lá",
-    "secretCode": 3255,
+    "secretCode": 3415,
     "tableId": 1,
-    "quantities": [1, 2, 3],
+    "quantities": [5, 5, 5],
     "productsId": [3, 2, 1],
-    "refundable": true
+    "includeTableCost": true
 }
 
 ### 
-GET {{host}}/?orderId=1
+GET {{host}}/?orderId=23
 Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}
 

@@ -9,7 +9,6 @@ type Category struct {
 	Products    Products `json:"-"`
 	Name        string   `json:"name" gorm:"column:name;not null"`
 	Description string   `json:"description" gorm:"column:description;not null"`
-	Thumb       string   `json:"thumb" gorm:"column:thumb"`
 }
 
 type CategoryResponse struct {
@@ -17,21 +16,18 @@ type CategoryResponse struct {
 	Products    Products `json:"products"`
 	Name        string   `json:"name"`
 	Description string   `json:"description"`
-	Thumb       string   `json:"thumb"`
 }
 
 type CategoryCreatable struct {
 	gorm.Model
 	Name        *string `json:"name" gorm:"column:name;not null"`
 	Description *string `json:"description" gorm:"column:description;not null"`
-	Thumb       *string `json:"thumb" gorm:"column:thumb"`
 }
 
 type CategoryUpdatable struct {
 	gorm.Model
 	Name        *string `json:"name" gorm:"column:name;not null"`
 	Description *string `json:"description" gorm:"column:description;not null"`
-	Thumb       *string `json:"thumb" gorm:"column:thumb"`
 }
 
 type Categories []Category

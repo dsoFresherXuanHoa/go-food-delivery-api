@@ -4,12 +4,13 @@ import (
 	"fmt"
 	"go-food-delivery-api/src/configs"
 	"go-food-delivery-api/src/constants"
-	exceptions "go-food-delivery-api/src/errors"
 	"go-food-delivery-api/src/models"
 	"go-food-delivery-api/src/repositories"
 	"go-food-delivery-api/src/services"
 	"net/http"
 	"strconv"
+
+	exceptions "go-food-delivery-api/src/errors"
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/exp/slices"
@@ -25,7 +26,7 @@ func CreateBooking() gin.HandlerFunc {
 		} else {
 			id := ctx.Value("employeeId").(int)
 			employeeId := uint(id)
-			order := models.OrderCreatable{Note: booking.Note, EmployeeId: &employeeId, TableId: booking.TableId, Refundable: booking.Refundable}
+			order := models.OrderCreatable{Note: booking.Note, EmployeeId: &employeeId, TableId: booking.TableId, IncludeTableCost: &booking.IncludeTableCost}
 			bills := make([]models.BillCreatable, len(booking.ProductsId))
 			for i := 0; i < len(booking.ProductsId); i++ {
 				bills[i] = models.BillCreatable{Quantity: &booking.Quantities[i], ProductId: &booking.ProductsId[i]}
@@ -196,9 +197,10 @@ func RefundBooking() gin.HandlerFunc {
 
 			id := ctx.Value("employeeId").(int)
 			employeeId := uint(id)
-			order := models.OrderCreatable{Note: booking.Note, EmployeeId: &employeeId, TableId: booking.TableId, Refundable: booking.Refundable}
+			order := models.OrderCreatable{Note: booking.Note, EmployeeId: &employeeId, TableId: booking.TableId, IncludeTableCost: &booking.IncludeTableCost}
 			order.EmployeeId = &employeeId
-			order.Accepted = true
+			acceptedOrder := true
+			order.Accepted = &acceptedOrder
 
 			if refundBills, err := billService.ReadBillsByOrderId(ctx, uint(orderId)); err != nil {
 				fmt.Println("Error while find bills by order id before refund: " + err.Error())

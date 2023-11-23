@@ -9,10 +9,10 @@ Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}
 
 {
-    "normalTable": false,
-    "capacity": 15,
+    "normalTable": true,
+    "capacity": 10,
     "basePrice": 20000,
-    "employeeId": 2,
+    "employeeId": 1,
     "areaId": 1
 }
 
