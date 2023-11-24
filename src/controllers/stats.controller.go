@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"fmt"
-	"go-food-delivery-api/src/configs"
 	"go-food-delivery-api/src/constants"
 	"go-food-delivery-api/src/models"
 	"go-food-delivery-api/src/repositories"
@@ -11,10 +10,10 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
-func ReadTopEmployeeByOrderNumber() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func ReadTopEmployeeByOrderNumber(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		repository := repositories.NewSQLStore(db)
 		employeeService := services.NewEmployeeBusiness(repository)
@@ -33,8 +32,7 @@ func ReadTopEmployeeByOrderNumber() gin.HandlerFunc {
 	}
 }
 
-func ReadTopProductByReorderLevel() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func ReadTopProductByReorderLevel(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		repository := repositories.NewSQLStore(db)
 		productService := services.NewProductBusiness(repository)

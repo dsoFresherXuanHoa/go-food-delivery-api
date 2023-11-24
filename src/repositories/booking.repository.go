@@ -135,7 +135,7 @@ func (s *sqlStorage) GetDetailBooking(ctx context.Context, orderId int) (*models
 		} else {
 			acceptedTime = nil
 		}
-		return &models.BookingResponse{Table: detailEmbedTable, OrderID: uint(orderId), CreatedTime: order.CreatedAt, AcceptedTime: acceptedTime, Items: embedItems, Note: order.Note, Status: order.Status, Accepted: order.Accepted, TotalPrice: order.TotalPrice}, nil
+		return &models.BookingResponse{Table: detailEmbedTable, OrderID: uint(orderId), CreatedTime: order.CreatedAt, AcceptedTime: acceptedTime, Items: embedItems, Note: order.Note, Status: order.Status, Accepted: order.Accepted, TotalPrice: order.TotalPrice, Rejected: order.Rejected, Reason: order.Reason}, nil
 	}
 }
 
@@ -308,12 +308,12 @@ func (s *sqlStorage) GetRejectedBookingsByTableId(ctx context.Context, tableId i
 
 func (s *sqlStorage) RefundOrderById(ctx context.Context, orderId int, order *models.OrderCreatable, bills []models.BillCreatable, secretCode int) (*uint, *uint, error) {
 	var deletedOrder models.Order
-	if result := s.db.Table(models.OrderCreatable{}.GetTableName()).Where("id = ?", orderId).Delete(&deletedOrder); result.Error != nil {
-		fmt.Println("Error while delete a refund order in repository: " + result.Error.Error())
-		return nil, nil, result.Error
-	} else if newOrderId, err := s.CreateBooking(ctx, order, bills, secretCode); err != nil {
+	if newOrderId, err := s.CreateBooking(ctx, order, bills, secretCode); err != nil {
 		fmt.Println("Error while create new order after refunding in repository: " + err.Error())
 		return nil, nil, err
+	} else if result := s.db.Table(models.OrderCreatable{}.GetTableName()).Where("id = ?", orderId).Delete(&deletedOrder); result.Error != nil {
+		fmt.Println("Error while delete a refund order in repository: " + result.Error.Error())
+		return nil, nil, result.Error
 	} else {
 		return &deletedOrder.ID, newOrderId, nil
 	}

@@ -6,13 +6,14 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
-func EmployeeRouteConfig(router *gin.Engine) {
+func EmployeeRouteConfig(router *gin.Engine, db *gorm.DB) {
 	secretKey := os.Getenv("JWT_ACCESS_SECRET")
 	employees := router.Group("/api/v1/employees")
 	{
-		employees.GET("/", middlewares.RequiredManagerPermission(secretKey), controllers.ReadAllEmployee())
-		employees.DELETE("/:employeeId", middlewares.RequiredManagerPermission(secretKey), controllers.DeleteEmployee())
+		employees.GET("/", middlewares.RequiredManagerPermission(secretKey), controllers.ReadAllEmployee(db))
+		employees.DELETE("/:employeeId", middlewares.RequiredManagerPermission(secretKey), controllers.DeleteEmployee(db))
 	}
 }

@@ -34,17 +34,17 @@ func main() {
 
 		router.Use(cors.AllowAll())
 
-		routes.RoleRouteConfig(router)
-		routes.CategoriesRouteConfig(router)
-		routes.AreaRouteConfig(router)
-		routes.TableRouteConfig(router)
-		routes.ProductRouteConfig(router)
-		routes.BillRouteConfig(router)
-		routes.AuthRouteConfig(router)
-		routes.WarehouseRouteConfig(router)
-		routes.BookingRouteConfig(router)
-		routes.StatsRouteConfig(router)
-		routes.EmployeeRouteConfig(router)
+		routes.RoleRouteConfig(router, db)
+		routes.CategoriesRouteConfig(router, db)
+		routes.AreaRouteConfig(router, db)
+		routes.TableRouteConfig(router, db)
+		routes.ProductRouteConfig(router, db)
+		routes.BillRouteConfig(router, db)
+		routes.AuthRouteConfig(router, db)
+		routes.WarehouseRouteConfig(router, db)
+		routes.BookingRouteConfig(router, db)
+		routes.StatsRouteConfig(router, db)
+		routes.EmployeeRouteConfig(router, db)
 
 		router.Run(":" + port)
 	}

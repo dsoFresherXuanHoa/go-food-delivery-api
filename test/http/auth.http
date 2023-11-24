@@ -8,11 +8,11 @@ POST {{host}}/sign-up
 Content-Type: {{contentType}}
 
 {
-    "fullName": "Le Xuan Hoa",
+    "fullName": "Lê Xuân Hòa",
 	"tel": "0364015071",
     "gender": false,
     "email": "dso.intern.xuanhoa@gmail.com",
-    "roleId": 1
+    "roleId": 2
 }
 
 ###
@@ -20,7 +20,7 @@ POST {{host}}/sign-in
 Content-Type: {{contentType}}
 
 {
-    "email": "dso.intern.xuanhoa@gmail.com",
+    "email": "dso.fresher.xuanhoa@gmail.com",
     "password": "dso.intern.xuanhoa@gmail.com"
 }
 

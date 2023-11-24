@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"fmt"
-	"go-food-delivery-api/src/configs"
 	"go-food-delivery-api/src/constants"
 	"go-food-delivery-api/src/models"
 	"go-food-delivery-api/src/repositories"
@@ -10,10 +9,10 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
-func CreateCategory() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func CreateCategory(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var category models.CategoryCreatable
 		if err := ctx.ShouldBind(&category); err != nil {
@@ -33,8 +32,7 @@ func CreateCategory() gin.HandlerFunc {
 	}
 }
 
-func ReadCategory() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func ReadCategory(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		repositories := repositories.NewSQLStore(db)
 		categoryService := services.NewCategoryBusiness(repositories)

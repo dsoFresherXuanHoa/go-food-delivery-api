@@ -2,6 +2,7 @@
 @contentType = application/json
 @waiterAccessToken = {{$dotenv WAITER_ACCESS_TOKEN}}
 @managerAccessToken = {{$dotenv MANAGER_ACCESS_TOKEN}}
+@chiefAccessToken = {{$dotenv CHIEF_ACCESS_TOKEN}}
 
 ###
 POST {{host}}/
@@ -10,11 +11,11 @@ Authorization: Bearer {{waiterAccessToken}}
 
 {
     "note": "Không Cho Hành Lá",
-    "secretCode": 3415,
+    "secretCode": 6100,
     "tableId": 2,
-    "quantities": [5, 5, 5],
+    "quantities": [1, 1, 1],
     "productsId": [3, 2, 1],
-    "includeTableCost": false
+    "includeTableCost": true
 }
 
 ### 
@@ -33,9 +34,9 @@ Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}
 
 ### 
-GET {{host}}/table/preparing/1
+GET {{host}}/table/preparing/2
 Content-Type: {{contentType}}
-Authorization: Bearer {{waiterAccessToken}}
+Authorization: Bearer {{chiefAccessToken}}
 
 ### 
 GET {{host}}/table/rejected/2
@@ -43,32 +44,32 @@ Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}
 
 ### 
-PATCH {{host}}/accepted/?orderId=4
+PATCH {{host}}/accepted/?orderId=2
 Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}
 
 ### 
-PATCH {{host}}/rejected/?orderId=28&reason="Không đủ nguyên liệu làm món Cơm gà"
+PATCH {{host}}/rejected/?orderId=1&reason="Không đủ nguyên liệu làm món Cơm gà"
 Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}
 
 ### 
-PATCH {{host}}/finished/?orderId=4
+PATCH {{host}}/finished/?orderId=1
 Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}
 
 ###
-PATCH {{host}}/refund/16
+PATCH {{host}}/refund/4
 Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}
 
 {
     "note": "Không Cho Hành Lá",
-    "secretCode": 7647,
+    "secretCode": 6101,
     "tableId": 1,
     "quantities": [1, 1],
     "productsId": [1, 2],
-    "refundable": true
+    "includeTableCost": true
 }
 
 ### 

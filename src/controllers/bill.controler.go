@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"fmt"
-	"go-food-delivery-api/src/configs"
 	"go-food-delivery-api/src/constants"
 	"go-food-delivery-api/src/models"
 	"go-food-delivery-api/src/repositories"
@@ -11,10 +10,10 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
-func FinishBill() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func FinishBill(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if billId, err := strconv.Atoi(ctx.Param("billId")); err != nil {
 			fmt.Println("Error while finish bill by id in bill controller: " + err.Error())
@@ -32,8 +31,7 @@ func FinishBill() gin.HandlerFunc {
 	}
 }
 
-func CompensatedBill() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func CompensatedBill(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if orderId, err := strconv.Atoi(ctx.Query("orderId")); err != nil {
 			fmt.Println("Error while get orderId from query string: " + err.Error())

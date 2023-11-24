@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"fmt"
-	"go-food-delivery-api/src/configs"
 	"go-food-delivery-api/src/constants"
 	"go-food-delivery-api/src/models"
 	"go-food-delivery-api/src/repositories"
@@ -14,10 +13,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/exp/slices"
+	"gorm.io/gorm"
 )
 
-func CreateBooking() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func CreateBooking(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var booking models.BookingCreatable
 		if err := ctx.ShouldBind(&booking); err != nil {
@@ -47,8 +46,7 @@ func CreateBooking() gin.HandlerFunc {
 	}
 }
 
-func AcceptOrder() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func AcceptOrder(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if orderId, err := strconv.Atoi(ctx.Query("orderId")); err != nil {
 			fmt.Println("Error while update order by id in category controller: " + err.Error())
@@ -66,8 +64,7 @@ func AcceptOrder() gin.HandlerFunc {
 	}
 }
 
-func RejectOrder() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func RejectOrder(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if orderId, err := strconv.Atoi(ctx.Query("orderId")); err != nil {
 			fmt.Println("Error while update order by id in category controller: " + err.Error())
@@ -88,8 +85,7 @@ func RejectOrder() gin.HandlerFunc {
 	}
 }
 
-func FinishOrder() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func FinishOrder(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if orderId, err := strconv.Atoi(ctx.Query("orderId")); err != nil {
 			fmt.Println("Error while update order by id in category controller: " + err.Error())
@@ -107,8 +103,7 @@ func FinishOrder() gin.HandlerFunc {
 	}
 }
 
-func GetDetailBooking() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func GetDetailBooking(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if orderId, err := strconv.Atoi(ctx.Query("orderId")); err != nil {
 			fmt.Println("Error while update order by id in category controller: " + err.Error())
@@ -126,8 +121,7 @@ func GetDetailBooking() gin.HandlerFunc {
 	}
 }
 
-func GetTop10DetailBookingByEmployeeId() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func GetTop10DetailBookingByEmployeeId(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		id := ctx.Value("employeeId").(int)
 		employeeId := uint(id)
@@ -142,8 +136,7 @@ func GetTop10DetailBookingByEmployeeId() gin.HandlerFunc {
 	}
 }
 
-func GetServeBookingByTableId() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func GetServeBookingByTableId(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if tableId, err := strconv.Atoi(ctx.Param("tableId")); err != nil {
 			fmt.Println("Error while get tableId in query string in booking controller: " + err.Error())
@@ -161,8 +154,7 @@ func GetServeBookingByTableId() gin.HandlerFunc {
 	}
 }
 
-func GetPreparingBookingByTableId() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func GetPreparingBookingByTableId(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if tableId, err := strconv.Atoi(ctx.Param("tableId")); err != nil {
 			fmt.Println("Error while get tableId in query string in booking controller: " + err.Error())
@@ -180,8 +172,7 @@ func GetPreparingBookingByTableId() gin.HandlerFunc {
 	}
 }
 
-func GetRejectedBookingByTableId() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func GetRejectedBookingByTableId(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if tableId, err := strconv.Atoi(ctx.Param("tableId")); err != nil {
 			fmt.Println("Error while get tableId in query string in booking controller: " + err.Error())
@@ -199,8 +190,7 @@ func GetRejectedBookingByTableId() gin.HandlerFunc {
 	}
 }
 
-func RefundBooking() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func RefundBooking(db *gorm.DB) gin.HandlerFunc {
 	var booking models.BookingCreatable
 	return func(ctx *gin.Context) {
 		if orderId, err := strconv.Atoi(ctx.Param("orderId")); err != nil {
@@ -262,8 +252,7 @@ func RefundBooking() gin.HandlerFunc {
 	}
 }
 
-func GetAllBooking() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func GetAllBooking(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		repositories := repositories.NewSQLStore(db)
 		bookingService := services.NewBookingBusiness(repositories)

@@ -10,7 +10,7 @@ type Employee struct {
 	Tables   Tables  `json:"-"`
 	Orders   Orders  `json:"-"`
 	FullName string  `json:"fullName" gorm:"column:full_name;not null"`
-	Tel      string  `json:"tel" gorm:"column:tel;not null;unique"`
+	Tel      string  `json:"tel" gorm:"column:tel;not null"`
 	Gender   bool    `json:"gender" gorm:"column:gender;default:false"`
 }
 
@@ -27,14 +27,14 @@ type EmployeeResponse struct {
 type EmployeeCreatable struct {
 	gorm.Model
 	FullName *string `json:"fullName" gorm:"column:full_name;not null"`
-	Tel      *string `json:"tel" gorm:"column:tel;not null;unique"`
+	Tel      *string `json:"tel" gorm:"column:tel;not null"`
 	Gender   *bool   `json:"gender" gorm:"column:gender;default:false"`
 }
 
 type EmployeeUpdatable struct {
 	gorm.Model
 	FullName *string `json:"fullName" gorm:"column:full_name;not null"`
-	Tel      *string `json:"tel" gorm:"column:tel;not null;unique"`
+	Tel      *string `json:"tel" gorm:"column:tel;not null"`
 }
 
 type Employees []Employee

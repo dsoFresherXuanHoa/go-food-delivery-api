@@ -13,6 +13,7 @@ type BookingResponse struct {
 	Accepted         bool                  `json:"accepted"`
 	Compensate       bool                  `json:"compensate"`
 	IncludeTableCost bool                  `json:"includeTableCost"`
+	Rejected         bool                  `json:"rejected"`
 	Reason           string                `json:"reason"`
 	TotalPrice       int                   `json:"totalPrice"`
 }

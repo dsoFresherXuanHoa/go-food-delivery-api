@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"fmt"
-	"go-food-delivery-api/src/configs"
 	"go-food-delivery-api/src/constants"
 	"go-food-delivery-api/src/models"
 	"go-food-delivery-api/src/repositories"
@@ -11,10 +10,10 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
-func ReadAllEmployee() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func ReadAllEmployee(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		repositories := repositories.NewSQLStore(db)
 		employeeService := services.NewEmployeeBusiness(repositories)
@@ -28,8 +27,7 @@ func ReadAllEmployee() gin.HandlerFunc {
 	}
 }
 
-func DeleteEmployee() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func DeleteEmployee(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if employeeId, err := strconv.Atoi(ctx.Param("employeeId")); err != nil {
 			fmt.Println("Error while read employee by id in employee controller: " + err.Error())

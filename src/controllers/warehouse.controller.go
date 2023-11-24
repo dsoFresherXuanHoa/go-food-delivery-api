@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"fmt"
-	"go-food-delivery-api/src/configs"
 	"go-food-delivery-api/src/constants"
 	"go-food-delivery-api/src/models"
 	"go-food-delivery-api/src/repositories"
@@ -13,10 +12,10 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
-func ImportWarehouse() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func ImportWarehouse(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var warehouse models.Warehouse
 		if err := ctx.ShouldBind(&warehouse); err != nil {
@@ -50,8 +49,7 @@ func ImportWarehouse() gin.HandlerFunc {
 	}
 }
 
-func UpdateWarehouse() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func UpdateWarehouse(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var warehouse models.WarehouseUpdatable
 		if err := ctx.ShouldBind(&warehouse); err != nil {

@@ -6,13 +6,14 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
-func WarehouseRouteConfig(router *gin.Engine) {
+func WarehouseRouteConfig(router *gin.Engine, db *gorm.DB) {
 	secretKey := os.Getenv("JWT_ACCESS_SECRET")
 	warehouses := router.Group("/api/v1/warehouses")
 	{
-		warehouses.POST("/", middlewares.RequiredManagerPermission(secretKey), controllers.ImportWarehouse())
-		warehouses.PATCH("/", middlewares.RequiredManagerPermission(secretKey), controllers.UpdateWarehouse())
+		warehouses.POST("/", middlewares.RequiredManagerPermission(secretKey), controllers.ImportWarehouse(db))
+		warehouses.PATCH("/", middlewares.RequiredManagerPermission(secretKey), controllers.UpdateWarehouse(db))
 	}
 }

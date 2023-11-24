@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"fmt"
-	"go-food-delivery-api/src/configs"
 	"go-food-delivery-api/src/constants"
 	"go-food-delivery-api/src/models"
 	"go-food-delivery-api/src/repositories"
@@ -11,10 +10,10 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
-func ReadProduct() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func ReadProduct(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		repositories := repositories.NewSQLStore(db)
 		categoryService := services.NewProductBusiness(repositories)
@@ -28,8 +27,7 @@ func ReadProduct() gin.HandlerFunc {
 	}
 }
 
-func ReadProductByCategoryId() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func ReadProductByCategoryId(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if categoryId, err := strconv.Atoi(ctx.Param("categoryId")); err != nil {
 			fmt.Println("Error while read product by categoryId in category controller: " + err.Error())
@@ -48,8 +46,7 @@ func ReadProductByCategoryId() gin.HandlerFunc {
 	}
 }
 
-func ReadRecommendProduct() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func ReadRecommendProduct(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if limit, err := strconv.Atoi(ctx.Param("limit")); err != nil {
 			fmt.Println("Error while read recommend product in category controller: " + err.Error())
@@ -67,8 +64,7 @@ func ReadRecommendProduct() gin.HandlerFunc {
 	}
 }
 
-func ReadProductById() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func ReadProductById(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if productId, err := strconv.Atoi(ctx.Param("productId")); err != nil {
 			fmt.Println("Error while read product by id in product controller: " + err.Error())
@@ -86,8 +82,7 @@ func ReadProductById() gin.HandlerFunc {
 	}
 }
 
-func DeleteProductById() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func DeleteProductById(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if productId, err := strconv.Atoi(ctx.Param("productId")); err != nil {
 			fmt.Println("Error while read product by id in product controller: " + err.Error())

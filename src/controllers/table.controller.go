@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"fmt"
-	"go-food-delivery-api/src/configs"
 	"go-food-delivery-api/src/constants"
 	"go-food-delivery-api/src/models"
 	"go-food-delivery-api/src/repositories"
@@ -11,10 +10,10 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
-func CreateTable() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func CreateTable(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var table models.TableCreatable
 		if err := ctx.ShouldBind(&table); err != nil {
@@ -34,8 +33,7 @@ func CreateTable() gin.HandlerFunc {
 	}
 }
 
-func ReadTableByEmployeeId() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func ReadTableByEmployeeId(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		repositories := repositories.NewSQLStore(db)
 		tableService := services.NewTableBusiness(repositories)
@@ -50,8 +48,7 @@ func ReadTableByEmployeeId() gin.HandlerFunc {
 	}
 }
 
-func ReadTableByEmployeeIdAndStatus() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func ReadTableByEmployeeIdAndStatus(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if status, err := strconv.ParseBool(ctx.Param("status")); err != nil {
 			fmt.Println("Error while read product by status in controller: " + err.Error())
@@ -71,8 +68,7 @@ func ReadTableByEmployeeIdAndStatus() gin.HandlerFunc {
 	}
 }
 
-func ReadAllTable() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func ReadAllTable(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		repositories := repositories.NewSQLStore(db)
 		tableService := services.NewTableBusiness(repositories)

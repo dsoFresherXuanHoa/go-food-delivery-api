@@ -9,9 +9,9 @@ Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}
 
 {
-    "normalTable": true,
-    "capacity": 10,
-    "basePrice": 20000,
+    "normalTable": false,
+    "capacity": 15,
+    "basePrice": 25000,
     "employeeId": 1,
     "areaId": 1
 }
@@ -19,12 +19,12 @@ Authorization: Bearer {{managerAccessToken}}
 ###
 GET {{host}}/
 Content-Type: {{contentType}}
-Authorization: Bearer {{waiterAccessToken}}
+Authorization: Bearer {{managerAccessToken}}
 
 ###
-GET {{host}}/status/false
+GET {{host}}/status/true
 Content-Type: {{contentType}}
-Authorization: Bearer {{waiterAccessToken}}
+Authorization: Bearer {{managerAccessToken}}
 
 
 ###

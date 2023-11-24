@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"fmt"
-	"go-food-delivery-api/src/configs"
 	"go-food-delivery-api/src/constants"
 	"go-food-delivery-api/src/models"
 	"go-food-delivery-api/src/repositories"
@@ -10,10 +9,10 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
-func SignUp() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func SignUp(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var signUp models.SignUp
 		if err := ctx.ShouldBind(&signUp); err != nil {
@@ -39,8 +38,7 @@ func SignUp() gin.HandlerFunc {
 	}
 }
 
-func SignIn() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func SignIn(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var signIn models.SignIn
 		if err := ctx.ShouldBind(&signIn); err != nil {
@@ -60,8 +58,7 @@ func SignIn() gin.HandlerFunc {
 	}
 }
 
-func Me() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func Me(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var employee models.Employee
 		if err := ctx.ShouldBind(&employee); err != nil {
@@ -82,8 +79,7 @@ func Me() gin.HandlerFunc {
 	}
 }
 
-func ResetPassword() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func ResetPassword(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var resetPassword models.ResetPasswordCreatable
 		if err := ctx.ShouldBind(&resetPassword); err != nil {

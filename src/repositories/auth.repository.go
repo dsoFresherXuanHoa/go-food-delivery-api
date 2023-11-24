@@ -36,7 +36,7 @@ func (s *sqlStorage) SignUp(ctx context.Context, account *models.AccountCreatabl
 func (s *sqlStorage) SignIn(ctx context.Context, signIn *models.SignIn) (*tokens.Token, error) {
 	repository := NewSQLStore(s.db)
 	accountService := services.NewAccountBusiness(repository)
-	if account, err := accountService.ReadAccountByUsername(ctx, signIn.Password); err != nil {
+	if account, err := accountService.ReadAccountByUsername(ctx, signIn.Email); err != nil {
 		fmt.Println("Error while read account by username in repository: " + err.Error())
 		return nil, err
 	} else if account == nil {

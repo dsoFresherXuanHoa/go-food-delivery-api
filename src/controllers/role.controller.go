@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"fmt"
-	"go-food-delivery-api/src/configs"
 	"go-food-delivery-api/src/constants"
 	"go-food-delivery-api/src/models"
 	"go-food-delivery-api/src/repositories"
@@ -10,10 +9,10 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
-func CreateRole() gin.HandlerFunc {
-	db, _ := configs.GetGormInstance()
+func CreateRole(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var role models.RoleCreatable
 		if err := ctx.ShouldBind(&role); err != nil {

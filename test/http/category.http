@@ -9,10 +9,9 @@ Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}
 
 {
-    "name": "Điểm Tâm",
-    "description": "Điểm Tâm, Thơm Ngon Bổ Dưỡng!"
+    "name": "Tráng Miệng",
+    "description": "Tráng Miệng, Thơm Ngon Bổ Dưỡng!"
 }
-
 
 ###
 GET {{host}}/

@@ -6,15 +6,16 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
-func AuthRouteConfig(router *gin.Engine) {
+func AuthRouteConfig(router *gin.Engine, db *gorm.DB) {
 	secretKey := os.Getenv("JWT_ACCESS_SECRET")
 	auth := router.Group("/api/v1/auth")
 	{
-		auth.POST("/sign-up", middlewares.RequiredManagerPermission(secretKey), controllers.SignUp())
-		auth.POST("/sign-in", controllers.SignIn())
-		auth.GET("/me", middlewares.RequiredAuthorize(secretKey), controllers.Me())
-		auth.PATCH("/reset-password", middlewares.RequiredManagerPermission(secretKey), controllers.ResetPassword())
+		auth.POST("/sign-up", controllers.SignUp(db))
+		auth.POST("/sign-in", controllers.SignIn(db))
+		auth.GET("/me", middlewares.RequiredAuthorize(secretKey), controllers.Me(db))
+		auth.PATCH("/reset-password", middlewares.RequiredManagerPermission(secretKey), controllers.ResetPassword(db))
 	}
 }

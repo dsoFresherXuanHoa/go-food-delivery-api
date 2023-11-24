@@ -3,7 +3,6 @@ package middlewares
 import (
 	"context"
 	"fmt"
-	"go-food-delivery-api/src/configs"
 	"go-food-delivery-api/src/constants"
 	"go-food-delivery-api/src/models"
 	"go-food-delivery-api/src/repositories"
@@ -13,6 +12,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 
 	exception "go-food-delivery-api/src/errors"
 )
@@ -27,9 +27,8 @@ func GetTokenFromHeader(c *gin.Context, key string) (token *string, err error) {
 	}
 }
 
-func RequiredWaiterPermissionOrMore(secretKey string) gin.HandlerFunc {
+func RequiredWaiterPermissionOrMore(secretKey string, db *gorm.DB) gin.HandlerFunc {
 	jwtTokenProvider := jwt.NewJWTProvider(secretKey)
-	db, _ := configs.GetGormInstance()
 	return func(c *gin.Context) {
 		if authToken, err := GetTokenFromHeader(c, "Authorization"); err != nil {
 			fmt.Println("Error while get Bearer header: " + err.Error())
@@ -40,7 +39,7 @@ func RequiredWaiterPermissionOrMore(secretKey string) gin.HandlerFunc {
 				c.AbortWithStatusJSON(http.StatusUnauthorized, models.NewStandardResponse(nil, http.StatusUnauthorized, err.Error(), constants.InvalidAccessToken))
 			} else {
 				// TODO: Strict validate by query from database
-				if roleId := jwtPayload.RoleId; roleId != 1 && roleId != 3 {
+				if roleId := jwtPayload.RoleId; roleId != 1 && roleId != 2 {
 					c.AbortWithStatusJSON(http.StatusForbidden, models.NewStandardResponse(nil, http.StatusForbidden, constants.PermissionDenied, constants.PermissionDenied))
 				} else {
 					accountId := jwtPayload.AccountId
