@@ -12,6 +12,17 @@ import (
 	"gorm.io/gorm"
 )
 
+// CreateArea godoc
+// @Summary      Create area
+// @Description  Create area
+// @Tags         areas
+// @Accept       json
+// @Produce      json
+// @Param		 area	body	models.AreaCreatable	false	"Area"
+// @Success      200  {object}  models.response
+// @Failure      400  {object}  models.response
+// @Failure      500  {object}  models.response
+// @Router       /areas [post]
 func CreateArea(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var area models.AreaCreatable

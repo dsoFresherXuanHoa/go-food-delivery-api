@@ -33,7 +33,7 @@ type OrderResponse struct {
 }
 
 type OrderCreatable struct {
-	gorm.Model
+	gorm.Model       `json:"-"`
 	Note             *string `json:"note" gorm:"column:note"`
 	Status           *bool   `json:"_" gorm:"column:status;default:false"`
 	Accepted         *bool   `json:"-" gorm:"column:accepted;default:false"`

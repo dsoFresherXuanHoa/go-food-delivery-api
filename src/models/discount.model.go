@@ -19,7 +19,7 @@ type DiscountResponse struct {
 }
 
 type DiscountCreatable struct {
-	gorm.Model
+	gorm.Model      `json:"-"`
 	MinQuantity     *int `json:"minQuantity" gorm:"column:min_quantity;not null;default:0"`
 	DiscountPercent *int `json:"discountPercent" gorm:"column:discount_percent;default:0;not null"`
 }

@@ -11,11 +11,11 @@ Authorization: Bearer {{waiterAccessToken}}
 
 {
     "note": "Không Cho Hành Lá",
-    "secretCode": 6100,
-    "tableId": 2,
-    "quantities": [1, 1, 1],
-    "productsId": [3, 2, 1],
-    "includeTableCost": true
+    "secretCode": 1234,
+    "tableId": 1,
+    "quantities": [1, 5],
+    "productsId": [3, 1],
+    "includeTableCost": false
 }
 
 ### 
@@ -34,9 +34,9 @@ Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}
 
 ### 
-GET {{host}}/table/preparing/2
+GET {{host}}/table/preparing/3
 Content-Type: {{contentType}}
-Authorization: Bearer {{chiefAccessToken}}
+Authorization: Bearer {{waiterAccessToken}}
 
 ### 
 GET {{host}}/table/rejected/2
@@ -44,14 +44,14 @@ Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}
 
 ### 
-PATCH {{host}}/accepted/?orderId=2
+POST {{host}}/accepted/?orderId=2
 Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}
 
 ### 
-PATCH {{host}}/rejected/?orderId=1&reason="Không đủ nguyên liệu làm món Cơm gà"
+POST {{host}}/rejected/?orderId=22&reason="Không đủ nguyên liệu làm món Cơm gà"
 Content-Type: {{contentType}}
-Authorization: Bearer {{managerAccessToken}}
+Authorization: Bearer {{waiterAccessToken}}
 
 ### 
 PATCH {{host}}/finished/?orderId=1

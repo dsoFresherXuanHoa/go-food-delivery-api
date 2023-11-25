@@ -19,7 +19,7 @@ type CategoryResponse struct {
 }
 
 type CategoryCreatable struct {
-	gorm.Model
+	gorm.Model  `json:"-"`
 	Name        *string `json:"name" gorm:"column:name;not null"`
 	Description *string `json:"description" gorm:"column:description;not null"`
 }

@@ -27,7 +27,7 @@ type TableResponse struct {
 }
 
 type TableCreatable struct {
-	gorm.Model
+	gorm.Model  `json:"-"`
 	NormalTable *bool    `json:"normalTable" gorm:"column:normal_table;default:true"`
 	Capacity    *int     `json:"capacity" gorm:"column:capacity;not null"`
 	BasePrice   *float64 `json:"basePrice" gorm:"column:base_price;default:20000"`

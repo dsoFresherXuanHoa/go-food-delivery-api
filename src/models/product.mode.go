@@ -36,7 +36,7 @@ type ProductResponse struct {
 }
 
 type ProductCreatable struct {
-	gorm.Model
+	gorm.Model   `json:"-"`
 	Name         *string `json:"name" gorm:"column:name;not null"`
 	Description  *string `json:"description" gorm:"column:description;not null"`
 	Price        float64 `json:"price" gorm:"column:price;not null"`

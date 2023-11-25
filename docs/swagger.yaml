@@ -1,0 +1,1269 @@
+basePath: /api/v1
+definitions:
+  models.AreaCreatable:
+    properties:
+      pos:
+        type: string
+    type: object
+  models.BookingCreatable:
+    properties:
+      includeTableCost:
+        type: boolean
+      note:
+        type: string
+      productsId:
+        items:
+          type: integer
+        type: array
+      quantities:
+        items:
+          type: integer
+        type: array
+      reason:
+        type: string
+      secretCode:
+        type: integer
+      tableId:
+        type: integer
+    type: object
+  models.CategoryCreatable:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    type: object
+  models.ResetPasswordCreatable:
+    properties:
+      email:
+        type: string
+    type: object
+  models.RoleCreatable:
+    properties:
+      name:
+        type: string
+    type: object
+  models.SignIn:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  models.SignUp:
+    properties:
+      email:
+        type: string
+      fullName:
+        type: string
+      gender:
+        type: boolean
+      password:
+        type: string
+      roleId:
+        type: integer
+      tel:
+        type: string
+    type: object
+  models.TableCreatable:
+    properties:
+      areaId:
+        type: integer
+      basePrice:
+        type: number
+      capacity:
+        type: integer
+      employeeId:
+        type: integer
+      normalTable:
+        type: boolean
+    type: object
+  models.Warehouse:
+    properties:
+      categoryId:
+        type: integer
+      description:
+        type: string
+      discountPercent:
+        type: integer
+      minQuantity:
+        type: integer
+      name:
+        type: string
+      price:
+        type: number
+      stockAmount:
+        type: integer
+      thumb:
+        type: string
+      uint:
+        type: string
+    type: object
+  models.response:
+    properties:
+      data: {}
+      error:
+        type: string
+      message:
+        type: string
+      statusCode:
+        type: integer
+    type: object
+host: localhost:3001
+info:
+  contact:
+    email: dso.intern.xuanhoa@gmail.com
+    name: Xuan Hoa Le
+  description: Go Food Delivery CMS - Swagger API Discovery
+  title: Go Food Delivery CMS - Swagger API Discovery
+  version: "1.0"
+paths:
+  /areas:
+    post:
+      consumes:
+      - application/json
+      description: Create area
+      parameters:
+      - description: Area
+        in: body
+        name: area
+        schema:
+          $ref: '#/definitions/models.AreaCreatable'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: Create area
+      tags:
+      - areas
+  /auth/me:
+    get:
+      consumes:
+      - application/json
+      description: Me
+      parameters:
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: Me
+      tags:
+      - auth
+  /auth/reset-password:
+    patch:
+      consumes:
+      - application/json
+      description: Reset Password
+      parameters:
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Reset Password
+        in: body
+        name: resetPassword
+        required: true
+        schema:
+          $ref: '#/definitions/models.ResetPasswordCreatable'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: Reset Password
+      tags:
+      - auth
+  /auth/sign-in:
+    post:
+      consumes:
+      - application/json
+      description: SignIn
+      parameters:
+      - description: Sign In
+        in: body
+        name: signIn
+        required: true
+        schema:
+          $ref: '#/definitions/models.SignIn'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: SignIn
+      tags:
+      - auth
+  /auth/sign-up:
+    post:
+      consumes:
+      - application/json
+      description: Sign up
+      parameters:
+      - description: Sign Up
+        in: body
+        name: signUp
+        required: true
+        schema:
+          $ref: '#/definitions/models.SignUp'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: Sign up
+      tags:
+      - auth
+  /bills/compensated/:
+    patch:
+      consumes:
+      - application/json
+      description: Compensated Bill
+      parameters:
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Order Id
+        in: query
+        name: orderId
+        required: true
+        type: integer
+      - description: Bill Id
+        in: query
+        name: billId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: Compensated Bill
+      tags:
+      - bills
+  /bills/finished/{billId}:
+    patch:
+      consumes:
+      - application/json
+      description: Finish Bill
+      parameters:
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Bill Id
+        in: path
+        name: billId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: Finish Bill
+      tags:
+      - bills
+  /booking:
+    post:
+      consumes:
+      - application/json
+      description: Create Booking
+      parameters:
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Booking
+        in: body
+        name: booking
+        required: true
+        schema:
+          $ref: '#/definitions/models.BookingCreatable'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: Create Booking
+      tags:
+      - booking
+  /booking/:
+    get:
+      consumes:
+      - application/json
+      description: GetDetail Booking
+      parameters:
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Order Id
+        in: query
+        name: orderId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: GetDetail Booking
+      tags:
+      - bills
+  /booking/accepted:
+    post:
+      consumes:
+      - application/json
+      description: Accept Order
+      parameters:
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Order Id
+        in: query
+        name: orderId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: Accept Order
+      tags:
+      - bills
+  /booking/all:
+    get:
+      consumes:
+      - application/json
+      description: Get All Booking
+      parameters:
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: Get All Booking
+      tags:
+      - bills
+  /booking/employee:
+    get:
+      consumes:
+      - application/json
+      description: Get Top 10 Detail Booking By EmployeeId
+      parameters:
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: Get Top 10 Detail Booking By EmployeeId
+      tags:
+      - bills
+  /booking/finished:
+    post:
+      consumes:
+      - application/json
+      description: Finish Order
+      parameters:
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Order Id
+        in: query
+        name: orderId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: Finish Order
+      tags:
+      - bills
+  /booking/refund/{orderId}:
+    patch:
+      consumes:
+      - application/json
+      description: Refund Booking
+      parameters:
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Table Id
+        in: path
+        name: tableId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: Refund Booking
+      tags:
+      - bills
+  /booking/rejected:
+    post:
+      consumes:
+      - application/json
+      description: Reject Order
+      parameters:
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Order Id
+        in: query
+        name: orderId
+        required: true
+        type: integer
+      - description: Reason
+        in: query
+        name: reason
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: Reject Order
+      tags:
+      - bills
+  /booking/table/{tableId}:
+    get:
+      consumes:
+      - application/json
+      description: Get Serve Booking By TableId
+      parameters:
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Table Id
+        in: path
+        name: tableId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: Get Serve Booking By TableId
+      tags:
+      - bills
+  /booking/table/preparing/{tableId}:
+    get:
+      consumes:
+      - application/json
+      description: Get Preparing Booking By Table Id
+      parameters:
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Table Id
+        in: path
+        name: tableId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: Get Preparing Booking By Table Id
+      tags:
+      - bills
+  /booking/table/rejected/{tableId}:
+    get:
+      consumes:
+      - application/json
+      description: Get Rejected Booking By TableId
+      parameters:
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Table Id
+        in: path
+        name: tableId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: Get Rejected Booking By TableId
+      tags:
+      - bills
+  /categories:
+    get:
+      consumes:
+      - application/json
+      description: Read Category
+      parameters:
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: Read Category
+      tags:
+      - categories
+    post:
+      consumes:
+      - application/json
+      description: Create Category
+      parameters:
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Category
+        in: body
+        name: category
+        required: true
+        schema:
+          $ref: '#/definitions/models.CategoryCreatable'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: Create Category
+      tags:
+      - categories
+  /employees:
+    get:
+      consumes:
+      - application/json
+      description: Read All Employee
+      parameters:
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: Read All Employee
+      tags:
+      - employees
+  /employees/{employeesId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Employee
+      parameters:
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Employee Id
+        in: path
+        name: employeeId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: Delete Employee
+      tags:
+      - employees
+  /products:
+    get:
+      consumes:
+      - application/json
+      description: Read Product By Category Id
+      parameters:
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Table Id
+        in: path
+        name: tableId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: Read Product By Category Id
+      tags:
+      - products
+  /products/{productId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Product By Id
+      parameters:
+      - description: Product Id
+        in: path
+        name: productId
+        required: true
+        type: integer
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: Delete Product By Id
+      tags:
+      - products
+    get:
+      consumes:
+      - application/json
+      description: Read Product By Id
+      parameters:
+      - description: Product Id
+        in: path
+        name: productId
+        required: true
+        type: integer
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: Read Product By Id
+      tags:
+      - products
+  /products/category/{categoryId}:
+    get:
+      consumes:
+      - application/json
+      description: Read Product By Category Id
+      parameters:
+      - description: Category Id
+        in: path
+        name: categoryId
+        required: true
+        type: integer
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: Read Product By Category Id
+      tags:
+      - products
+  /products/recommend/{limit}:
+    get:
+      consumes:
+      - application/json
+      description: Read Recommend Product
+      parameters:
+      - description: Limit
+        in: path
+        name: limit
+        required: true
+        type: integer
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: Read Recommend Product
+      tags:
+      - products
+  /roles:
+    post:
+      consumes:
+      - application/json
+      description: Create Role
+      parameters:
+      - description: Role
+        in: body
+        name: role
+        required: true
+        schema:
+          $ref: '#/definitions/models.RoleCreatable'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: Create Role
+      tags:
+      - roles
+  /tables:
+    get:
+      consumes:
+      - application/json
+      description: Read Table By Employee Id
+      parameters:
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: Read Table By Employee Id
+      tags:
+      - tables
+    post:
+      consumes:
+      - application/json
+      description: Create Table
+      parameters:
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Table
+        in: body
+        name: table
+        required: true
+        schema:
+          $ref: '#/definitions/models.TableCreatable'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: Create Table
+      tags:
+      - tables
+  /tables/all:
+    get:
+      consumes:
+      - application/json
+      description: Read All Table
+      parameters:
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: Read All Table
+      tags:
+      - tables
+  /tables/status/{status}:
+    get:
+      consumes:
+      - application/json
+      description: Read Table By Employee Id And Status
+      parameters:
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Status
+        in: path
+        name: status
+        required: true
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: Read Table By Employee Id And Status
+      tags:
+      - tables
+  /warehouses:
+    patch:
+      consumes:
+      - application/json
+      description: Update Warehouse
+      parameters:
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Warehouse
+        in: body
+        name: warehouse
+        required: true
+        schema:
+          $ref: '#/definitions/models.Warehouse'
+      - description: Product Id
+        in: query
+        name: productId
+        required: true
+        type: integer
+      - description: DiscountId Id
+        in: query
+        name: discountId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: Update Warehouse
+      tags:
+      - warehouses
+    post:
+      consumes:
+      - multipart/form-data
+      description: Import Warehouse
+      parameters:
+      - description: Bearer Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - in: formData
+        name: categoryId
+        type: integer
+      - in: formData
+        name: description
+        type: string
+      - in: formData
+        name: discountPercent
+        type: integer
+      - in: formData
+        name: minQuantity
+        type: integer
+      - in: formData
+        name: name
+        type: string
+      - in: formData
+        name: price
+        type: number
+      - in: formData
+        name: stockAmount
+        type: integer
+      - in: formData
+        name: '-'
+        type: string
+      - in: formData
+        name: unit
+        type: string
+      - description: Thumb
+        in: formData
+        name: thumb
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.response'
+      summary: Import Warehouse
+      tags:
+      - warehouses
+swagger: "2.0"

@@ -12,6 +12,19 @@ import (
 	"gorm.io/gorm"
 )
 
+// CreateCategory godoc
+//
+//	@Summary		Create Category
+//	@Description	Create Category
+//	@Tags			categories
+//	@Accept			json
+//	@Produce		json
+//	@Param  Authorization  header  string  required  "Bearer Token"
+//	@Param			category	body		models.CategoryCreatable	true	"Category"
+//	@Success		200	{object}		models.response
+//	@Failure		400	{object}	models.response
+//	@Failure		500	{object}	models.response
+//	@Router			/categories [post]
 func CreateCategory(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var category models.CategoryCreatable
@@ -32,6 +45,18 @@ func CreateCategory(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+// ReadCategory godoc
+//
+//	@Summary		Read Category
+//	@Description	Read Category
+//	@Tags			categories
+//	@Accept			json
+//	@Produce		json
+//	@Param  Authorization  header  string  required  "Bearer Token"
+//	@Success		200		{object}	models.response
+//	@Failure		400		{object}	models.response
+//	@Failure		500		{object}	models.response
+//	@Router			/categories [get]
 func ReadCategory(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		repositories := repositories.NewSQLStore(db)

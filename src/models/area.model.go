@@ -17,8 +17,8 @@ type AreaResponse struct {
 }
 
 type AreaCreatable struct {
-	gorm.Model
-	Pos *string `json:"pos" gorm:"column:pos;not null"`
+	gorm.Model `json:"-"`
+	Pos        *string `json:"pos" gorm:"column:pos;not null"`
 }
 
 type AreaUpdatable struct {

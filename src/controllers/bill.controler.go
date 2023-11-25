@@ -13,6 +13,19 @@ import (
 	"gorm.io/gorm"
 )
 
+// FinishBill godoc
+//
+//	@Summary		Finish Bill
+//	@Description	Finish Bill
+//	@Tags			bills
+//	@Accept			json
+//	@Produce		json
+//	@Param  Authorization  header  string  required  "Bearer Token"
+//	@Param			billId	path		int	true	"Bill Id"
+//	@Success		200		{object}	models.response
+//	@Failure		400		{object}	models.response
+//	@Failure		500		{object}	models.response
+//	@Router			/bills/finished/{billId} [patch]
 func FinishBill(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if billId, err := strconv.Atoi(ctx.Param("billId")); err != nil {
@@ -31,6 +44,20 @@ func FinishBill(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+// CompensatedBill godoc
+//
+//	@Summary		Compensated Bill
+//	@Description	Compensated Bill
+//	@Tags			bills
+//	@Accept			json
+//	@Produce		json
+//	@Param  Authorization  header  string  required  "Bearer Token"
+//	@Param			orderId	query		int	true	"Order Id"
+//	@Param			billId	query		int	true	"Bill Id"
+//	@Success		200		{object}	models.response
+//	@Failure		400		{object}	models.response
+//	@Failure		500		{object}	models.response
+//	@Router			/bills/compensated/ [patch]
 func CompensatedBill(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if orderId, err := strconv.Atoi(ctx.Query("orderId")); err != nil {

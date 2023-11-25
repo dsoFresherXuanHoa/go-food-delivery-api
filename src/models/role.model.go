@@ -17,8 +17,8 @@ type RoleResponse struct {
 }
 
 type RoleCreatable struct {
-	gorm.Model
-	Name *string `json:"name" gorm:"column:name;unique;not null"`
+	gorm.Model `json:"-"`
+	Name       *string `json:"name" gorm:"column:name;unique;not null"`
 }
 
 type RoleUpdatable struct {

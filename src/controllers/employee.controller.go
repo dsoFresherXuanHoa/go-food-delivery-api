@@ -13,6 +13,18 @@ import (
 	"gorm.io/gorm"
 )
 
+// ReadAllEmployee godoc
+//
+//	@Summary		Read All Employee
+//	@Description	Read All Employee
+//	@Tags			employees
+//	@Accept			json
+//	@Produce		json
+//	@Param  Authorization  header  string  required  "Bearer Token"
+//	@Success		200		{object}	models.response
+//	@Failure		400		{object}	models.response
+//	@Failure		500		{object}	models.response
+//	@Router			/employees [get]
 func ReadAllEmployee(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		repositories := repositories.NewSQLStore(db)
@@ -27,6 +39,19 @@ func ReadAllEmployee(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+// DeleteEmployee godoc
+//
+//	@Summary		Delete Employee
+//	@Description	Delete Employee
+//	@Tags			employees
+//	@Accept			json
+//	@Produce		json
+//	@Param  Authorization  header  string  required  "Bearer Token"
+//	@Param			employeeId	path		int	true	"Employee Id"
+//	@Success		200		{object}	models.response
+//	@Failure		400		{object}	models.response
+//	@Failure		500		{object}	models.response
+//	@Router			/employees/{employeesId} [delete]
 func DeleteEmployee(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if employeeId, err := strconv.Atoi(ctx.Param("employeeId")); err != nil {

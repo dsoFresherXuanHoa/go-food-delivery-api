@@ -12,6 +12,18 @@ import (
 	"gorm.io/gorm"
 )
 
+// SignUp godoc
+//
+//	@Summary		Sign up
+//	@Description	Sign up
+//	@Tags			auth
+//	@Accept			json
+//	@Produce		json
+//	@Param			signUp	body		models.SignUp	true	"Sign Up"
+//	@Success		200	{object}		models.response
+//	@Failure		400	{object}	models.response
+//	@Failure		500	{object}	models.response
+//	@Router			/auth/sign-up [post]
 func SignUp(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var signUp models.SignUp
@@ -38,6 +50,18 @@ func SignUp(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+// SignIn godoc
+//
+//	@Summary		SignIn
+//	@Description	SignIn
+//	@Tags			auth
+//	@Accept			json
+//	@Produce		json
+//	@Param			signIn	body		models.SignIn	true	"Sign In"
+//	@Success		200		{object}	models.response
+//	@Failure		400		{object}	models.response
+//	@Failure		500		{object}	models.response
+//	@Router			/auth/sign-in [post]
 func SignIn(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var signIn models.SignIn
@@ -58,6 +82,17 @@ func SignIn(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+// Me godoc
+//
+//	@Summary		Me
+//	@Description	Me
+//	@Tags			auth
+//	@Accept			json
+//	@Produce		json
+//	@Param  Authorization  header  string  required  "Bearer Token"
+//	@Success		200	{object}	models.response
+//	@Failure		403	{object}	models.response
+//	@Router			/auth/me [get]
 func Me(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var employee models.Employee
@@ -79,6 +114,19 @@ func Me(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+// ResetPassword godoc
+//
+//	@Summary		Reset Password
+//	@Description	Reset Password
+//	@Tags			auth
+//	@Accept			json
+//	@Produce		json
+//	@Param  Authorization  header  string  required  "Bearer Token"
+//	@Param			resetPassword	body		models.ResetPasswordCreatable	true	"Reset Password"
+//	@Success		200		{object}	models.response
+//	@Failure		400		{object}	models.response
+//	@Failure		500		{object}	models.response
+//	@Router			/auth/reset-password [patch]
 func ResetPassword(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var resetPassword models.ResetPasswordCreatable

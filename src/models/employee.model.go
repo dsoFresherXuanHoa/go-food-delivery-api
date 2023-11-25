@@ -25,10 +25,10 @@ type EmployeeResponse struct {
 }
 
 type EmployeeCreatable struct {
-	gorm.Model
-	FullName *string `json:"fullName" gorm:"column:full_name;not null"`
-	Tel      *string `json:"tel" gorm:"column:tel;not null"`
-	Gender   *bool   `json:"gender" gorm:"column:gender;default:false"`
+	gorm.Model `json:"-"`
+	FullName   *string `json:"fullName" gorm:"column:full_name;not null"`
+	Tel        *string `json:"tel" gorm:"column:tel;not null"`
+	Gender     *bool   `json:"gender" gorm:"column:gender;default:false"`
 }
 
 type EmployeeUpdatable struct {

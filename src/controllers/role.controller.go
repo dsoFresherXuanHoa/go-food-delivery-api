@@ -12,6 +12,18 @@ import (
 	"gorm.io/gorm"
 )
 
+// CreateRole godoc
+//
+//	@Summary		Create Role
+//	@Description	Create Role
+//	@Tags			roles
+//	@Accept			json
+//	@Produce		json
+//	@Param			role	body		models.RoleCreatable	true	"Role"
+//	@Success		200	{object}		models.response
+//	@Failure		400	{object}	models.response
+//	@Failure		500	{object}	models.response
+//	@Router			/roles [post]
 func CreateRole(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var role models.RoleCreatable

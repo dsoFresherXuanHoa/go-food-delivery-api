@@ -16,6 +16,19 @@ import (
 	"gorm.io/gorm"
 )
 
+// CreateBooking godoc
+//
+//	@Summary		Create Booking
+//	@Description	Create Booking
+//	@Tags			booking
+//	@Accept			json
+//	@Produce		json
+//	@Param  Authorization  header  string  required  "Bearer Token"
+//	@Param			booking	body		models.BookingCreatable	true	"Booking"
+//	@Success		200	{object}		models.response
+//	@Failure		400	{object}	models.response
+//	@Failure		500	{object}	models.response
+//	@Router			/booking [post]
 func CreateBooking(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var booking models.BookingCreatable
@@ -46,6 +59,19 @@ func CreateBooking(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+// AcceptOrder godoc
+//
+//	@Summary		Accept Order
+//	@Description	Accept Order
+//	@Tags			bills
+//	@Accept			json
+//	@Produce		json
+//	@Param  Authorization  header  string  required  "Bearer Token"
+//	@Param			orderId	query		int	true	"Order Id"
+//	@Success		200		{object}	models.response
+//	@Failure		400		{object}	models.response
+//	@Failure		500		{object}	models.response
+//	@Router			/booking/accepted [post]
 func AcceptOrder(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if orderId, err := strconv.Atoi(ctx.Query("orderId")); err != nil {
@@ -64,6 +90,20 @@ func AcceptOrder(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+// RejectOrder godoc
+//
+//	@Summary		Reject Order
+//	@Description	Reject Order
+//	@Tags			bills
+//	@Accept			json
+//	@Produce		json
+//	@Param  Authorization  header  string  required  "Bearer Token"
+//	@Param			orderId	query		int	true	"Order Id"
+//	@Param			reason	query		string	true	"Reason"
+//	@Success		200		{object}	models.response
+//	@Failure		400		{object}	models.response
+//	@Failure		500		{object}	models.response
+//	@Router			/booking/rejected [post]
 func RejectOrder(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if orderId, err := strconv.Atoi(ctx.Query("orderId")); err != nil {
@@ -85,6 +125,19 @@ func RejectOrder(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+// FinishOrder godoc
+//
+//	@Summary		Finish Order
+//	@Description	Finish Order
+//	@Tags			bills
+//	@Accept			json
+//	@Produce		json
+//	@Param  Authorization  header  string  required  "Bearer Token"
+//	@Param			orderId	query		int	true	"Order Id"
+//	@Success		200		{object}	models.response
+//	@Failure		400		{object}	models.response
+//	@Failure		500		{object}	models.response
+//	@Router			/booking/finished [post]
 func FinishOrder(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if orderId, err := strconv.Atoi(ctx.Query("orderId")); err != nil {
@@ -103,6 +156,19 @@ func FinishOrder(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+// GetDetailBooking godoc
+//
+//	@Summary		GetDetail Booking
+//	@Description	GetDetail Booking
+//	@Tags			bills
+//	@Accept			json
+//	@Produce		json
+//	@Param  Authorization  header  string  required  "Bearer Token"
+//	@Param			orderId	query		int	true	"Order Id"
+//	@Success		200		{object}	models.response
+//	@Failure		400		{object}	models.response
+//	@Failure		500		{object}	models.response
+//	@Router			/booking/ [get]
 func GetDetailBooking(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if orderId, err := strconv.Atoi(ctx.Query("orderId")); err != nil {
@@ -121,6 +187,18 @@ func GetDetailBooking(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+// GetTop10DetailBookingByEmployeeId godoc
+//
+//	@Summary		Get Top 10 Detail Booking By EmployeeId
+//	@Description	Get Top 10 Detail Booking By EmployeeId
+//	@Tags			bills
+//	@Accept			json
+//	@Produce		json
+//	@Param  Authorization  header  string  required  "Bearer Token"
+//	@Success		200		{object}	models.response
+//	@Failure		400		{object}	models.response
+//	@Failure		500		{object}	models.response
+//	@Router			/booking/employee [get]
 func GetTop10DetailBookingByEmployeeId(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		id := ctx.Value("employeeId").(int)
@@ -136,6 +214,19 @@ func GetTop10DetailBookingByEmployeeId(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+// GetServeBookingByTableId godoc
+//
+//	@Summary		Get Serve Booking By TableId
+//	@Description	Get Serve Booking By TableId
+//	@Tags			bills
+//	@Accept			json
+//	@Produce		json
+//	@Param  Authorization  header  string  required  "Bearer Token"
+//	@Param			tableId	path		int	true	"Table Id"
+//	@Success		200		{object}	models.response
+//	@Failure		400		{object}	models.response
+//	@Failure		500		{object}	models.response
+//	@Router			/booking/table/{tableId} [get]
 func GetServeBookingByTableId(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if tableId, err := strconv.Atoi(ctx.Param("tableId")); err != nil {
@@ -154,6 +245,19 @@ func GetServeBookingByTableId(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+// GetPreparingBookingByTableId godoc
+//
+//	@Summary		Get Preparing Booking By Table Id
+//	@Description	Get Preparing Booking By Table Id
+//	@Tags			bills
+//	@Accept			json
+//	@Produce		json
+//	@Param  Authorization  header  string  required  "Bearer Token"
+//	@Param			tableId	path		int	true	"Table Id"
+//	@Success		200		{object}	models.response
+//	@Failure		400		{object}	models.response
+//	@Failure		500		{object}	models.response
+//	@Router			/booking/table/preparing/{tableId} [get]
 func GetPreparingBookingByTableId(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if tableId, err := strconv.Atoi(ctx.Param("tableId")); err != nil {
@@ -172,6 +276,19 @@ func GetPreparingBookingByTableId(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+// GetRejectedBookingByTableId godoc
+//
+//	@Summary		Get Rejected Booking By TableId
+//	@Description	Get Rejected Booking By TableId
+//	@Tags			bills
+//	@Accept			json
+//	@Produce		json
+//	@Param  Authorization  header  string  required  "Bearer Token"
+//	@Param			tableId	path		int	true	"Table Id"
+//	@Success		200		{object}	models.response
+//	@Failure		400		{object}	models.response
+//	@Failure		500		{object}	models.response
+//	@Router			/booking/table/rejected/{tableId} [get]
 func GetRejectedBookingByTableId(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if tableId, err := strconv.Atoi(ctx.Param("tableId")); err != nil {
@@ -190,6 +307,19 @@ func GetRejectedBookingByTableId(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+// RefundBooking godoc
+//
+//	@Summary		Refund Booking
+//	@Description	Refund Booking
+//	@Tags			bills
+//	@Accept			json
+//	@Produce		json
+//	@Param  Authorization  header  string  required  "Bearer Token"
+//	@Param			tableId	path		int	true	"Table Id"
+//	@Success		200		{object}	models.response
+//	@Failure		400		{object}	models.response
+//	@Failure		500		{object}	models.response
+//	@Router			/booking/refund/{orderId} [patch]
 func RefundBooking(db *gorm.DB) gin.HandlerFunc {
 	var booking models.BookingCreatable
 	return func(ctx *gin.Context) {
@@ -252,6 +382,18 @@ func RefundBooking(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+// GetAllBooking godoc
+//
+//	@Summary		Get All Booking
+//	@Description	Get All Booking
+//	@Tags			bills
+//	@Accept			json
+//	@Produce		json
+//	@Param  Authorization  header  string  required  "Bearer Token"
+//	@Success		200		{object}	models.response
+//	@Failure		400		{object}	models.response
+//	@Failure		500		{object}	models.response
+//	@Router			/booking/all [get]
 func GetAllBooking(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		repositories := repositories.NewSQLStore(db)

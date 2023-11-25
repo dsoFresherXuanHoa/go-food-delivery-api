@@ -23,7 +23,7 @@ type AccountResponse struct {
 }
 
 type AccountCreatable struct {
-	gorm.Model
+	gorm.Model `json:"-"`
 	Password   *string `json:"-" gorm:"column:password;not null"`
 	Email      *string `json:"email" gorm:"column:email;unique;not null"`
 	SecretCode *int    `json:"-" gorm:"column:secret_code;not null"`

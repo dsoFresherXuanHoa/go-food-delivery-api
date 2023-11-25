@@ -21,7 +21,7 @@ type BillResponse struct {
 }
 
 type BillCreatable struct {
-	gorm.Model
+	gorm.Model `json:"-"`
 	Quantity   *int  `json:"quantity" gorm:"column:quantity;not null"`
 	OrderId    *uint `json:"orderId" gorm:"column:order_id;not null"`
 	ProductId  *uint `json:"productId" gorm:"column:product_id;not null"`

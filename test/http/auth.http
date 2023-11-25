@@ -20,7 +20,7 @@ POST {{host}}/sign-in
 Content-Type: {{contentType}}
 
 {
-    "email": "dso.fresher.xuanhoa@gmail.com",
+    "email": "dso.intern.xuanhoa@gmail.com",
     "password": "dso.intern.xuanhoa@gmail.com"
 }
 

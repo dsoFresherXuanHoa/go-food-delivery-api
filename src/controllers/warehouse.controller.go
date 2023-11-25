@@ -15,6 +15,20 @@ import (
 	"gorm.io/gorm"
 )
 
+// ImportWarehouse godoc
+//
+//	@Summary		Import Warehouse
+//	@Description	Import Warehouse
+//	@Tags			warehouses
+//	@Accept			multipart/form-data
+//	@Produce		json
+//	@Param  Authorization  header  string  required  "Bearer Token"
+//	@Param			warehouse	formData		models.Warehouse	true	"Warehouse"
+//	@Param			thumb	formData	file	true	"Thumb"
+//	@Success		200	{object}		models.response
+//	@Failure		400	{object}	models.response
+//	@Failure		500	{object}	models.response
+//	@Router			/warehouses [post]
 func ImportWarehouse(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var warehouse models.Warehouse
@@ -49,6 +63,21 @@ func ImportWarehouse(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+// UpdateWarehouse godoc
+//
+//	@Summary		Update Warehouse
+//	@Description	Update Warehouse
+//	@Tags			warehouses
+//	@Accept			json
+//	@Produce		json
+//	@Param  Authorization  header  string  required  "Bearer Token"
+//	@Param			warehouse	body		models.Warehouse	true	"Warehouse"
+//	@Param			productId	query		int	true	"Product Id"
+//	@Param			discountId	query		int	true	"DiscountId Id"
+//	@Success		200	{object}		models.response
+//	@Failure		400	{object}	models.response
+//	@Failure		500	{object}	models.response
+//	@Router			/warehouses [patch]
 func UpdateWarehouse(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var warehouse models.WarehouseUpdatable

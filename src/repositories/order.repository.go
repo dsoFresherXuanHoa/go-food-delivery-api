@@ -56,7 +56,7 @@ func (s *sqlStorage) GetPreparingOrdersByTableId(ctx context.Context, tableId in
 
 func (s *sqlStorage) GetRejectedOrdersByTableId(ctx context.Context, tableId int) ([]models.Order, error) {
 	var orders []models.Order
-	if err := s.db.Where("table_id = ?", tableId).Where("status = ?", false).Where("accepted = ?", false).Where("rejected = ?", true).Find(&orders).Error; err != nil {
+	if err := s.db.Where("table_id = ?", tableId).Where("status = ?", false).Where("accepted = ?", false).Where("rejected = ?", true).Order("id desc").Find(&orders).Error; err != nil {
 		fmt.Println("Error while find rejected order by tableId in repository: " + err.Error())
 		return nil, err
 	}

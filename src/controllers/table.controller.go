@@ -13,6 +13,19 @@ import (
 	"gorm.io/gorm"
 )
 
+// CreateTable godoc
+//
+//	@Summary		Create Table
+//	@Description	Create Table
+//	@Tags			tables
+//	@Accept			json
+//	@Produce		json
+//	@Param  Authorization  header  string  required  "Bearer Token"
+//	@Param			table	body		models.TableCreatable	true	"Table"
+//	@Success		200		{object}	models.response
+//	@Failure		400		{object}	models.response
+//	@Failure		500		{object}	models.response
+//	@Router			/tables [post]
 func CreateTable(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var table models.TableCreatable
@@ -33,6 +46,18 @@ func CreateTable(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+// ReadTableByEmployeeId godoc
+//
+//	@Summary		Read Table By Employee Id
+//	@Description	Read Table By Employee Id
+//	@Tags			tables
+//	@Accept			json
+//	@Produce		json
+//	@Param  Authorization  header  string  required  "Bearer Token"
+//	@Success		200		{object}	models.response
+//	@Failure		400		{object}	models.response
+//	@Failure		500		{object}	models.response
+//	@Router			/tables [get]
 func ReadTableByEmployeeId(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		repositories := repositories.NewSQLStore(db)
@@ -48,6 +73,19 @@ func ReadTableByEmployeeId(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+// ReadTableByEmployeeIdAndStatus godoc
+//
+//	@Summary		Read Table By Employee Id And Status
+//	@Description	Read Table By Employee Id And Status
+//	@Tags			tables
+//	@Accept			json
+//	@Produce		json
+//	@Param  Authorization  header  string  required  "Bearer Token"
+//	@Param  status  path  bool  required  "Status"
+//	@Success		200		{object}	models.response
+//	@Failure		400		{object}	models.response
+//	@Failure		500		{object}	models.response
+//	@Router			/tables/status/{status} [get]
 func ReadTableByEmployeeIdAndStatus(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if status, err := strconv.ParseBool(ctx.Param("status")); err != nil {
@@ -68,6 +106,18 @@ func ReadTableByEmployeeIdAndStatus(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+// ReadAllTable godoc
+//
+//	@Summary		Read All Table
+//	@Description	Read All Table
+//	@Tags			tables
+//	@Accept			json
+//	@Produce		json
+//	@Param  Authorization  header  string  required  "Bearer Token"
+//	@Success		200		{object}	models.response
+//	@Failure		400		{object}	models.response
+//	@Failure		500		{object}	models.response
+//	@Router			/tables/all [get]
 func ReadAllTable(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		repositories := repositories.NewSQLStore(db)

@@ -13,6 +13,19 @@ import (
 	"gorm.io/gorm"
 )
 
+// ReadProduct godoc
+//
+//	@Summary		Read Product By Category Id
+//	@Description	Read Product By Category Id
+//	@Tags			products
+//	@Accept			json
+//	@Produce		json
+//	@Param  Authorization  header  string  required  "Bearer Token"
+//	@Param			tableId	path		int	true	"Table Id"
+//	@Success		200		{object}	models.response
+//	@Failure		400		{object}	models.response
+//	@Failure		500		{object}	models.response
+//	@Router			/products [get]
 func ReadProduct(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		repositories := repositories.NewSQLStore(db)
@@ -27,6 +40,19 @@ func ReadProduct(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+// ReadProductByCategoryId godoc
+//
+//	@Summary		Read Product By Category Id
+//	@Description	Read Product By Category Id
+//	@Tags			products
+//	@Accept			json
+//	@Produce		json
+//	@Param			categoryId	path		int	true	"Category Id"
+//	@Param  Authorization  header  string  required  "Bearer Token"
+//	@Success		200		{object}	models.response
+//	@Failure		400		{object}	models.response
+//	@Failure		500		{object}	models.response
+//	@Router			/products/category/{categoryId} [get]
 func ReadProductByCategoryId(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if categoryId, err := strconv.Atoi(ctx.Param("categoryId")); err != nil {
@@ -46,6 +72,19 @@ func ReadProductByCategoryId(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+// ReadRecommendProduct godoc
+//
+//	@Summary		Read Recommend Product
+//	@Description	Read Recommend Product
+//	@Tags			products
+//	@Accept			json
+//	@Produce		json
+//	@Param			limit	path		int	true	"Limit"
+//	@Param  Authorization  header  string  required  "Bearer Token"
+//	@Success		200		{object}	models.response
+//	@Failure		400		{object}	models.response
+//	@Failure		500		{object}	models.response
+//	@Router			/products/recommend/{limit} [get]
 func ReadRecommendProduct(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if limit, err := strconv.Atoi(ctx.Param("limit")); err != nil {
@@ -64,6 +103,19 @@ func ReadRecommendProduct(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+// ReadProductById godoc
+//
+//	@Summary		Read Product By Id
+//	@Description	Read Product By Id
+//	@Tags			products
+//	@Accept			json
+//	@Produce		json
+//	@Param			productId	path		int	true	"Product Id"
+//	@Param  Authorization  header  string  required  "Bearer Token"
+//	@Success		200		{object}	models.response
+//	@Failure		400		{object}	models.response
+//	@Failure		500		{object}	models.response
+//	@Router			/products/{productId} [get]
 func ReadProductById(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if productId, err := strconv.Atoi(ctx.Param("productId")); err != nil {
@@ -82,6 +134,19 @@ func ReadProductById(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
+// DeleteProductById godoc
+//
+//	@Summary		Delete Product By Id
+//	@Description	Delete Product By Id
+//	@Tags			products
+//	@Accept			json
+//	@Produce		json
+//	@Param			productId	path		int	true	"Product Id"
+//	@Param  Authorization  header  string  required  "Bearer Token"
+//	@Success		200		{object}	models.response
+//	@Failure		400		{object}	models.response
+//	@Failure		500		{object}	models.response
+//	@Router			/products/{productId} [delete]
 func DeleteProductById(db *gorm.DB) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if productId, err := strconv.Atoi(ctx.Param("productId")); err != nil {
