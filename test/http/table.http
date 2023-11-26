@@ -12,7 +12,7 @@ Authorization: Bearer {{managerAccessToken}}
     "normalTable": false,
     "capacity": 15,
     "basePrice": 25000,
-    "employeeId": 1,
+    "employeeId": 26,
     "areaId": 1
 }
 

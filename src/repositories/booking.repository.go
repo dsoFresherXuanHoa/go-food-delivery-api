@@ -88,6 +88,10 @@ func (s *sqlStorage) CreateBooking(ctx context.Context, order *models.OrderCreat
 				totalPrice += int(table.BasePrice)
 			}
 
+			// Include VAT:
+			vatPrice := int(float64(totalPrice) * 0.1)
+			totalPrice += vatPrice
+
 			// Update Total Price
 			order.TotalPrice = &totalPrice
 			if _, err := orderService.UpdateOrderById(ctx, int(*orderId), &models.OrderUpdatable{TotalPrice: &totalPrice}); err != nil {

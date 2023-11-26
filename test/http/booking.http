@@ -7,13 +7,13 @@
 ###
 POST {{host}}/
 Content-Type: {{contentType}}
-Authorization: Bearer {{waiterAccessToken}}
+Authorization: Bearer {{managerAccessToken}}
 
 {
     "note": "Không Cho Hành Lá",
-    "secretCode": 1234,
-    "tableId": 1,
-    "quantities": [1, 5],
+    "secretCode": 7665,
+    "tableId": 4,
+    "quantities": [6, 6],
     "productsId": [3, 1],
     "includeTableCost": false
 }
