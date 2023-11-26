@@ -3,7 +3,6 @@ package main
 import (
 	"go-food-delivery-api/docs"
 	"go-food-delivery-api/src/configs"
-	"go-food-delivery-api/src/middlewares"
 	"go-food-delivery-api/src/models"
 	"go-food-delivery-api/src/routes"
 	"os"
@@ -44,10 +43,10 @@ func main() {
 
 		port := os.Getenv("PORT")
 
-		limiter, _ := configs.NewRateLimitClient().Instance()
+		// limiter, _ := configs.NewRateLimitClient().Instance()
 		router := gin.Default()
 		router.Use(cors.AllowAll())
-		router.Use(middlewares.RateLimit(limiter))
+		// router.Use(middlewares.RateLimit(limiter))
 
 		routes.RoleRouteConfig(router, db)
 		routes.CategoriesRouteConfig(router, db)

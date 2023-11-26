@@ -6,6 +6,8 @@ import (
 	"go-food-delivery-api/src/models"
 	"go-food-delivery-api/src/services"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 func (s *sqlStorage) CreateEmployee(ctx context.Context, employee *models.EmployeeCreatable) (*uint, error) {
@@ -18,8 +20,11 @@ func (s *sqlStorage) CreateEmployee(ctx context.Context, employee *models.Employ
 
 func (s *sqlStorage) GetDetailEmployee(ctx context.Context, employee models.Employee) models.EmployeeResponse {
 	accountService := services.NewAccountBusiness(s)
-	embedAccount, _ := accountService.ReadAccountById(ctx, employee.ID)
-	return models.EmployeeResponse{Model: embedAccount.Model, Account: *embedAccount, Tables: nil, Orders: nil, FullName: employee.FullName, Tel: employee.Tel, Gender: employee.Gender}
+	if embedAccount, err := accountService.ReadAccountById(ctx, employee.ID); err != nil {
+		return models.EmployeeResponse{Model: gorm.Model{}, Account: models.Account{}, Tables: nil, Orders: nil, FullName: employee.FullName, Tel: employee.Tel, Gender: employee.Gender}
+	} else {
+		return models.EmployeeResponse{Model: embedAccount.Model, Account: *embedAccount, Tables: nil, Orders: nil, FullName: employee.FullName, Tel: employee.Tel, Gender: employee.Gender}
+	}
 }
 
 func (s *sqlStorage) ReadAllEmployee(ctx context.Context) ([]models.EmployeeResponse, error) {

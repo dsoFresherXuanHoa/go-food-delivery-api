@@ -49,7 +49,7 @@ func (s *sqlStorage) CreateBooking(ctx context.Context, order *models.OrderCreat
 			minQuantity := discounts[i].MinQuantity
 			originPrice := products[i].Price
 			orderQuantity := *bill.Quantity
-			if orderQuantity >= minQuantity {
+			if orderQuantity > minQuantity {
 				totalPrice += int(float64(float64(100-discountPercent)/100)*originPrice) * orderQuantity
 			} else {
 				totalPrice += int(originPrice) * orderQuantity

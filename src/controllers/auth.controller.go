@@ -41,9 +41,13 @@ func SignUp(db *gorm.DB) gin.HandlerFunc {
 				fmt.Println("Error while sign up in auth controller: " + err.Error())
 				ctx.JSON(http.StatusInternalServerError, models.NewStandardResponse(nil, http.StatusInternalServerError, err.Error(), constants.CannotSignUpRightNow))
 			} else {
+				accountService := services.NewAccountBusiness(repositories)
+				targetAccount, _ := accountService.ReadAccountById(ctx, *accountId)
+				secretCode := targetAccount.SecretCode
 				ctx.JSON(http.StatusOK, models.NewStandardResponse(gin.H{
 					"employeeId": employeeId,
 					"accountId":  accountId,
+					"secretCode": secretCode,
 				}, http.StatusOK, "", constants.SignUpSuccess))
 			}
 		}
