@@ -7,6 +7,7 @@ import (
 	"go-food-delivery-api/src/routes"
 	"os"
 
+	"github.com/gin-gonic/autotls"
 	"github.com/gin-gonic/gin"
 	cors "github.com/rs/cors/wrapper/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -62,6 +63,8 @@ func main() {
 
 		docs.SwaggerInfo.BasePath = "/api/v1"
 		router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+		autotls.Run(router, "https://food-delivery-admin-ruby.vercel.app/")
 		router.Run(":" + port)
 	}
 }
