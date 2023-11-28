@@ -1,27 +1,28 @@
 @host = http://localhost:3001/api/v1/auth
+@remote = http://139.144.118.48:3001/api/v1/auth
 @contentType = application/json
 @waiterAccessToken = {{$dotenv WAITER_ACCESS_TOKEN}}
 @managerAccessToken = {{$dotenv MANAGER_ACCESS_TOKEN}}
 
 ###
-POST {{host}}/sign-up
+POST {{remote}}/sign-up
 Content-Type: {{contentType}}
 
 {
-    "fullName": "Lê Xuân Hòa",
+    "fullName": "Vũ Huy Hoàng",
 	"tel": "0364015071",
     "gender": false,
-    "email": "dso.intern.xuanhoa@gmail.com",
-    "roleId": 2
+    "email": "vuhuyhoang@gmail.com",
+    "roleId": 3
 }
 
 ###
-POST {{host}}/sign-in
+POST {{remote}}/sign-in
 Content-Type: {{contentType}}
 
 {
-    "email": "dso.intern.xuanhoa@gmail.com",
-    "password": "dso.intern.xuanhoa@gmail.com"
+    "email": "vuhuyhoang@gmail.com",
+    "password": "vuhuyhoang@gmail.com"
 }
 
 ###

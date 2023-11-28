@@ -1,21 +1,23 @@
 @host = http://localhost:3001/api/v1/booking
+@remote = http://139.144.118.48:3001/api/v1/booking
 @contentType = application/json
 @waiterAccessToken = {{$dotenv WAITER_ACCESS_TOKEN}}
 @managerAccessToken = {{$dotenv MANAGER_ACCESS_TOKEN}}
+@userAccessToken = {{$dotenv WAITER_ACCESS_TOKEN}}
 @chiefAccessToken = {{$dotenv CHIEF_ACCESS_TOKEN}}
 
 ###
-POST {{host}}/
+POST {{remote}}/
 Content-Type: {{contentType}}
-Authorization: Bearer {{managerAccessToken}}
+Authorization: Bearer {{userAccessToken}}
 
 {
-    "note": "Không Cho Hành Lá",
-    "secretCode": 7665,
-    "tableId": 4,
-    "quantities": [6, 6],
-    "productsId": [3, 1],
-    "includeTableCost": false
+    "note": "Cho Vừa Vừa Hành Phi",
+    "secretCode": 2226,
+    "tableId": 29,
+    "quantities": [3],
+    "productsId": [1],
+    "includeTableCost": true
 }
 
 ### 
@@ -44,14 +46,14 @@ Content-Type: {{contentType}}
 Authorization: Bearer {{waiterAccessToken}}
 
 ### 
-POST {{host}}/accepted/?orderId=2
+POST {{remote}}/accepted/?orderId=5
 Content-Type: {{contentType}}
-Authorization: Bearer {{managerAccessToken}}
+Authorization: Bearer {{chiefAccessToken}}
 
 ### 
-POST {{host}}/rejected/?orderId=22&reason="Không đủ nguyên liệu làm món Cơm gà"
+POST {{remote}}/rejected/?orderId=14&reason="Không đủ nguyên liệu"
 Content-Type: {{contentType}}
-Authorization: Bearer {{waiterAccessToken}}
+Authorization: Bearer {{chiefAccessToken}}
 
 ### 
 PATCH {{host}}/finished/?orderId=1

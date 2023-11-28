@@ -13,7 +13,7 @@ func BillRouteConfig(router *gin.Engine, db *gorm.DB) {
 	secretKey := os.Getenv("JWT_ACCESS_SECRET")
 	bills := router.Group("/api/v1/bills")
 	{
-		bills.PATCH("/finished/:billId", middlewares.RequiredChiefPermissionOrMore(secretKey), controllers.FinishBill(db))
+		bills.POST("/finished/:billId", middlewares.RequiredChiefPermissionOrMore(secretKey), controllers.FinishBill(db))
 		bills.PATCH("/compensated", middlewares.RequiredChiefPermissionOrMore(secretKey), controllers.CompensatedBill(db))
 	}
 }
