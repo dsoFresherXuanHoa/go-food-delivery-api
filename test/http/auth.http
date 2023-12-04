@@ -5,24 +5,24 @@
 @managerAccessToken = {{$dotenv MANAGER_ACCESS_TOKEN}}
 
 ###
-POST {{remote}}/sign-up
+POST {{host}}/sign-up
 Content-Type: {{contentType}}
 
 {
-    "fullName": "Cao Văn A",
+    "fullName": "Hòa Lê Xuân",
 	"tel": "0364015071",
     "gender": false,
-    "email": "caovana@gmail.com",
-    "roleId": 2
+    "email": "dso.intern.xuanhoa@gmail.com",
+    "roleId": 1
 }
 
 ###
-POST {{remote}}/sign-in
+POST {{host}}/sign-in
 Content-Type: {{contentType}}
 
 {
-    "email": "dso.intern.xuanhoa@gmail.com",
-    "password": "dso.intern.xuanhoa@gmail.com"
+    "email": "dso.fresher.xuanhoa@gmail.com",
+    "password": "dso.fresher.xuanhoa@gmail.com"
 }
 
 ###
@@ -36,5 +36,5 @@ Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}
 
 {
-    "email": "training.dso.xuanhoa@gmail.com"
+    "email": "dso.fresher.xuanhoa@gmail.com"
 }
