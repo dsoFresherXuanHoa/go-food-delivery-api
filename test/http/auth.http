@@ -1,5 +1,5 @@
 @host = http://localhost:3001/api/v1/auth
-@remote = http://139.144.118.48:3001/api/v1/auth
+@remote = https://food-delivery-api-f1u2.onrender.com/api/v1/auth
 @contentType = application/json
 @waiterAccessToken = {{$dotenv WAITER_ACCESS_TOKEN}}
 @managerAccessToken = {{$dotenv MANAGER_ACCESS_TOKEN}}
@@ -9,11 +9,11 @@ POST {{remote}}/sign-up
 Content-Type: {{contentType}}
 
 {
-    "fullName": "Vũ Huy Hoàng",
+    "fullName": "Cao Văn A",
 	"tel": "0364015071",
     "gender": false,
-    "email": "vuhuyhoang@gmail.com",
-    "roleId": 3
+    "email": "caovana@gmail.com",
+    "roleId": 2
 }
 
 ###
@@ -21,8 +21,8 @@ POST {{remote}}/sign-in
 Content-Type: {{contentType}}
 
 {
-    "email": "vuhuyhoang@gmail.com",
-    "password": "vuhuyhoang@gmail.com"
+    "email": "dso.intern.xuanhoa@gmail.com",
+    "password": "dso.intern.xuanhoa@gmail.com"
 }
 
 ###

@@ -14,6 +14,6 @@ func BillRouteConfig(router *gin.Engine, db *gorm.DB) {
 	bills := router.Group("/api/v1/bills")
 	{
 		bills.POST("/finished/:billId", middlewares.RequiredChiefPermissionOrMore(secretKey), controllers.FinishBill(db))
-		bills.PATCH("/compensated", middlewares.RequiredChiefPermissionOrMore(secretKey), controllers.CompensatedBill(db))
+		bills.PATCH("/compensated", middlewares.RequiredWaiterPermissionOrMore(secretKey, db), controllers.CompensatedBill(db))
 	}
 }

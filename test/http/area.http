@@ -1,13 +1,14 @@
 @host = http://localhost:3001/api/v1/areas
+@remote = https://food-delivery-api-f1u2.onrender.com/api/v1/areas
 @contentType = application/json
 @waiterAccessToken = {{$dotenv WAITER_ACCESS_TOKEN}}
 @managerAccessToken = {{$dotenv MANAGER_ACCESS_TOKEN}}
 
 ###
-POST {{host}}/
+POST {{remote}}/
 Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}
 
 {
-    "pos": "F1A2"
+    "pos": "F3A4"
 }

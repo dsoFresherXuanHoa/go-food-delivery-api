@@ -1,19 +1,20 @@
 @host = http://localhost:3001/api/v1/tables
+@remote = https://food-delivery-api-f1u2.onrender.com/api/v1/tables
 @contentType = application/json
 @waiterAccessToken = {{$dotenv WAITER_ACCESS_TOKEN}}
 @managerAccessToken = {{$dotenv MANAGER_ACCESS_TOKEN}}
 
 ###
-POST {{host}}/
+POST {{remote}}/
 Content-Type: {{contentType}}
 Authorization: Bearer {{managerAccessToken}}
 
 {
-    "normalTable": false,
-    "capacity": 15,
-    "basePrice": 25000,
-    "employeeId": 26,
-    "areaId": 1
+    "normalTable": true,
+    "capacity": 10,
+    "basePrice": 0,
+    "employeeId": 15,
+    "areaId": 9
 }
 
 ###
