@@ -7,6 +7,7 @@ import (
 	"go-food-delivery-api/src/services"
 	"time"
 
+	"golang.org/x/exp/slices"
 	"gorm.io/gorm"
 )
 
@@ -37,6 +38,7 @@ func (s *sqlStorage) ReadAllEmployee(ctx context.Context) ([]models.EmployeeResp
 	for i, employee := range employees {
 		res[i] = s.GetDetailEmployee(ctx, employee)
 	}
+	slices.Reverse(res)
 	return res, nil
 }
 

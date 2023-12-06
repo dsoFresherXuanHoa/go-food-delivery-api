@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	"go-food-delivery-api/src/models"
+
+	"golang.org/x/exp/slices"
 )
 
 func (s *sqlStorage) CreateCategory(ctx context.Context, category *models.CategoryCreatable) (*uint, error) {
@@ -20,6 +22,7 @@ func (s *sqlStorage) ReadCategory(ctx context.Context) (models.Categories, error
 		fmt.Println("Error while read category in repository: " + err.Error())
 		return nil, err
 	}
+	slices.Reverse(categories)
 	return categories, nil
 }
 

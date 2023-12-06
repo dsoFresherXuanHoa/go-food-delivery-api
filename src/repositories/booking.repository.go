@@ -7,6 +7,8 @@ import (
 	"go-food-delivery-api/src/models"
 	"go-food-delivery-api/src/services"
 	"time"
+
+	"golang.org/x/exp/slices"
 )
 
 func (s *sqlStorage) CreateBooking(ctx context.Context, order *models.OrderCreatable, bills []models.BillCreatable, secretCode int) (*uint, error) {
@@ -326,14 +328,18 @@ func (s *sqlStorage) RefundOrderById(ctx context.Context, orderId int, order *mo
 func (s *sqlStorage) GetAllBooking(ctx context.Context) ([]models.BookingResponse, error) {
 	var bookings []models.BookingResponse
 	var orderIds []uint
-	if result := s.db.Table(models.OrderCreatable{}.GetTableName()).Select("id").Find(&orderIds); result.Error != nil {
+	if result := s.db.Unscoped().Table(models.OrderCreatable{}.GetTableName()).Select("id").Find(&orderIds); result.Error != nil {
 		fmt.Println("Error while get all order id: " + result.Error.Error())
 		return nil, result.Error
 	} else {
 		for _, orderId := range orderIds {
-			detailBooking, _ := s.GetDetailBooking(ctx, int(orderId))
-			bookings = append(bookings, *detailBooking)
+			if detailBooking, err := s.GetDetailBooking(ctx, int(orderId)); err != nil {
+				fmt.Println("Error while get detail booking: " + err.Error())
+			} else {
+				bookings = append(bookings, *detailBooking)
+			}
 		}
+		slices.Reverse(bookings)
 		return bookings, nil
 	}
 }

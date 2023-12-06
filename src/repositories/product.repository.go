@@ -6,6 +6,8 @@ import (
 	"go-food-delivery-api/src/models"
 	"go-food-delivery-api/src/services"
 	"time"
+
+	"golang.org/x/exp/slices"
 )
 
 func (s *sqlStorage) GetDetailProduct(ctx context.Context, product models.Product) models.ProductResponse {
@@ -48,6 +50,7 @@ func (s *sqlStorage) ReadProduct(ctx context.Context) ([]models.ProductResponse,
 	for i, product := range products {
 		res[i] = s.GetDetailProduct(ctx, product)
 	}
+	slices.Reverse(res)
 	return res, nil
 }
 
