@@ -222,7 +222,6 @@ func (s *sqlStorage) FinishOrder(ctx context.Context, orderId int) (*uint, error
 
 		if serveOrder, err := orderService.GetServeOrdersByTableId(ctx, int(order.TableId)); err == nil && len(serveOrder) <= 1 {
 			fmt.Println("Incoming: ", err, len(serveOrder))
-			tableUpdatable.Available = &availableTable
 			if preparingTable, err := orderService.GetPreparingOrdersByTableId(ctx, int(order.TableId)); err == nil && len(preparingTable) == 0 {
 				tableUpdatable.Available = &availableTable
 			}
